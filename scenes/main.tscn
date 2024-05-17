@@ -1,0 +1,114 @@
+[gd_scene load_steps=13 format=3 uid="uid://cs16kc5fk27fi"]
+
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_whe4h"]
+[ext_resource type="MeshLibrary" uid="uid://dfpi2igxswusg" path="res://data/chunk_meshlib.tres" id="2_wrvad"]
+[ext_resource type="Curve3D" uid="uid://cqq6d47qw0opt" path="res://data/cursor_curve.tres" id="2_xr0r6"]
+[ext_resource type="Curve3D" uid="uid://cnna1r8pckb7w" path="res://data/north_path_curve.tres" id="3_vux1g"]
+[ext_resource type="Curve3D" uid="uid://clpci87dpjymp" path="res://data/west_path_curve.tres" id="4_x5kiu"]
+[ext_resource type="Curve3D" uid="uid://drixynboeqy1m" path="res://data/south_path_curve.tres" id="5_7am0v"]
+[ext_resource type="Curve3D" uid="uid://cnimoor0qurmb" path="res://data/north_enemy_path_curve.tres" id="5_x768b"]
+[ext_resource type="Curve3D" uid="uid://r1hx0e8o8rjq" path="res://data/east_path_curve.tres" id="6_1p466"]
+[ext_resource type="Curve3D" uid="uid://bkqjvjkgp1ovo" path="res://data/west_enemy_path_curve.tres" id="7_itd1b"]
+[ext_resource type="Curve3D" uid="uid://sa83kwf4cpue" path="res://data/south_enemy_path_curve.tres" id="9_oljut"]
+[ext_resource type="Curve3D" uid="uid://cjq5h735s6orh" path="res://data/east_enemy_path_curves.tres" id="11_sf4vt"]
+[ext_resource type="PackedScene" uid="uid://dyig1h2oqvgy7" path="res://scenes/phantom_camera_controller.tscn" id="12_18ppj"]
+
+[node name="main" type="Node3D"]
+script = ExtResource("1_whe4h")
+
+[node name="path_grid" type="GridMap" parent="."]
+unique_name_in_owner = true
+mesh_library = ExtResource("2_wrvad")
+cell_size = Vector3(1, 1, 1)
+
+[node name="chaos_grid" type="GridMap" parent="."]
+unique_name_in_owner = true
+mesh_library = ExtResource("2_wrvad")
+cell_size = Vector3(1, 1, 1)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 28.1727, 0)
+
+[node name="cursor_path" type="Path3D" parent="."]
+unique_name_in_owner = true
+visible = false
+curve = ExtResource("2_xr0r6")
+
+[node name="cursor_follow" type="PathFollow3D" parent="cursor_path"]
+unique_name_in_owner = true
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+visible = false
+
+[node name="north_path" type="Path3D" parent="."]
+unique_name_in_owner = true
+curve = ExtResource("3_vux1g")
+
+[node name="north_path_follow" type="PathFollow3D" parent="north_path"]
+unique_name_in_owner = true
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 0, 1, 0)
+progress = 1.0
+
+[node name="north_enemy_path" type="Path3D" parent="."]
+unique_name_in_owner = true
+curve = ExtResource("5_x768b")
+
+[node name="north_enemy_path_follow" type="PathFollow3D" parent="north_enemy_path"]
+unique_name_in_owner = true
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 0.5, 1.5, 1)
+progress = 1.0
+
+[node name="west_path" type="Path3D" parent="."]
+unique_name_in_owner = true
+curve = ExtResource("4_x5kiu")
+
+[node name="west_path_follow" type="PathFollow3D" parent="west_path"]
+unique_name_in_owner = true
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1, 0, 0)
+progress = 1.0
+
+[node name="west_enemy_path" type="Path3D" parent="."]
+unique_name_in_owner = true
+curve = ExtResource("7_itd1b")
+
+[node name="west_enemy_path_follow" type="PathFollow3D" parent="west_enemy_path"]
+unique_name_in_owner = true
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.5, 0.5, 1)
+progress = 1.0
+
+[node name="south_path" type="Path3D" parent="."]
+unique_name_in_owner = true
+curve = ExtResource("5_7am0v")
+
+[node name="south_path_follow" type="PathFollow3D" parent="south_path"]
+unique_name_in_owner = true
+transform = Transform3D(-4.37114e-08, 1, 4.37114e-08, 0, -4.37114e-08, 1, 1, 4.37114e-08, 1.91069e-15, 0, -1, 0)
+progress = 1.0
+
+[node name="south_enemy_path" type="Path3D" parent="."]
+unique_name_in_owner = true
+curve = ExtResource("9_oljut")
+
+[node name="south_enemy_path_follow" type="PathFollow3D" parent="south_enemy_path"]
+unique_name_in_owner = true
+transform = Transform3D(-4.37114e-08, 1, 4.37114e-08, 0, -4.37114e-08, 1, 1, 4.37114e-08, 1.91069e-15, 0.5, -0.5, 1)
+progress = 1.0
+
+[node name="east_path" type="Path3D" parent="."]
+unique_name_in_owner = true
+curve = ExtResource("6_1p466")
+
+[node name="east_path_follow" type="PathFollow3D" parent="east_path"]
+unique_name_in_owner = true
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1, 0, 0)
+progress = 1.0
+
+[node name="east_enemy_path" type="Path3D" parent="."]
+unique_name_in_owner = true
+curve = ExtResource("11_sf4vt")
+
+[node name="east_enemy_path_follow" type="PathFollow3D" parent="east_enemy_path"]
+unique_name_in_owner = true
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.5, 0.5, 1)
+progress = 1.0
+
+[node name="phantom_camera_controller" parent="." instance=ExtResource("12_18ppj")]

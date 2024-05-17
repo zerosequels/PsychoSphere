@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://dve84i161uymk"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l7qk5"]
+albedo_color = Color(0.356863, 0.776471, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_xc0pq"]
+material = SubResource("StandardMaterial3D_l7qk5")
+size = Vector3(1, 1, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_h5vtj"]
+size = Vector3(1, 1, 0.2)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_cnpnv"]
+vertices = PackedVector3Array(-0.5, 0.5, 0.1, 0.5, 0.5, -0.1, 0.5, 0.5, 0.1, -0.5, 0.5, -0.1, -0.5, -0.5, 0.1, 0.5, -0.5, -0.1, 0.5, -0.5, 0.1, -0.5, -0.5, -0.1, 0.5, 0.5, 0.1, -0.5, 0.5, -0.1, 0.5, 0.5, -0.1, -0.5, 0.5, 0.1, 0.5, -0.5, 0.1, -0.5, -0.5, -0.1, 0.5, -0.5, -0.1, -0.5, -0.5, 0.1, 0.5, 0.5, 0.1, -0.5, -0.5, 0.1, -0.5, 0.5, 0.1, 0.5, -0.5, 0.1, 0.5, 0.5, -0.1, -0.5, -0.5, -0.1, -0.5, 0.5, -0.1, 0.5, -0.5, -0.1)
+polygons = [PackedInt32Array(0, 2, 4), PackedInt32Array(2, 6, 4), PackedInt32Array(1, 3, 5), PackedInt32Array(3, 7, 5), PackedInt32Array(8, 10, 12), PackedInt32Array(10, 14, 12), PackedInt32Array(9, 11, 13), PackedInt32Array(11, 15, 13), PackedInt32Array(16, 18, 20), PackedInt32Array(18, 22, 20), PackedInt32Array(17, 19, 21), PackedInt32Array(19, 23, 21)]
+
+[node name="path_cell" type="MeshInstance3D"]
+mesh = SubResource("BoxMesh_xc0pq")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_h5vtj")
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_cnpnv")

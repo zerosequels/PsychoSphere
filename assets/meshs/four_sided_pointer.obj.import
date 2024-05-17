@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://dks21xsjpssjm"
+path="res://.godot/imported/four_sided_pointer.obj-177722719fa2e22ad77ccd434224c067.mesh"
+
+[deps]
+
+files=["res://.godot/imported/four_sided_pointer.obj-177722719fa2e22ad77ccd434224c067.mesh"]
+
+source_file="res://assets/meshs/four_sided_pointer.obj"
+dest_files=["res://.godot/imported/four_sided_pointer.obj-177722719fa2e22ad77ccd434224c067.mesh", "res://.godot/imported/four_sided_pointer.obj-177722719fa2e22ad77ccd434224c067.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

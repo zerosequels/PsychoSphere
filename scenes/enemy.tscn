@@ -1,0 +1,77 @@
+[gd_scene load_steps=7 format=3 uid="uid://lwl1fbjeq3nj"]
+
+[ext_resource type="PackedScene" uid="uid://c21fpkkmc27hy" path="res://scenes/health_bar.tscn" id="1_ri170"]
+
+[sub_resource type="GDScript" id="GDScript_55np8"]
+script/source = "extends PathFollow3D
+
+@export var speed = 1
+
+@export var health = 10
+@export var damage_on_hit = 1
+@export var exp_on_kill = 1
+
+@export var enemy_uuid = ResourceUID.create_id()
+
+@onready var health_bar = $damage_number_origin/health_bar
+
+
+signal reached_the_center(damage:int, enemy_uuid:int)
+signal enemy_killed(exp:int, enemy_uuid:int)
+
+func take_damage(damage:int):
+	
+	#DamageNumbers.display_number(damage,damage_number_origin.global_position,false)
+	health = health - damage
+	health_bar.set_value(health)
+
+func _ready():
+	progress_ratio = 1.0
+	health_bar._initialize_health_bar(health)
+
+func _process(delta):
+
+	progress = progress - speed * delta
+	if health <= 0:
+		emit_signal(\"enemy_killed\", exp_on_kill,enemy_uuid)
+		self.queue_free()
+	if progress <= 0:
+		#we reached the center
+		emit_signal(\"reached_the_center\",damage_on_hit,enemy_uuid)
+		self.queue_free()
+"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p5kvp"]
+albedo_color = Color(1, 0, 0.498039, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bmh5p"]
+material = SubResource("StandardMaterial3D_p5kvp")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_x0ddk"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_xb8rw"]
+viewport_path = NodePath("SubViewport")
+
+[node name="enemy_path" type="PathFollow3D"]
+rotation_mode = 0
+loop = false
+tilt_enabled = false
+script = SubResource("GDScript_55np8")
+
+[node name="enemy" type="Node3D" parent="."]
+
+[node name="enemy_mesh" type="MeshInstance3D" parent="enemy"]
+mesh = SubResource("BoxMesh_bmh5p")
+skeleton = NodePath("")
+
+[node name="enemy_area" type="Area3D" parent="enemy/enemy_mesh"]
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="enemy/enemy_mesh/enemy_area"]
+shape = SubResource("BoxShape3D_x0ddk")
+
+[node name="damage_number_origin" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="health_bar" parent="damage_number_origin" instance=ExtResource("1_ri170")]
+texture = SubResource("ViewportTexture_xb8rw")

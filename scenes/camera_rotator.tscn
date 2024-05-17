@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://bfac3qphhwp6x"]
+
+[ext_resource type="Script" path="res://scripts/camera.gd" id="1_fyl15"]
+[ext_resource type="Script" path="res://scripts/viewport_interaction.gd" id="2_ct04d"]
+
+[node name="camera_rotator" type="Node3D"]
+script = ExtResource("1_fyl15")
+
+[node name="camera_boom" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="Camera3D" type="Camera3D" parent="camera_boom"]
+unique_name_in_owner = true
+fov = 39.5
+script = ExtResource("2_ct04d")

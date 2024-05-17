@@ -1,0 +1,65 @@
+[gd_scene load_steps=8 format=3 uid="uid://c21fpkkmc27hy"]
+
+[ext_resource type="Script" path="res://scripts/health_bar.gd" id="1_222f7"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_7cj40"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ii51v"]
+
+[sub_resource type="Gradient" id="Gradient_hr7kj"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_umv8w"]
+resource_local_to_scene = true
+gradient = SubResource("Gradient_hr7kj")
+
+[sub_resource type="Gradient" id="Gradient_jf0nw"]
+colors = PackedColorArray(0, 0, 0, 1, 1, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_wbhrb"]
+resource_local_to_scene = true
+gradient = SubResource("Gradient_jf0nw")
+fill = 2
+fill_from = Vector2(0.521368, 1)
+fill_to = Vector2(0.476496, 0)
+
+[node name="health_bar" type="Sprite3D"]
+transform = Transform3D(0.36, 0, 0, 0, 0.36, 0, 0, 0, 0.36, 0, 0, 0)
+billboard = 1
+texture_filter = 0
+texture = SubResource("ViewportTexture_7cj40")
+script = ExtResource("1_222f7")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(400, 90)
+
+[node name="Panel" type="Panel" parent="SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ii51v")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="SubViewport/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.024
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 0.072
+offset_top = -18.5
+offset_right = -4.0
+offset_bottom = 18.5
+grow_horizontal = 2
+grow_vertical = 2
+nine_patch_stretch = true
+stretch_margin_left = 10
+stretch_margin_top = 10
+stretch_margin_right = 10
+stretch_margin_bottom = 10
+texture_under = SubResource("GradientTexture1D_umv8w")
+texture_progress = SubResource("GradientTexture2D_wbhrb")

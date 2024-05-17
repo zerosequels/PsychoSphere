@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://c2yxi4osv4evl"
+path="res://.godot/imported/pyramid.obj-3d25d6d811f369608e9db191f4559d64.mesh"
+
+[deps]
+
+files=["res://.godot/imported/pyramid.obj-3d25d6d811f369608e9db191f4559d64.mesh"]
+
+source_file="res://assets/meshs/pyramid.obj"
+dest_files=["res://.godot/imported/pyramid.obj-3d25d6d811f369608e9db191f4559d64.mesh", "res://.godot/imported/pyramid.obj-3d25d6d811f369608e9db191f4559d64.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

@@ -1,0 +1,31 @@
+[gd_scene load_steps=7 format=3 uid="uid://s7y0if8a25xk"]
+
+[ext_resource type="Script" path="res://scripts/portal_vfx.gd" id="1_68nu3"]
+[ext_resource type="Shader" uid="uid://cyspv0fir0f5c" path="res://data/beam_shader.tres" id="1_qcvnw"]
+[ext_resource type="Texture2D" uid="uid://dlnw68ai3fhsy" path="res://assets/textures/Turbulence_03-512x512.png" id="2_t3knd"]
+[ext_resource type="ArrayMesh" uid="uid://cqn0lhaxsnjti" path="res://assets/meshs/blast_cone.obj" id="3_k7pia"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_81y4j"]
+render_priority = 0
+shader = ExtResource("1_qcvnw")
+shader_parameter/Speed = Vector2(0.1, 1)
+shader_parameter/TexturePower = 2.0
+shader_parameter/Gradient_Intesity = 1.0
+shader_parameter/EnergyTexture = ExtResource("2_t3knd")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ccbvu"]
+gravity = Vector3(0, 0, 0)
+color = Color(1, 0, 0.847059, 0.517647)
+
+[node name="portal_path_follow" type="PathFollow3D"]
+script = ExtResource("1_68nu3")
+
+[node name="energy_portal" type="Node3D" parent="."]
+
+[node name="energy_cone" type="GPUParticles3D" parent="energy_portal"]
+material_override = SubResource("ShaderMaterial_81y4j")
+amount = 1
+lifetime = 1.5
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_ccbvu")
+draw_pass_1 = ExtResource("3_k7pia")

@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://btkhyl7u36ai2"]
+
+[ext_resource type="PackedScene" uid="uid://dve84i161uymk" path="res://scenes/path_cell.tscn" id="1_whd2w"]
+[ext_resource type="PackedScene" uid="uid://cfcbgrulfopym" path="res://scenes/chaos_cell.tscn" id="2_q06uv"]
+
+[node name="Library" type="Node3D"]
+
+[node name="PathCell" parent="." instance=ExtResource("1_whd2w")]
+
+[node name="chaos_cell" parent="." instance=ExtResource("2_q06uv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)

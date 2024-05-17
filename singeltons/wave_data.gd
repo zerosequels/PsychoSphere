@@ -1,0 +1,73 @@
+extends Node
+
+enum negative_vibes {
+	#Default weak unit
+	ANXIETY,
+	#Moves quickly but has less health
+	FEAR,
+	#Moves normally but does more damage
+	ANGER,
+	#Moves slowly and has armor
+	SADNESS,
+	#Causes other negative vibes to move a little faster when in the AOE
+	CONTEMPT,
+	#Other enemies in the AOE can't be targeted until this one is killed, and has health and shield
+	ENVY,
+	#SHIELD AND ARMOR, but no health, slow
+	DESPAIR,
+	#more health, more speed
+	SHAME
+}
+
+var enemy_spawn_data_array = []
+
+# _init(_health:int,_speed:int,_exp:int,_damage:int,_spawn_time:int):EnemySpawnData constructor
+func load_enemy_spawn_data_by_type(type:negative_vibes):
+	var enemy_spawn_data
+	match type:
+		negative_vibes.ANXIETY:
+			enemy_spawn_data = EnemySpawnData.new(1,1,1,1,1000)
+			enemy_spawn_data_array.append(enemy_spawn_data)
+			print("anxiety")
+		negative_vibes.FEAR:
+			enemy_spawn_data = EnemySpawnData.new(1,1,1,1,1000)
+			enemy_spawn_data_array.append(enemy_spawn_data)
+			print("fear")
+		negative_vibes.ANGER:
+			enemy_spawn_data = EnemySpawnData.new(1,1,1,1,1000)
+			enemy_spawn_data_array.append(enemy_spawn_data)
+			print("anger")
+		negative_vibes.SADNESS:
+			enemy_spawn_data = EnemySpawnData.new(1,1,1,1,1000)
+			enemy_spawn_data_array.append(enemy_spawn_data)
+			print("sadness")
+		negative_vibes.CONTEMPT:
+			enemy_spawn_data = EnemySpawnData.new(1,1,1,1,1000)
+			enemy_spawn_data_array.append(enemy_spawn_data)
+			print("contempt")
+		negative_vibes.ENVY:
+			enemy_spawn_data = EnemySpawnData.new(1,1,1,1,1000)
+			enemy_spawn_data_array.append(enemy_spawn_data)
+			print("envy")
+		negative_vibes.DESPAIR:
+			enemy_spawn_data = EnemySpawnData.new(1,1,1,1,1000)
+			enemy_spawn_data_array.append(enemy_spawn_data)
+			print("despair")
+		negative_vibes.SHAME:
+			enemy_spawn_data = EnemySpawnData.new(1,1,1,1,1000)
+			enemy_spawn_data_array.append(enemy_spawn_data)
+			print("shame")
+		
+
+func get_enemy_spawn_data_array_by_level(level:int):
+	#clear the array of enemy info
+	enemy_spawn_data_array.clear()
+	#add enemies based on level and modifiers
+	load_enemy_spawn_data_by_type(negative_vibes.ANXIETY)
+	load_enemy_spawn_data_by_type(negative_vibes.ANXIETY)
+	load_enemy_spawn_data_by_type(negative_vibes.ANXIETY)
+	load_enemy_spawn_data_by_type(negative_vibes.ANXIETY)
+	load_enemy_spawn_data_by_type(negative_vibes.ANXIETY)
+	
+	return enemy_spawn_data_array
+	

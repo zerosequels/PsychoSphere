@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://c15kvvgeiait1"]
+
+[ext_resource type="Script" path="res://scripts/laser.gd" id="1_uf1k8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dyisk"]
+resource_local_to_scene = true
+transparency = 1
+albedo_color = Color(0.866667, 0.0745098, 0, 1)
+emission_enabled = true
+emission = Color(0.866667, 0.0745098, 0, 1)
+emission_energy_multiplier = 10.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_kyyru"]
+resource_local_to_scene = true
+flip_faces = true
+top_radius = 0.1
+bottom_radius = 0.1
+height = 0.01
+
+[node name="laser_root" type="Node3D"]
+script = ExtResource("1_uf1k8")
+
+[node name="laser_mesh" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_dyisk")
+mesh = SubResource("CylinderMesh_kyyru")

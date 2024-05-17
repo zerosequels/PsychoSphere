@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://b8nftp5x0xjf4"
+path="res://.godot/imported/octagon.obj-561c87e67dce444d081b298c00c6f18b.mesh"
+
+[deps]
+
+files=["res://.godot/imported/octagon.obj-561c87e67dce444d081b298c00c6f18b.mesh"]
+
+source_file="res://assets/meshs/octagon.obj"
+dest_files=["res://.godot/imported/octagon.obj-561c87e67dce444d081b298c00c6f18b.mesh", "res://.godot/imported/octagon.obj-561c87e67dce444d081b298c00c6f18b.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false
