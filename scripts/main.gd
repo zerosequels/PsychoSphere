@@ -64,7 +64,7 @@ var active_enemy_array = []
 #array to hold references to all the active towers on the map
 var active_tower_array = []
 
-var active_portal
+#var active_portal
 
 var LEVEL_COUNTER = 0
 
@@ -443,7 +443,9 @@ func update_game_status(gs:game_state):
 			print("Level:%s"%LEVEL_COUNTER)
 		game_state.PEACE:
 			toggle_visibility_of_path_triggers()
-			active_portal.queue_free()
+
+
+
 			print("game state: PEACE")
 
 func remove_path_trigger_by_trigger_uuid(trigger_uuid):
@@ -511,19 +513,19 @@ func spawn_enemy(path_type:path_id,enemy_data:EnemySpawnData):
 	enemy.enemy_killed.connect(_on_enemy_killed)
 	active_enemy_array.append(enemy)
 	
-	active_portal = enemy_energy_portal.instantiate()
+	#active_portal = enemy_energy_portal.instantiate()
 	
 	match path_type:
 		path_id.NORTH:
 			north_enemy_path.add_child(enemy)
-			north_enemy_path.add_child(active_portal)
+			#north_enemy_path.add_child(active_portal)
 		path_id.SOUTH:
 			south_enemy_path.add_child(enemy)
-			south_enemy_path.add_child(active_portal)
+			#south_enemy_path.add_child(active_portal)
 		path_id.EAST:
 			east_enemy_path.add_child(enemy)
-			east_enemy_path.add_child(active_portal)
+			#east_enemy_path.add_child(active_portal)
 		path_id.WEST:
 			west_enemy_path.add_child(enemy)
-			west_enemy_path.add_child(active_portal)
+			#west_enemy_path.add_child(active_portal)
 

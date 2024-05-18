@@ -5,4 +5,4 @@ extends MeshInstance3D
 
 
 func _process(delta):
-	rotate_z(rot_speed * delta)
+	rotate_y(rot_speed * delta)

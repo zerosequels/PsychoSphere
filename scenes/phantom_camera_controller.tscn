@@ -54,6 +54,7 @@ unique_name_in_owner = true
 [node name="MainCamera3D" type="Camera3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 0.707106, 0.707106, 0, -0.707106, 0.707106, 0, 10, 10)
+current = true
 script = ExtResource("5_xy4qs")
 
 [node name="PhantomCameraHost" type="Node" parent="MainCamera3D"]
@@ -64,14 +65,12 @@ unique_name_in_owner = true
 
 [node name="rotator" type="Node3D" parent="base"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="camera_boom" type="Node3D" parent="base/rotator"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 10, 10)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="base"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("BoxMesh_n2hr6")
 skeleton = NodePath("../../camera_follow_target")
 

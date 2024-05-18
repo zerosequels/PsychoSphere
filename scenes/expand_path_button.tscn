@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://m3slfscr8p7c"]
+[gd_scene load_steps=6 format=3 uid="uid://m3slfscr8p7c"]
 
 [ext_resource type="Script" path="res://scripts/expand_path_button.gd" id="1_kdkxm"]
 [ext_resource type="ArrayMesh" uid="uid://btji5o1dxkfhs" path="res://assets/meshs/crystal.obj" id="2_2gnuf"]
 [ext_resource type="Script" path="res://scripts/trigger_mesh_animation.gd" id="3_e2umm"]
+[ext_resource type="PackedScene" uid="uid://s7y0if8a25xk" path="res://scenes/portal_vfx.tscn" id="4_onbde"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_g0oen"]
 radius = 1.1295
@@ -11,7 +12,7 @@ radius = 1.1295
 script = ExtResource("1_kdkxm")
 
 [node name="expand_path_mesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 2, 0.5)
 mesh = ExtResource("2_2gnuf")
 script = ExtResource("3_e2umm")
 
@@ -19,3 +20,7 @@ script = ExtResource("3_e2umm")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="expand_path_mesh/expand_path_static_body"]
 shape = SubResource("SphereShape3D_g0oen")
+
+[node name="portal" parent="." instance=ExtResource("4_onbde")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.5, 0, 0.5)
+visible = false
