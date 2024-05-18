@@ -1,7 +1,7 @@
 extends Camera3D
 
-@onready var path_grid: GridMap = %path_grid
-@onready var chaos_grid: GridMap = %chaos_grid
+@export var path_grid: GridMap
+@export var chaos_grid: GridMap
 
 signal chaos_grid_cell_clicked(grid_position:Vector3)
 
@@ -27,9 +27,9 @@ func shoot_ray():
 func get_grid_cell_from_raycast(raycast: Dictionary):
 	if raycast.is_empty():
 		return
-	elif raycast["collider"] == %path_grid:
+	elif raycast["collider"] == path_grid:
 		print("path_grid")
-	elif raycast["collider"] == %chaos_grid:
+	elif raycast["collider"] == chaos_grid:
 		#print("chaos_grid")
 		var grid_pos = chaos_grid.local_to_map(raycast.position)
 		#print(raycast)

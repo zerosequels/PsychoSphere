@@ -42,7 +42,7 @@ func get_input(delta):
 		camera_rotator.rotation_degrees.y += camera_rotation_speed * delta
 	if Input.is_action_pressed("Q"):
 		camera_rotator.rotation_degrees.y -= camera_rotation_speed * delta
-	print(camera_rotator.rotation_degrees)
+	#print(camera_rotator.rotation_degrees)
 	camera_base.position += align_velocity_to_camera(camera_velocity) * delta
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

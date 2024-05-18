@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://dyig1h2oqvgy7"]
+[gd_scene load_steps=11 format=3 uid="uid://dyig1h2oqvgy7"]
 
-[ext_resource type="Script" path="res://scenes/camera_controller.gd" id="1_4i5u5"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="1_wwr7r"]
+[ext_resource type="Script" path="res://scripts/camera_controller.gd" id="1_wx52c"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="2_bhpf0"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/camera_3d_resource.gd" id="3_3245q"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="4_v7qjv"]
+[ext_resource type="Script" path="res://scripts/viewport_interaction.gd" id="5_xy4qs"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_b1cvi"]
 size = Vector2(10, 10)
@@ -25,10 +26,11 @@ fov = 75.0
 [sub_resource type="BoxMesh" id="BoxMesh_n2hr6"]
 
 [node name="phantom_camera_controller" type="Node3D"]
-script = ExtResource("1_4i5u5")
+script = ExtResource("1_wx52c")
 
 [node name="debug_floor" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+visible = false
 mesh = SubResource("PlaneMesh_b1cvi")
 
 [node name="PhantomCamera3D" type="Node3D" parent="." node_paths=PackedStringArray("follow_target", "look_at_target")]
@@ -52,6 +54,7 @@ unique_name_in_owner = true
 [node name="MainCamera3D" type="Camera3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 0.707106, 0.707106, 0, -0.707106, 0.707106, 0, 10, 10)
+script = ExtResource("5_xy4qs")
 
 [node name="PhantomCameraHost" type="Node" parent="MainCamera3D"]
 script = ExtResource("4_v7qjv")
