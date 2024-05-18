@@ -71,7 +71,7 @@ collision_mask = 2
 shape = SubResource("BoxShape3D_x0ddk")
 
 [node name="damage_number_origin" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="health_bar" parent="damage_number_origin" instance=ExtResource("1_ri170")]
 texture = SubResource("ViewportTexture_xb8rw")

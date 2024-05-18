@@ -2,7 +2,7 @@ extends Node3D
 
 @onready var path_grid: GridMap = %path_grid
 @onready var chaos_grid: GridMap = %chaos_grid
-@onready var camera_controller = $phantom_camera_controller
+@onready var camera_controller = $phantom_camera_controller/MainCamera3D
 #@onready var camera = %Camera3D
 #@onready var camera_boom = %camera_boom
 
@@ -76,7 +76,7 @@ enum grid_entity {FREE,PATH,BASIC_TOWER}
 var game_status = game_state.BIRTH
 var chunk_id_dict = {Vector2i(0,0): direction.ORIGIN}
 #holds a key value pairing of chaos grid coordinates and tower types that let us know which tiles are occupied and by what
-var taken_chaos_grid_dict = {Vector3i(0,0,under_tile_layer):grid_entity.PATH}
+var taken_chaos_grid_dict = {Vector3i(0,under_tile_layer,0):grid_entity.PATH}
 var path_trigger_array = []
 
 #Enemy spawning related stuff
@@ -89,7 +89,9 @@ var current_active_path: path_id
 #NORTH INCREASES ON Y AND SOUTH DECREASES ON Y
 
 func _ready():
-	#camera.chaos_grid_cell_clicked.connect(_on_chaos_cell_clicked)
+	camera_controller.chaos_grid = chaos_grid
+	camera_controller.path_grid = path_grid
+	camera_controller.chaos_grid_cell_clicked.connect(_on_chaos_cell_clicked)
 	initialize_core_pathing()
 	#print(taken_chaos_grid_dict.size())
 	#print(taken_chaos_grid_dict)
@@ -144,30 +146,30 @@ func initialize_core_pathing():
 	#cardinal cubes
 	#east
 	path_grid.set_cell_item(Vector3i(1,0,0),0,0)
-	occupy_chaos_grid(Vector3i(1,0,under_tile_layer),grid_entity.PATH)
+	occupy_chaos_grid(Vector3i(1,under_tile_layer,0),grid_entity.PATH)
 	extend_path(east_path,east_enemy_path,Vector3(chunk_size/2,0,0))
 	east_extension_point = Vector3i((chunk_size/2)+1,0,0)
 	east_next_chunk_id = Vector2i(1,0)
 	create_path_trigger(east_next_chunk_id,"east",direction.EASTWARD)
 	#north
-	path_grid.set_cell_item(Vector3i(0,1,0),0,0)
-	occupy_chaos_grid(Vector3i(0,1,under_tile_layer),grid_entity.PATH)
-	extend_path(north_path,north_enemy_path,Vector3(0,chunk_size/2,0))
-	north_extension_point = Vector3i(0,(chunk_size/2)+1,0)
+	path_grid.set_cell_item(Vector3i(0,0,1),0,0)
+	occupy_chaos_grid(Vector3i(0,under_tile_layer,1),grid_entity.PATH)
+	extend_path(north_path,north_enemy_path,Vector3(0,0,chunk_size/2))
+	north_extension_point = Vector3i(0,0,(chunk_size/2)+1)
 	north_next_chunk_id = Vector2i(0,1)
 	create_path_trigger(north_next_chunk_id,"north",direction.NORTHWARD)
 	#west
 	path_grid.set_cell_item(Vector3i(-1,0,0),0,0)
-	occupy_chaos_grid(Vector3i(-1,0,under_tile_layer),grid_entity.PATH)
+	occupy_chaos_grid(Vector3i(-1,under_tile_layer,0),grid_entity.PATH)
 	extend_path(west_path,west_enemy_path,Vector3(-chunk_size/2,0,0))
 	west_extension_point = Vector3i((-chunk_size/2)-1,0,0)
 	west_next_chunk_id = Vector2i(-1,0)
 	create_path_trigger(west_next_chunk_id,"west",direction.WESTWARD)
 	#south
-	path_grid.set_cell_item(Vector3i(0,-1,0),0,0)
-	occupy_chaos_grid(Vector3i(0,-1,under_tile_layer),grid_entity.PATH)
-	extend_path(south_path,south_enemy_path,Vector3(0,-chunk_size/2,0))
-	south_extension_point = Vector3i(0,(-chunk_size/2)-1,0)
+	path_grid.set_cell_item(Vector3i(0,0,-1),0,0)
+	occupy_chaos_grid(Vector3i(0,under_tile_layer,-1),grid_entity.PATH)
+	extend_path(south_path,south_enemy_path,Vector3(0,0,-chunk_size/2))
+	south_extension_point = Vector3i(0,0,(-chunk_size/2)-1)
 	south_next_chunk_id = Vector2i(0,-1)
 	create_path_trigger(south_next_chunk_id,"south",direction.SOUTHWARD)
 	#create undertile
@@ -249,7 +251,7 @@ func update_extension_point_by_path(path_type:path_id, extension_point:Vector3i,
 func create_path_trigger(chunk_id:Vector2i, trigger_id:String,path_out_dir:direction):
 	var path_trigger
 	path_trigger = expand_path_trigger_prefab.instantiate()
-	path_trigger.position = Vector3(chunk_id.x*chunk_size,chunk_id.y*chunk_size,0)
+	path_trigger.position = Vector3(chunk_id.x*chunk_size,0,chunk_id.y*chunk_size)
 	path_trigger.set_trigger_id(trigger_id)
 	path_trigger.path_trigger_activated.connect(_on_path_trigger_activated)
 	path_trigger_array.append(path_trigger)
@@ -260,7 +262,7 @@ func _on_chaos_cell_clicked(grid_pos:Vector3i):
 	if taken_chaos_grid_dict.has(grid_pos):
 		var entity_clicked = taken_chaos_grid_dict[grid_pos]
 		#print(grid_pos)
-		#print(entity_clicked)
+		#print(taken_chaos_grid_dict)
 		#if the cell is FREE then spawn a normal tower in it's place
 		if entity_clicked == grid_entity.FREE:
 			var tower = basic_tower_prefab.instantiate()
@@ -343,16 +345,16 @@ func chunk_to_grid_coord(point:Vector2i,chunk_id:Vector2i):
 	var x = point.x - (chunk_size/2) + chunk_id.x * chunk_size
 	var y = point.y - (chunk_size/2)+ chunk_id.y * chunk_size
 
-	return Vector3(x,y,0)
+	return Vector3(x,0,y)
 
 func create_undertile(chunk_id:Vector2i):
 	var x_coord
-	var y_coord
+	var z_coord
 	for x in chunk_size:
 		for y in chunk_size:
 			x_coord = (x-(chunk_size/2)+ chunk_id.x * chunk_size)
-			y_coord = (y-(chunk_size/2)+ chunk_id.y * chunk_size)
-			var cursor = Vector3i(x_coord,y_coord,under_tile_layer)
+			z_coord = (y-(chunk_size/2)+ chunk_id.y * chunk_size)
+			var cursor = Vector3i(x_coord,under_tile_layer,z_coord)
 			chaos_grid.set_cell_item(cursor,1,0)
 
 			#print(cursor)
@@ -374,8 +376,9 @@ func extend_path(path: Path3D, enemy_path: Path3D, point: Vector3):
 		var grid_cursor_position = previous_point.lerp(point,increment *(x+1))
 		path_grid.set_cell_item(grid_cursor_position,0,0)
 		#get grid coord from cursor position and add to taken dict
-		var cursor = chaos_grid.local_to_map(Vector3i(grid_cursor_position.x,grid_cursor_position.y,under_tile_layer))
-		occupy_chaos_grid(cursor,grid_entity.PATH)
+		var cursor = chaos_grid.local_to_map(Vector3i(grid_cursor_position.x,under_tile_layer,grid_cursor_position.z))
+		
+		occupy_chaos_grid(Vector3(cursor.x,cursor.y,cursor.z),grid_entity.PATH)
 	#point = point + Vector3(0.5,0.5,1)
 	path.curve.add_point(point,Vector3(0,0,0),Vector3(0,0,0))
 	copy_adjusted_path(path,enemy_path)
@@ -421,7 +424,7 @@ func copy_adjusted_path(original_path:Path3D,target_path:Path3D):
 	target_path.curve.clear_points()
 	#print(original_path.curve.point_count)
 	for count in original_path.curve.point_count:
-		var new_point = original_path.curve.get_point_position(count) + Vector3(0.5,0.5,1)
+		var new_point = original_path.curve.get_point_position(count) + Vector3(0.5,1,0.5)
 		target_path.curve.add_point(new_point)
 		
 
@@ -496,13 +499,13 @@ func remove_enemy_by_uuid(uuid:int):
 func spawn_enemies(path_type:path_id):
 
 	enemy_spawn_data_array = WaveData.get_enemy_spawn_data_array_by_level(LEVEL_COUNTER)
-	print(enemy_spawn_data_array)
+	#print(enemy_spawn_data_array)
 	#print(enemy_spawn_data_array.is_empty())
 	has_enemies_to_spawn = true
 	current_active_path = path_type
 
 func spawn_enemy(path_type:path_id,enemy_data:EnemySpawnData):
-	print(enemy_data)
+	#print(enemy_data)
 	var enemy = enemy_prefab.instantiate()
 	enemy.reached_the_center.connect(_on_enemy_reached_center)
 	enemy.enemy_killed.connect(_on_enemy_killed)
