@@ -3,13 +3,6 @@ extends Node3D
 @onready var path_grid: GridMap = %path_grid
 @onready var chaos_grid: GridMap = %chaos_grid
 @onready var camera_controller = $phantom_camera_controller/MainCamera3D
-#@onready var camera = %Camera3D
-#@onready var camera_boom = %camera_boom
-
-
-#UNUSED
-#@onready var cursor_path: Path3D = %cursor_path
-#@onready var cursor_follow: PathFollow3D = %cursor_follow
 
 @onready var north_path: Path3D = %north_path
 @onready var north_path_follow: PathFollow3D = %north_path_follow
@@ -36,13 +29,13 @@ extends Node3D
 @onready var west_enemy_path_follow: PathFollow3D = %west_enemy_path_follow
 
 @onready var expand_path_trigger_prefab = preload("res://scenes/expand_path_button.tscn")
-@onready var enemy_prefab = preload("res://scenes/enemy.tscn")
+
 @onready var basic_tower_prefab = preload("res://scenes/basic_tower.tscn")
 @onready var enemy_energy_portal = preload("res://scenes/portal_vfx.tscn")
 
 var game_center: Vector3
 var camera_default_zoom = 15
-var player_health = 100
+@export var player_health = 100
 
 var under_tile_layer = -1
 var chunk_size = 9
@@ -67,6 +60,7 @@ var active_tower_array = []
 #var active_portal
 
 var LEVEL_COUNTER = 0
+var activated_trigger_depth = 0
 
 enum direction {ORIGIN,NORTHWARD, SOUTHWARD, EASTWARD, WESTWARD, NO_CHUNK_AVAILABLE}
 enum path_id {NORTH,SOUTH,EAST,WEST}
@@ -83,7 +77,7 @@ var path_trigger_array = []
 var has_enemies_to_spawn:bool = false
 var last_spawn_time = 0
 var enemy_spawn_data_array = []
-var current_active_path: path_id
+#var current_active_path: path_id
 
 #EAST INCREASES ON X and WEST DECREASES ON X
 #NORTH INCREASES ON Y AND SOUTH DECREASES ON Y
@@ -93,30 +87,41 @@ func _ready():
 	camera_controller.path_grid = path_grid
 	camera_controller.chaos_grid_cell_clicked.connect(_on_chaos_cell_clicked)
 	initialize_core_pathing()
-	#print(taken_chaos_grid_dict.size())
-	#print(taken_chaos_grid_dict)
-	
-	#Test PLAYER extends path north
-	#create_chunk(north_next_chunk_id,path_id.NORTH)
 
-
-	#extend_path(north_path,north_path_follow,chunk_to_grid_coord(Vector2i(chunk_size-1,(chunk_size/2)),north_next_chunk_id))
 func _process(delta):
 	#WAR MODE
 	if (game_status == game_state.WAR):
 		if active_enemy_array.is_empty() and !has_enemies_to_spawn:
-			print("All enemies destroyed")
+			#print("All enemies destroyed")
 			update_game_status(game_state.PEACE)
 		else:
 			if has_enemies_to_spawn:
-				process_enemy_spawn_opportunity()
+				has_enemies_to_spawn = check_path_triggers_have_enemy_data_to_spawn()
+				#process_enemy_spawn_opportunity()
 
 	#PEACE
-	
+
 	#DEATH CHECK
 	if player_health <= 0:
 		update_game_status(game_state.DEATH)
 		
+
+func check_path_triggers_have_enemy_data_to_spawn():
+	for x in path_trigger_array:
+		if x.has_enemies_to_spawn():
+			return true
+	return false
+
+func spawn_enemies():
+	for x in path_trigger_array:
+		x.load_enemy_spawn_data()
+	has_enemies_to_spawn = true
+	#current_active_path = path_type
+
+func connect_new_enemy(enemy):
+	enemy.reached_the_center.connect(_on_enemy_reached_center)
+	enemy.enemy_killed.connect(_on_enemy_killed)
+	active_enemy_array.append(enemy)
 
 func process_enemy_spawn_opportunity():
 	#var enemy_spawn_data = enemy_spawn_data_array.pop_front()
@@ -135,8 +140,9 @@ func process_enemy_spawn_opportunity():
 	if Time.get_ticks_msec() > (last_spawn_time + spawn_time):
 		if !enemy_spawn_data_array.is_empty():
 			enemy_spawn_data = enemy_spawn_data_array.pop_front()
-			spawn_enemy(current_active_path,enemy_spawn_data)
+			#spawn_enemy(current_active_path,enemy_spawn_data)
 			last_spawn_time = Time.get_ticks_msec()
+
 	
 
 func initialize_core_pathing():
@@ -150,28 +156,28 @@ func initialize_core_pathing():
 	extend_path(east_path,east_enemy_path,Vector3(chunk_size/2,0,0))
 	east_extension_point = Vector3i((chunk_size/2)+1,0,0)
 	east_next_chunk_id = Vector2i(1,0)
-	create_path_trigger(east_next_chunk_id,"east",direction.EASTWARD)
+	create_path_trigger(east_next_chunk_id,"east",direction.EASTWARD,0)
 	#north
 	path_grid.set_cell_item(Vector3i(0,0,1),0,0)
 	occupy_chaos_grid(Vector3i(0,under_tile_layer,1),grid_entity.PATH)
 	extend_path(north_path,north_enemy_path,Vector3(0,0,chunk_size/2))
 	north_extension_point = Vector3i(0,0,(chunk_size/2)+1)
 	north_next_chunk_id = Vector2i(0,1)
-	create_path_trigger(north_next_chunk_id,"north",direction.NORTHWARD)
+	create_path_trigger(north_next_chunk_id,"north",direction.NORTHWARD,0)
 	#west
 	path_grid.set_cell_item(Vector3i(-1,0,0),0,0)
 	occupy_chaos_grid(Vector3i(-1,under_tile_layer,0),grid_entity.PATH)
 	extend_path(west_path,west_enemy_path,Vector3(-chunk_size/2,0,0))
 	west_extension_point = Vector3i((-chunk_size/2)-1,0,0)
 	west_next_chunk_id = Vector2i(-1,0)
-	create_path_trigger(west_next_chunk_id,"west",direction.WESTWARD)
+	create_path_trigger(west_next_chunk_id,"west",direction.WESTWARD,0)
 	#south
 	path_grid.set_cell_item(Vector3i(0,0,-1),0,0)
 	occupy_chaos_grid(Vector3i(0,under_tile_layer,-1),grid_entity.PATH)
 	extend_path(south_path,south_enemy_path,Vector3(0,0,-chunk_size/2))
 	south_extension_point = Vector3i(0,0,(-chunk_size/2)-1)
 	south_next_chunk_id = Vector2i(0,-1)
-	create_path_trigger(south_next_chunk_id,"south",direction.SOUTHWARD)
+	create_path_trigger(south_next_chunk_id,"south",direction.SOUTHWARD,0)
 	#create undertile
 	create_undertile(Vector2i(0,0))
 
@@ -225,38 +231,53 @@ func create_chunk_with_linear_path(chunk_id:Vector2i,path_type:path_id,path_out_
 	add_points_to_path(points,path_type)
 	
 func update_extension_point_by_path(path_type:path_id, extension_point:Vector3i, next_chunk_id:Vector2i, path_out_dir:direction):
+
 	var path_trigger
 	match path_type:
 		path_id.NORTH:
 			north_extension_point = extension_point
 			north_next_chunk_id = next_chunk_id
-			create_path_trigger(north_next_chunk_id, "north",path_out_dir)
+			create_path_trigger(north_next_chunk_id, "north",path_out_dir, activated_trigger_depth + 1)
 
 		path_id.SOUTH:
 			south_extension_point = extension_point
 			south_next_chunk_id = next_chunk_id
-			create_path_trigger(south_next_chunk_id, "south",path_out_dir)
+			create_path_trigger(south_next_chunk_id, "south",path_out_dir, activated_trigger_depth + 1)
 
 		path_id.EAST:
 			east_extension_point = extension_point
 			east_next_chunk_id = next_chunk_id
-			create_path_trigger(east_next_chunk_id,"east",path_out_dir)
+			create_path_trigger(east_next_chunk_id,"east",path_out_dir, activated_trigger_depth + 1)
 
 		path_id.WEST:
 			west_extension_point = extension_point
 			west_next_chunk_id = next_chunk_id
-			create_path_trigger(west_next_chunk_id,"west",path_out_dir)
+			create_path_trigger(west_next_chunk_id,"west",path_out_dir, activated_trigger_depth + 1)
 
 
-func create_path_trigger(chunk_id:Vector2i, trigger_id:String,path_out_dir:direction):
+func create_path_trigger(chunk_id:Vector2i, trigger_id:String,path_out_dir:direction,trigger_depth:int):
 	var path_trigger
+	
 	path_trigger = expand_path_trigger_prefab.instantiate()
+	path_trigger.parent_path = get_path_follow_by_trigger_id(trigger_id)
+	path_trigger.depth_counter = trigger_depth
 	path_trigger.position = Vector3(chunk_id.x*chunk_size,0,chunk_id.y*chunk_size)
 	path_trigger.set_trigger_id(trigger_id)
 	path_trigger.path_trigger_activated.connect(_on_path_trigger_activated)
 	path_trigger_array.append(path_trigger)
+	path_trigger.enemy_spawned.connect(connect_new_enemy)
 	add_child(path_trigger)
 
+func get_path_follow_by_trigger_id(trigger_id):
+	match trigger_id:
+		"north":
+			return north_enemy_path
+		"south":
+			return south_enemy_path
+		"east":
+			return east_enemy_path
+		"west":
+			return west_enemy_path
 
 func _on_chaos_cell_clicked(grid_pos:Vector3i):
 	if taken_chaos_grid_dict.has(grid_pos):
@@ -363,10 +384,14 @@ func create_undertile(chunk_id:Vector2i):
 				#taken_chaos_grid_dict[cursor] = grid_entity.FREE
 
 func extend_path(path: Path3D, enemy_path: Path3D, point: Vector3):
+	point = Vector3(point.x,0,point.z)
 	
 	#grab previous point
 	var index = path.curve.point_count -1
 	var previous_point = path.curve.get_point_position(index)
+	#print("previous point")
+	#print(previous_point)
+	#print(point)
 	#compare to new point to determine magnitide of vector
 	var distance = previous_point.distance_to(point)
 
@@ -376,9 +401,8 @@ func extend_path(path: Path3D, enemy_path: Path3D, point: Vector3):
 		var grid_cursor_position = previous_point.lerp(point,increment *(x+1))
 		path_grid.set_cell_item(grid_cursor_position,0,0)
 		#get grid coord from cursor position and add to taken dict
-		var cursor = chaos_grid.local_to_map(Vector3i(grid_cursor_position.x,under_tile_layer,grid_cursor_position.z))
-		
-		occupy_chaos_grid(Vector3(cursor.x,cursor.y,cursor.z),grid_entity.PATH)
+		var cursor = chaos_grid.local_to_map(Vector3i(grid_cursor_position.x,grid_cursor_position.y,grid_cursor_position.z))
+		occupy_chaos_grid(Vector3(cursor.x,under_tile_layer,cursor.z),grid_entity.PATH)
 	#point = point + Vector3(0.5,0.5,1)
 	path.curve.add_point(point,Vector3(0,0,0),Vector3(0,0,0))
 	copy_adjusted_path(path,enemy_path)
@@ -440,7 +464,7 @@ func update_game_status(gs:game_state):
 		game_state.WAR:
 			print("game state: WAR")
 			LEVEL_COUNTER = LEVEL_COUNTER + 1
-			print("Level:%s"%LEVEL_COUNTER)
+			#print("Level:%s"%LEVEL_COUNTER)
 		game_state.PEACE:
 			toggle_visibility_of_path_triggers()
 
@@ -454,34 +478,32 @@ func remove_path_trigger_by_trigger_uuid(trigger_uuid):
 			path_trigger_array.remove_at(x-1)
 	
 
-func _on_path_trigger_activated(trigger_id,trigger_uuid):
-
+func _on_path_trigger_activated(trigger_id,trigger_uuid,depth):
+	activated_trigger_depth = depth 
 	update_game_status(game_state.WAR)
 	match trigger_id:
 		"north":
 			create_chunk(north_next_chunk_id,path_id.NORTH)
-			toggle_visibility_of_path_triggers()
-			spawn_enemies(path_id.NORTH)
+
 			copy_adjusted_path(north_path,north_enemy_path)
-			print("north")
+			#print("north")
 		"south":
 			create_chunk(south_next_chunk_id,path_id.SOUTH)
-			toggle_visibility_of_path_triggers()
-			spawn_enemies(path_id.SOUTH)
+
 			copy_adjusted_path(south_path,south_enemy_path)
-			print("south")
+			#print("south")
 		"east":
 			create_chunk(east_next_chunk_id,path_id.EAST)
-			toggle_visibility_of_path_triggers()
-			spawn_enemies(path_id.EAST)
+
 			copy_adjusted_path(east_path,east_enemy_path)
-			print("east")
+			#print("east")
 		"west":
 			create_chunk(west_next_chunk_id,path_id.WEST)
-			toggle_visibility_of_path_triggers()
-			spawn_enemies(path_id.WEST)
+
 			copy_adjusted_path(west_path,west_enemy_path)
-			print("west")
+			#print("west")
+	toggle_visibility_of_path_triggers()
+	spawn_enemies()
 	remove_path_trigger_by_trigger_uuid(trigger_uuid)
 
 func _on_enemy_reached_center(damage, enemy_uuid):
@@ -498,34 +520,5 @@ func remove_enemy_by_uuid(uuid:int):
 		if x.enemy_uuid == uuid:
 			active_enemy_array.erase(x)
 
-func spawn_enemies(path_type:path_id):
 
-	enemy_spawn_data_array = WaveData.get_enemy_spawn_data_array_by_level(LEVEL_COUNTER)
-	#print(enemy_spawn_data_array)
-	#print(enemy_spawn_data_array.is_empty())
-	has_enemies_to_spawn = true
-	current_active_path = path_type
-
-func spawn_enemy(path_type:path_id,enemy_data:EnemySpawnData):
-	#print(enemy_data)
-	var enemy = enemy_prefab.instantiate()
-	enemy.reached_the_center.connect(_on_enemy_reached_center)
-	enemy.enemy_killed.connect(_on_enemy_killed)
-	active_enemy_array.append(enemy)
-	
-	#active_portal = enemy_energy_portal.instantiate()
-	
-	match path_type:
-		path_id.NORTH:
-			north_enemy_path.add_child(enemy)
-			#north_enemy_path.add_child(active_portal)
-		path_id.SOUTH:
-			south_enemy_path.add_child(enemy)
-			#south_enemy_path.add_child(active_portal)
-		path_id.EAST:
-			east_enemy_path.add_child(enemy)
-			#east_enemy_path.add_child(active_portal)
-		path_id.WEST:
-			west_enemy_path.add_child(enemy)
-			#west_enemy_path.add_child(active_portal)
 

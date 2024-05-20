@@ -19,6 +19,13 @@ script/source = "extends PathFollow3D
 signal reached_the_center(damage:int, enemy_uuid:int)
 signal enemy_killed(exp:int, enemy_uuid:int)
 
+func update_values_by_enemy_spawn_data(enemy_spawn_data:EnemySpawnData):
+	speed = enemy_spawn_data.speed
+	health = enemy_spawn_data.health
+	damage_on_hit = enemy_spawn_data.damage_on_hit
+	exp_on_kill = enemy_spawn_data.exp_on_kill
+	
+
 func take_damage(damage:int):
 	
 	#DamageNumbers.display_number(damage,damage_number_origin.global_position,false)
