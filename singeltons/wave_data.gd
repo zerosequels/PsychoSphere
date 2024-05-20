@@ -28,35 +28,35 @@ func load_enemy_spawn_data_by_type(type:negative_vibes):
 		negative_vibes.ANXIETY:
 			enemy_spawn_data = EnemySpawnData.new(1,1,1,1,1000)
 			enemy_spawn_data_array.append(enemy_spawn_data)
-			print("anxiety")
+			#print("anxiety")
 		negative_vibes.FEAR:
 			enemy_spawn_data = EnemySpawnData.new(1,1,1,1,1000)
 			enemy_spawn_data_array.append(enemy_spawn_data)
-			print("fear")
+			#print("fear")
 		negative_vibes.ANGER:
 			enemy_spawn_data = EnemySpawnData.new(1,1,1,1,1000)
 			enemy_spawn_data_array.append(enemy_spawn_data)
-			print("anger")
+			#print("anger")
 		negative_vibes.SADNESS:
 			enemy_spawn_data = EnemySpawnData.new(1,1,1,1,1000)
 			enemy_spawn_data_array.append(enemy_spawn_data)
-			print("sadness")
+			#print("sadness")
 		negative_vibes.CONTEMPT:
 			enemy_spawn_data = EnemySpawnData.new(1,1,1,1,1000)
 			enemy_spawn_data_array.append(enemy_spawn_data)
-			print("contempt")
+			#print("contempt")
 		negative_vibes.ENVY:
 			enemy_spawn_data = EnemySpawnData.new(1,1,1,1,1000)
 			enemy_spawn_data_array.append(enemy_spawn_data)
-			print("envy")
+			#print("envy")
 		negative_vibes.DESPAIR:
 			enemy_spawn_data = EnemySpawnData.new(1,1,1,1,1000)
 			enemy_spawn_data_array.append(enemy_spawn_data)
-			print("despair")
+			#print("despair")
 		negative_vibes.SHAME:
 			enemy_spawn_data = EnemySpawnData.new(1,1,1,1,1000)
 			enemy_spawn_data_array.append(enemy_spawn_data)
-			print("shame")
+			#print("shame")
 		
 
 func get_enemy_spawn_data_array_by_level(level:int):
@@ -64,10 +64,9 @@ func get_enemy_spawn_data_array_by_level(level:int):
 	enemy_spawn_data_array.clear()
 	#add enemies based on level and modifiers
 	load_enemy_spawn_data_by_type(negative_vibes.ANXIETY)
-	load_enemy_spawn_data_by_type(negative_vibes.ANXIETY)
-	load_enemy_spawn_data_by_type(negative_vibes.ANXIETY)
-	load_enemy_spawn_data_by_type(negative_vibes.ANXIETY)
-	load_enemy_spawn_data_by_type(negative_vibes.ANXIETY)
+	#print(level)
+
+	#print("array loaded")
 	
-	return enemy_spawn_data_array
+	return enemy_spawn_data_array.duplicate(true)
 	
