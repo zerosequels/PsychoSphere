@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://cuy5um8ffugo8"]
+
+[ext_resource type="Shader" path="res://data/plexus.gdshader" id="1_8hf4m"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rge8d"]
+shader = ExtResource("1_8hf4m")
+shader_parameter/resolution = Vector2(600, 400)
+shader_parameter/line_color = Color(0.1, 0.4, 0.2, 1)
+shader_parameter/octaves = 20
+shader_parameter/zoom_factor = 10.0
+shader_parameter/zoom_coef = 1.1
+shader_parameter/brightness = 10.0
+shader_parameter/rotation_angle = 0.5
+shader_parameter/alpha_threshold = 0.0
+
+[node name="Plexus" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+material = SubResource("ShaderMaterial_rge8d")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://cs16kc5fk27fi"]
+[gd_scene load_steps=19 format=3 uid="uid://cs16kc5fk27fi"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_whe4h"]
+[ext_resource type="PackedScene" uid="uid://cuy5um8ffugo8" path="res://scenes/plexus.tscn" id="2_ejq2b"]
 [ext_resource type="MeshLibrary" uid="uid://dfpi2igxswusg" path="res://data/chunk_meshlib.tres" id="2_wrvad"]
 [ext_resource type="Curve3D" uid="uid://cqq6d47qw0opt" path="res://data/cursor_curve.tres" id="2_xr0r6"]
 [ext_resource type="Curve3D" uid="uid://cnna1r8pckb7w" path="res://data/north_path_curve.tres" id="3_vux1g"]
@@ -12,9 +13,38 @@
 [ext_resource type="Curve3D" uid="uid://sa83kwf4cpue" path="res://data/south_enemy_path_curve.tres" id="9_oljut"]
 [ext_resource type="Curve3D" uid="uid://cjq5h735s6orh" path="res://data/east_enemy_path_curves.tres" id="11_sf4vt"]
 [ext_resource type="PackedScene" uid="uid://dyig1h2oqvgy7" path="res://scenes/phantom_camera_controller.tscn" id="12_18ppj"]
+[ext_resource type="Shader" path="res://data/plexus.gdshader" id="13_nsnuf"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s8niw"]
+shader = ExtResource("13_nsnuf")
+shader_parameter/resolution = Vector2(600, 400)
+shader_parameter/line_color = Color(0.1, 0.4, 0.2, 1)
+shader_parameter/octaves = 20
+shader_parameter/zoom_factor = 10.0
+shader_parameter/zoom_coef = 1.1
+shader_parameter/brightness = 10.0
+shader_parameter/rotation_angle = 0.5
+shader_parameter/alpha_threshold = 0.0
+
+[sub_resource type="Sky" id="Sky_qypv0"]
+sky_material = SubResource("ShaderMaterial_s8niw")
+
+[sub_resource type="Environment" id="Environment_v2304"]
+background_mode = 3
+sky = SubResource("Sky_qypv0")
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_nl24m"]
 
 [node name="main" type="Node3D"]
 script = ExtResource("1_whe4h")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="Plexus" parent="ParallaxBackground" instance=ExtResource("2_ejq2b")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_v2304")
+camera_attributes = SubResource("CameraAttributesPractical_nl24m")
 
 [node name="path_grid" type="GridMap" parent="."]
 unique_name_in_owner = true

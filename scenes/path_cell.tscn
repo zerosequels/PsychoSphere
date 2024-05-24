@@ -1,17 +1,28 @@
-[gd_scene load_steps=4 format=3 uid="uid://dve84i161uymk"]
+[gd_scene load_steps=5 format=3 uid="uid://dve84i161uymk"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l7qk5"]
-albedo_color = Color(0.356863, 0.776471, 1, 1)
+[ext_resource type="Shader" path="res://data/spacial_plexus_2.gdshader" id="1_vigyd"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_xc0pq"]
-material = SubResource("StandardMaterial3D_l7qk5")
-size = Vector3(1, 0.2, 1)
+[sub_resource type="PlaneMesh" id="PlaneMesh_44m1p"]
+size = Vector2(1, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_upo16"]
+render_priority = 0
+shader = ExtResource("1_vigyd")
+shader_parameter/resolution = Vector2(600, 400)
+shader_parameter/line_color = Color(0.576471, 0.721569, 0.984314, 1)
+shader_parameter/octaves = 20
+shader_parameter/zoom_factor = 23.3
+shader_parameter/zoom_coef = 1.08
+shader_parameter/brightness = 4.6
+shader_parameter/rotation_angle = 2.5
+shader_parameter/alpha_threshold = 0.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_h5vtj"]
 size = Vector3(1, 0.2, 1)
 
 [node name="path_cell" type="MeshInstance3D"]
-mesh = SubResource("BoxMesh_xc0pq")
+mesh = SubResource("PlaneMesh_44m1p")
+surface_material_override/0 = SubResource("ShaderMaterial_upo16")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 
