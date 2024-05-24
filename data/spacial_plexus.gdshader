@@ -1,4 +1,4 @@
-shader_type canvas_item;
+shader_type spatial;
 
 uniform vec2 resolution = vec2(600.0,400.0);
 uniform vec3 line_color: source_color = vec3(0.1,0.4,0.2);
@@ -39,6 +39,6 @@ void fragment() {
 	vec2 fbm = fractal(uv,time);
 	vec3 color = brightness * line_color * pow(fbm.x + fbm.y+ 0.2 + 0.01/length(fbm),2);
 	float avg = (color.r + color.g + color.b) / 3.0;
-	COLOR = vec4(color,1.0);
+	ALBEDO = color;
 }
 

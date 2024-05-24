@@ -1,9 +1,24 @@
-[gd_scene load_steps=6 format=3 uid="uid://m3slfscr8p7c"]
+[gd_scene load_steps=8 format=3 uid="uid://m3slfscr8p7c"]
 
 [ext_resource type="Script" path="res://scripts/expand_path_button.gd" id="1_kdkxm"]
 [ext_resource type="ArrayMesh" uid="uid://btji5o1dxkfhs" path="res://assets/meshs/crystal.obj" id="2_2gnuf"]
+[ext_resource type="Shader" path="res://data/plasma.gdshader" id="3_a8xni"]
 [ext_resource type="Script" path="res://scripts/trigger_mesh_animation.gd" id="3_e2umm"]
 [ext_resource type="PackedScene" uid="uid://s7y0if8a25xk" path="res://scenes/portal_vfx.tscn" id="4_onbde"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qiml6"]
+render_priority = 0
+shader = ExtResource("3_a8xni")
+shader_parameter/resolution = Vector2(600, 400)
+shader_parameter/octaves = 5
+shader_parameter/speed = 1.0
+shader_parameter/frequency = 1.0
+shader_parameter/amplitude = 1.0
+shader_parameter/time_shift = 1.0
+shader_parameter/zoom = 5.0
+shader_parameter/radiance = 0.5
+shader_parameter/sharpness = 1.0
+shader_parameter/gloss = 0.75
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_g0oen"]
 radius = 1.1295
@@ -14,6 +29,7 @@ script = ExtResource("1_kdkxm")
 [node name="expand_path_mesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 2, 0.5)
 mesh = ExtResource("2_2gnuf")
+surface_material_override/0 = SubResource("ShaderMaterial_qiml6")
 script = ExtResource("3_e2umm")
 
 [node name="expand_path_static_body" type="StaticBody3D" parent="expand_path_mesh"]

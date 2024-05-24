@@ -71,6 +71,7 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 10, 10)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="base"]
+visible = false
 mesh = SubResource("BoxMesh_n2hr6")
 skeleton = NodePath("../../camera_follow_target")
 

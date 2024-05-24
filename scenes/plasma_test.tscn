@@ -1,0 +1,59 @@
+[gd_scene load_steps=10 format=3 uid="uid://iit82yfkih1"]
+
+[ext_resource type="Shader" path="res://data/plasma.gdshader" id="1_kip5a"]
+[ext_resource type="Shader" uid="uid://1qt6qqeei2cx" path="res://data/dissolve_shader.tres" id="2_eco8d"]
+[ext_resource type="Shader" path="res://data/hologram_shader.gdshader" id="3_3qi4n"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_meo5f"]
+render_priority = 0
+shader = ExtResource("1_kip5a")
+shader_parameter/resolution = Vector2(400, 400)
+shader_parameter/octaves = 3
+shader_parameter/speed = 2.0
+shader_parameter/frequency = 2.0
+shader_parameter/amplitude = 2.0
+shader_parameter/time_shift = 2.0
+shader_parameter/zoom = 6.0
+shader_parameter/radiance = 1.0
+shader_parameter/sharpness = 0.2
+shader_parameter/gloss = 0.5
+
+[sub_resource type="BoxMesh" id="BoxMesh_omwlq"]
+material = SubResource("ShaderMaterial_meo5f")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3xpb0"]
+render_priority = 0
+shader = ExtResource("2_eco8d")
+shader_parameter/base_color = null
+shader_parameter/dissolve_height = 0.03
+shader_parameter/Noise_Scale = 0.33
+shader_parameter/Noise_Size = 5.0
+shader_parameter/GlowThickness = 0.06
+shader_parameter/Edge_Color = Color(0, 0, 6.509, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_1enbf"]
+material = SubResource("ShaderMaterial_3xpb0")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_723ix"]
+render_priority = 0
+shader = ExtResource("3_3qi4n")
+shader_parameter/lines1 = 20.0
+shader_parameter/line_color = Color(0.54902, 0.227451, 0.733333, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_mu83o"]
+lightmap_size_hint = Vector2i(14, 21)
+material = SubResource("ShaderMaterial_723ix")
+
+[node name="Node3D" type="Node3D"]
+
+[node name="plasma_cube" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("BoxMesh_omwlq")
+
+[node name="dissolve_shader_cube" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0416892, 0)
+visible = false
+mesh = SubResource("BoxMesh_1enbf")
+
+[node name="energy_cube" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_mu83o")
