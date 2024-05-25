@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cs16kc5fk27fi"]
+[gd_scene load_steps=18 format=3 uid="uid://cs16kc5fk27fi"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_whe4h"]
 [ext_resource type="PackedScene" uid="uid://cuy5um8ffugo8" path="res://scenes/plexus.tscn" id="2_ejq2b"]
@@ -33,18 +33,15 @@ sky_material = SubResource("ShaderMaterial_s8niw")
 background_mode = 3
 sky = SubResource("Sky_qypv0")
 
-[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_nl24m"]
-
 [node name="main" type="Node3D"]
 script = ExtResource("1_whe4h")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_v2304")
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
 [node name="Plexus" parent="ParallaxBackground" instance=ExtResource("2_ejq2b")]
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_v2304")
-camera_attributes = SubResource("CameraAttributesPractical_nl24m")
 
 [node name="path_grid" type="GridMap" parent="."]
 unique_name_in_owner = true
@@ -142,4 +139,3 @@ transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.5, 1
 progress = 1.0
 
 [node name="phantom_camera_controller" parent="." instance=ExtResource("12_18ppj")]
-visible = false

@@ -1,11 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://dyig1h2oqvgy7"]
+[gd_scene load_steps=13 format=3 uid="uid://dyig1h2oqvgy7"]
 
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="1_wwr7r"]
 [ext_resource type="Script" path="res://scripts/camera_controller.gd" id="1_wx52c"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="2_bhpf0"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/camera_3d_resource.gd" id="3_3245q"]
-[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="4_v7qjv"]
 [ext_resource type="Script" path="res://scripts/viewport_interaction.gd" id="5_xy4qs"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="6_46qf1"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_b1cvi"]
 size = Vector2(10, 10)
@@ -16,12 +16,16 @@ duration = 1.0
 transition = 7
 ease = 2
 
-[sub_resource type="Resource" id="Resource_yhlmt"]
+[sub_resource type="Resource" id="Resource_ljfk3"]
 script = ExtResource("3_3245q")
 cull_mask = 1048575
 h_offset = 0.0
 v_offset = 0.0
 fov = 75.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_duxd2"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_q2dce"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_n2hr6"]
 
@@ -42,7 +46,8 @@ follow_target = NodePath("../base/rotator/camera_boom")
 look_at_mode = 2
 look_at_target = NodePath("../base")
 tween_resource = SubResource("Resource_1afaw")
-camera_3d_resource = SubResource("Resource_yhlmt")
+inactive_update_mode = 1
+camera_3d_resource = SubResource("Resource_ljfk3")
 follow_offset = Vector3(0, 5, 5)
 follow_damping = true
 follow_damping_value = Vector3(0.01, 0.01, 0.01)
@@ -58,7 +63,7 @@ current = true
 script = ExtResource("5_xy4qs")
 
 [node name="PhantomCameraHost" type="Node" parent="MainCamera3D"]
-script = ExtResource("4_v7qjv")
+script = ExtResource("6_46qf1")
 
 [node name="base" type="Node3D" parent="."]
 unique_name_in_owner = true
@@ -70,6 +75,14 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 10, 10)
 
+[node name="MeshInstance3D" type="MeshInstance3D" parent="base/rotator/camera_boom"]
+visible = false
+mesh = SubResource("CapsuleMesh_duxd2")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="base/rotator"]
+visible = false
+mesh = SubResource("BoxMesh_q2dce")
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="base"]
 visible = false
 mesh = SubResource("BoxMesh_n2hr6")
@@ -77,3 +90,4 @@ skeleton = NodePath("../../camera_follow_target")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.0668138, 0.997765, 0, -0.997765, 0.0668138, 0, 0, 0)
+visible = false

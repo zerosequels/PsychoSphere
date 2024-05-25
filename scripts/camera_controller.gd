@@ -3,7 +3,7 @@ extends Node3D
 @onready var camera_target = %camera_boom
 @onready var camera_base = %base
 @onready var camera_rotator = %rotator
-#@onready var secondary_rotator = %secondary_rotator
+
 var camera_speed = 10 
 var camera_rotation_speed = 100.0
 
@@ -48,6 +48,7 @@ func get_input(delta):
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 	get_input(delta)
+	#print(camera_rotator.rotation_degrees)
 	
 
 func align_velocity_to_camera(velocity:Vector3):
