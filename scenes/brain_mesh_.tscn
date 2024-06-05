@@ -1,0 +1,53 @@
+[gd_scene load_steps=9 format=3 uid="uid://wwjy7cvvjst7"]
+
+[ext_resource type="PackedScene" uid="uid://c0h3tybqmed3v" path="res://scenes/Brain.glb" id="1_qmurc"]
+[ext_resource type="Script" path="res://scripts/brain_spinning.gd" id="2_5uk1n"]
+[ext_resource type="Shader" path="res://data/merkaba.gdshader" id="2_l3amn"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a03r4"]
+render_priority = 0
+shader = ExtResource("2_l3amn")
+shader_parameter/lines1 = 2.0
+shader_parameter/line_color = Color(1, 0.439216, 0.737255, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_olwv0"]
+render_priority = 0
+shader = ExtResource("2_l3amn")
+shader_parameter/lines1 = 2.0
+shader_parameter/line_color = Color(1, 0.439216, 0.737255, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iubng"]
+render_priority = 0
+shader = ExtResource("2_l3amn")
+shader_parameter/lines1 = 2.0
+shader_parameter/line_color = Color(1, 0.439216, 0.737255, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dimka"]
+render_priority = 0
+shader = ExtResource("2_l3amn")
+shader_parameter/lines1 = 0.0
+shader_parameter/line_color = Color(0.94902, 0.819608, 0.2, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gphsv"]
+render_priority = 0
+shader = ExtResource("2_l3amn")
+shader_parameter/lines1 = 2.0
+shader_parameter/line_color = Color(0.94902, 0.819608, 0.2, 1)
+
+[node name="Brain" instance=ExtResource("1_qmurc")]
+script = ExtResource("2_5uk1n")
+
+[node name="Brain_Part_02" parent="." index="0"]
+surface_material_override/0 = SubResource("ShaderMaterial_a03r4")
+
+[node name="Brain_Part_05" parent="." index="1"]
+surface_material_override/0 = SubResource("ShaderMaterial_olwv0")
+
+[node name="Brain_Part_06" parent="." index="2"]
+surface_material_override/0 = SubResource("ShaderMaterial_iubng")
+
+[node name="Cone" parent="." index="3"]
+surface_material_override/0 = SubResource("ShaderMaterial_dimka")
+
+[node name="Cone_001" parent="." index="4"]
+surface_material_override/0 = SubResource("ShaderMaterial_gphsv")

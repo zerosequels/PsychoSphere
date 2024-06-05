@@ -1,6 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://lwl1fbjeq3nj"]
+[gd_scene load_steps=9 format=3 uid="uid://lwl1fbjeq3nj"]
 
+[ext_resource type="PackedScene" uid="uid://c26hur8a4gnw1" path="res://scenes/negative_vibe.tscn" id="1_1xj58"]
 [ext_resource type="PackedScene" uid="uid://c21fpkkmc27hy" path="res://scenes/health_bar.tscn" id="1_ri170"]
+[ext_resource type="Script" path="res://shake_on_hit.gd" id="1_svnki"]
 
 [sub_resource type="GDScript" id="GDScript_55np8"]
 script/source = "extends PathFollow3D
@@ -27,8 +29,8 @@ func update_values_by_enemy_spawn_data(enemy_spawn_data:EnemySpawnData):
 	
 
 func take_damage(damage:int):
-	
-	#DamageNumbers.display_number(damage,damage_number_origin.global_position,false)
+	$enemy/enemy_model.damage_flash()
+	$enemy.damage_wiggle()
 	health = health - damage
 	health_bar.set_value(health)
 
@@ -60,14 +62,16 @@ material = SubResource("StandardMaterial3D_p5kvp")
 viewport_path = NodePath("SubViewport")
 
 [node name="enemy_path" type="PathFollow3D"]
-rotation_mode = 0
+rotation_mode = 4
 loop = false
 tilt_enabled = false
 script = SubResource("GDScript_55np8")
 
 [node name="enemy" type="Node3D" parent="."]
+script = ExtResource("1_svnki")
 
 [node name="enemy_mesh" type="MeshInstance3D" parent="enemy"]
+visible = false
 mesh = SubResource("BoxMesh_bmh5p")
 skeleton = NodePath("")
 
@@ -76,6 +80,9 @@ collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="enemy/enemy_mesh/enemy_area"]
 shape = SubResource("BoxShape3D_x0ddk")
+
+[node name="enemy_model" parent="enemy" instance=ExtResource("1_1xj58")]
+transform = Transform3D(-2.18557e-08, 0, -0.5, 0, 0.5, 0, 0.5, 0, -2.18557e-08, 0, 0, 0)
 
 [node name="damage_number_origin" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

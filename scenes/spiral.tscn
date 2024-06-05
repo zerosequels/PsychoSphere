@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://b6fss1oox4w33"]
+
+[ext_resource type="PackedScene" uid="uid://dqgoaijcnbuw3" path="res://scenes/spiral.glb" id="1_bjgq2"]
+[ext_resource type="Shader" path="res://data/spacial_plexus_2.gdshader" id="2_201r4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qglqu"]
+render_priority = 0
+shader = ExtResource("2_201r4")
+shader_parameter/resolution = Vector2(600, 400)
+shader_parameter/line_color = Color(0.870588, 0.921569, 0.368627, 1)
+shader_parameter/octaves = 20
+shader_parameter/zoom_factor = 10.0
+shader_parameter/zoom_coef = 1.1
+shader_parameter/brightness = 31.1
+shader_parameter/rotation_angle = 0.5
+shader_parameter/alpha_threshold = 0.0
+
+[node name="spiral" instance=ExtResource("1_bjgq2")]
+
+[node name="Spiral" parent="." index="0"]
+surface_material_override/0 = SubResource("ShaderMaterial_qglqu")

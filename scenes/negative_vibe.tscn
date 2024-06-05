@@ -1,0 +1,96 @@
+[gd_scene load_steps=10 format=3 uid="uid://c26hur8a4gnw1"]
+
+[ext_resource type="PackedScene" uid="uid://cx7y3g0ikdaub" path="res://assets/characters/enemy.glb" id="1_2fu67"]
+[ext_resource type="Shader" path="res://data/enemy_shader.gdshader" id="2_i68ui"]
+[ext_resource type="Script" path="res://scripts/enemy_shader_controller.gd" id="2_ib2ff"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wdmp5"]
+render_priority = 0
+shader = ExtResource("2_i68ui")
+shader_parameter/lines1 = 2.0
+shader_parameter/line_color = Color(0.0117647, 0.117647, 0.0431373, 1)
+shader_parameter/opacity = null
+shader_parameter/r = 1.0
+shader_parameter/g = 1.0
+shader_parameter/b = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rgcmc"]
+render_priority = 0
+shader = ExtResource("2_i68ui")
+shader_parameter/lines1 = 2.0
+shader_parameter/line_color = Color(0.1, 0.4, 0.2, 1)
+shader_parameter/opacity = 0.0
+shader_parameter/r = 1.0
+shader_parameter/g = 1.0
+shader_parameter/b = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jogjg"]
+render_priority = 0
+shader = ExtResource("2_i68ui")
+shader_parameter/lines1 = 2.0
+shader_parameter/line_color = Color(0.188235, 0.054902, 0.0823529, 1)
+shader_parameter/opacity = null
+shader_parameter/r = 0.0
+shader_parameter/g = 1.0
+shader_parameter/b = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ot6h3"]
+render_priority = 0
+shader = ExtResource("2_i68ui")
+shader_parameter/lines1 = 2.0
+shader_parameter/line_color = Color(0.1, 0.4, 0.2, 1)
+shader_parameter/opacity = null
+shader_parameter/r = 1.0
+shader_parameter/g = 1.0
+shader_parameter/b = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5vi8q"]
+render_priority = 0
+shader = ExtResource("2_i68ui")
+shader_parameter/lines1 = 2.0
+shader_parameter/line_color = Color(0.372549, 0.835294, 0.160784, 1)
+shader_parameter/opacity = null
+shader_parameter/r = 1.0
+shader_parameter/g = 1.0
+shader_parameter/b = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2gbnv"]
+render_priority = 0
+shader = ExtResource("2_i68ui")
+shader_parameter/lines1 = 2.0
+shader_parameter/line_color = Color(0.1, 0.4, 0.2, 1)
+shader_parameter/opacity = null
+shader_parameter/r = 1.0
+shader_parameter/g = 1.0
+shader_parameter/b = 1.0
+
+[node name="enemy" instance=ExtResource("1_2fu67")]
+script = ExtResource("2_ib2ff")
+
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/0/position = Vector3(0, 0.189728, 0)
+bones/0/rotation = Quaternion(-0.0248714, -0.0110099, 0.030211, 0.999173)
+
+[node name="double_eyes" parent="Armature/Skeleton3D" index="0"]
+visible = false
+surface_material_override/0 = SubResource("ShaderMaterial_wdmp5")
+surface_material_override/1 = SubResource("ShaderMaterial_rgcmc")
+
+[node name="double_eyes_001" parent="Armature/Skeleton3D" index="1"]
+surface_material_override/0 = SubResource("ShaderMaterial_jogjg")
+surface_material_override/1 = SubResource("ShaderMaterial_ot6h3")
+
+[node name="Sphere" parent="Armature/Skeleton3D" index="2"]
+surface_material_override/0 = SubResource("ShaderMaterial_5vi8q")
+
+[node name="Sphere_001" parent="Armature/Skeleton3D" index="3"]
+surface_material_override/0 = SubResource("ShaderMaterial_2gbnv")
+
+[node name="AnimationPlayer" parent="." index="1"]
+libraries = {}
+
+[node name="damage_timer" type="Timer" parent="." index="2"]
+wait_time = 0.2
+one_shot = true
+
+[connection signal="timeout" from="damage_timer" to="." method="_on_damage_timer_timeout"]

@@ -1,5 +1,6 @@
 shader_type spatial;
 render_mode unshaded, shadows_disabled;
+render_mode cull_disabled; 
 #include "funcs.gdshaderinc"
 
 uniform float lines1: hint_range(0.0, 200.0, 1.0) = 2.0;

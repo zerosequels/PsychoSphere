@@ -1,0 +1,99 @@
+[gd_scene load_steps=6 format=3 uid="uid://syr0lsi030bi"]
+
+[ext_resource type="Shader" path="res://data/crt.gdshader" id="1_lqkmp"]
+[ext_resource type="Texture2D" uid="uid://dj58kvp5sbl25" path="res://assets/ui/Hud_Neon.png" id="2_tnxhw"]
+[ext_resource type="FontFile" uid="uid://dbli7jexs0nak" path="res://assets/ui/GelatinTTFCAPS.ttf" id="3_kh7mn"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5duoa"]
+shader = ExtResource("1_lqkmp")
+shader_parameter/crt_brightness = 1.0
+shader_parameter/crt_ghost = 2.72
+shader_parameter/crt_grid = 0.794
+shader_parameter/crt_noise = 0.574
+shader_parameter/crt_curve = 0.003
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ik7o"]
+atlas = ExtResource("2_tnxhw")
+region = Rect2(186.75, 272.5, 131, 57)
+
+[node name="leve_display_gui" type="Control"]
+material = SubResource("ShaderMaterial_5duoa")
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="."]
+texture_filter = 3
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_4ik7o")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+use_parent_material = true
+layout_mode = 2
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+use_parent_material = true
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_kh7mn")
+theme_override_font_sizes/font_size = 64
+text = "PINEAL GLAND DECALCIFICATION"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+use_parent_material = true
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_kh7mn")
+theme_override_font_sizes/font_size = 64
+text = "0%"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="."]
+use_parent_material = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)

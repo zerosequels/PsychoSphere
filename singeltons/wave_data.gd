@@ -26,7 +26,7 @@ func load_enemy_spawn_data_by_type(type:negative_vibes):
 	var enemy_spawn_data
 	match type:
 		negative_vibes.ANXIETY:
-			enemy_spawn_data = EnemySpawnData.new(1,1,1,1,1000)
+			enemy_spawn_data = EnemySpawnData.new(5,1,1,1,1000)
 			enemy_spawn_data_array.append(enemy_spawn_data)
 			#print("anxiety")
 		negative_vibes.FEAR:

@@ -33,9 +33,12 @@ extends Node3D
 @onready var basic_tower_prefab = preload("res://scenes/basic_tower.tscn")
 @onready var enemy_energy_portal = preload("res://scenes/portal_vfx.tscn")
 
+@onready var gui = %player_gui.get_gui()
+
 var game_center: Vector3
 var camera_default_zoom = 15
 @export var player_health = 100
+var currency_amount:int = 100
 
 var under_tile_layer = -1
 var chunk_size = 9
@@ -83,6 +86,8 @@ var enemy_spawn_data_array = []
 #NORTH INCREASES ON Y AND SOUTH DECREASES ON Y
 
 func _ready():
+	print("READY!")
+	#reset_game_state()
 	camera_controller.chaos_grid = chaos_grid
 	camera_controller.path_grid = path_grid
 	camera_controller.chaos_grid_cell_clicked.connect(_on_chaos_cell_clicked)
@@ -464,6 +469,7 @@ func update_game_status(gs:game_state):
 		game_state.WAR:
 			print("game state: WAR")
 			LEVEL_COUNTER = LEVEL_COUNTER + 1
+			set_difficulty_gui(LEVEL_COUNTER)
 			#print("Level:%s"%LEVEL_COUNTER)
 		game_state.PEACE:
 			toggle_visibility_of_path_triggers()
@@ -510,15 +516,27 @@ func _on_enemy_reached_center(damage, enemy_uuid):
 	print("center reached")
 	remove_enemy_by_uuid(enemy_uuid)
 	player_health = player_health - damage
+	set_health_gui(player_health)
 
 func _on_enemy_killed(exp,enemy_uuid):
+	currency_amount += exp
+	set_awareness_gui(currency_amount)
 	remove_enemy_by_uuid(enemy_uuid)
-	print("enemy killed")
 
 func remove_enemy_by_uuid(uuid:int):
 	for x in active_enemy_array:
 		if x.enemy_uuid == uuid:
 			active_enemy_array.erase(x)
+
+func set_health_gui(value:int):
+	gui.set_health(value)
+
+func set_difficulty_gui(value:int):
+	gui.set_difficulty(value)
+
+func set_awareness_gui(value:int):
+	gui.set_awareness(value)
+	
 
 
 
