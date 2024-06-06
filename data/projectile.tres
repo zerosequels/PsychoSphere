@@ -1,0 +1,44 @@
+[gd_resource type="VisualShader" load_steps=5 format=3 uid="uid://jjhseleoi2hb"]
+
+[ext_resource type="Texture2D" uid="uid://c5ji12ftr81g" path="res://assets/laserfx/54.png" id="1_g6bqm"]
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_8wcbm"]
+expanded_output_ports = [0]
+texture = ExtResource("1_g6bqm")
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_nymmy"]
+input_name = "time"
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_cmqct"]
+default_input_values = [0, 0.0, 1, 0.2]
+operator = 2
+
+[resource]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
+
+uniform sampler2D tex_frg_2;
+
+
+
+void fragment() {
+// Texture2D:2
+	vec4 n_out2p0 = texture(tex_frg_2, UV);
+	float n_out2p4 = n_out2p0.a;
+
+
+// Output:0
+	ALBEDO = vec3(n_out2p0.xyz);
+	ALPHA = n_out2p4;
+
+
+}
+"
+graph_offset = Vector2(-503.996, -38.2491)
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture_8wcbm")
+nodes/fragment/2/position = Vector2(-1000, 180)
+nodes/fragment/5/node = SubResource("VisualShaderNodeInput_nymmy")
+nodes/fragment/5/position = Vector2(-2020, -220)
+nodes/fragment/6/node = SubResource("VisualShaderNodeFloatOp_cmqct")
+nodes/fragment/6/position = Vector2(-1440, -240)
+nodes/fragment/connections = PackedInt32Array(2, 4, 0, 1, 5, 0, 6, 0, 2, 0, 0, 0)

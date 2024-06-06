@@ -12,7 +12,10 @@ func _ready():
 
 func _process(delta):
 	detect_escape_key_pressed()
-
+	
+func fade_out_menu():
+	$fade_screen.fade_out()
+	
 func resume():
 	get_tree().paused = false
 	$AnimationPlayer.play_backwards("blur")
@@ -34,7 +37,8 @@ func detect_escape_key_pressed():
 		resume()
 
 func restart():
-	get_tree().change_scene_to_file("res://scenes/reset_scene.tscn")
+	WaveData.reset_game_data()
+	$fade_screen.fade_in()
 	
 	
 func quit():

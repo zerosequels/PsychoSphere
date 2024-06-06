@@ -20,13 +20,14 @@ enum negative_vibes {
 }
 
 var enemy_spawn_data_array = []
+var is_fresh_reset = false
 
 # _init(_health:int,_speed:int,_exp:int,_damage:int,_spawn_time:int):EnemySpawnData constructor
 func load_enemy_spawn_data_by_type(type:negative_vibes):
 	var enemy_spawn_data
 	match type:
 		negative_vibes.ANXIETY:
-			enemy_spawn_data = EnemySpawnData.new(5,1,1,1,1000)
+			enemy_spawn_data = EnemySpawnData.new(100,1,1,1,1000)
 			enemy_spawn_data_array.append(enemy_spawn_data)
 			#print("anxiety")
 		negative_vibes.FEAR:
@@ -69,4 +70,14 @@ func get_enemy_spawn_data_array_by_level(level:int):
 	#print("array loaded")
 	
 	return enemy_spawn_data_array.duplicate(true)
+
+func reset_game_data():
+	is_fresh_reset = true
+	
+func check_is_reset():
+	if is_fresh_reset:
+		is_fresh_reset = false
+		return true
+	else:
+		return false
 	

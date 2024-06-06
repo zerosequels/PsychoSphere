@@ -155,3 +155,4 @@ z_as_relative = false
 [node name="CanvasLayer2" type="CanvasLayer" parent="."]
 
 [node name="PauseMenu" parent="CanvasLayer2" instance=ExtResource("17_w0eh3")]
+unique_name_in_owner = true

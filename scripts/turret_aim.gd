@@ -3,7 +3,9 @@ extends Node3D
 @onready var rotator = $base/rotator
 @onready var turret = $base/rotator/turret
 @onready var attack_radius_zone = $base/attack_area/attack_radius_zone
-@onready var energy_beam = $base/rotator/turret/laser
+
+@onready var projectile = preload("res://scenes/projectile.tscn")
+
 #TODO: Make it so that this is visually indicated to the player when hovering over the tower
 @export var range = 3
 @export var attack_speed_ms = 1000
@@ -27,7 +29,12 @@ func _process(delta):
 
 func process_attack_opportunity():
 	if Time.get_ticks_msec() > (last_fire_time + attack_speed_ms):
-		current_enemy_target.get_parent().get_parent().get_parent().take_damage(damage)
+		#current_enemy_target.get_parent().get_parent().get_parent().take_damage(damage)
+		#instantiate a projectile that will then home to the target
+		var bullet = projectile.instantiate()
+		bullet.set_target(current_enemy_target)
+		bullet.set_damage(damage)
+		$base/bullet_locus.add_child(bullet)
 		last_fire_time = Time.get_ticks_msec()
 	
 
@@ -36,21 +43,18 @@ func update_range(new_range:float):
 	attack_radius_zone.shape.radius = range
 
 func look_at_enemy(enemy_pos:Vector3):
-	rotator.look_at(enemy_pos + Vector3(0.5,0.5,0.5),Vector3(0,0,1))
+	rotator.look_at(enemy_pos + Vector3(0.0,0.0,0.0),Vector3(0,0,1))
 	
 	#print(enemy_pos)
 
 func set_has_target(has_a_target:bool):
 	if has_a_target:
 		turret.rotation_degrees = Vector3(90,180,0)
-		energy_beam.set_is_firing(true)
-		energy_beam.set_laser_target(current_enemy_target)
+
 		#set rotation of the rotator to look forward
 	else:
 		turret.rotation_degrees = Vector3(0,180,0)
-		energy_beam.set_is_firing(false)
-		#energy_beam.set_laser_target(null)
-		#reset rotation on the rotator to face up.
+
 	has_target = has_a_target
 
 

@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3 uid="uid://cyhd7ifx3u8i1"]
+
+[ext_resource type="Script" path="res://scripts/projectile.gd" id="1_ga8k6"]
+[ext_resource type="Shader" uid="uid://jjhseleoi2hb" path="res://data/projectile.tres" id="1_hhaqy"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i65ug"]
+render_priority = 0
+shader = ExtResource("1_hhaqy")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_hp48t"]
+material = SubResource("ShaderMaterial_i65ug")
+
+[node name="projectile" type="Node3D"]
+script = ExtResource("1_ga8k6")
+
+[node name="projectile_mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("PlaneMesh_hp48t")

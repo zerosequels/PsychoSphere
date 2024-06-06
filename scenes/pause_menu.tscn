@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dsetycerax1g"]
+[gd_scene load_steps=16 format=3 uid="uid://dsetycerax1g"]
 
 [ext_resource type="Script" path="res://scripts/pause_menu.gd" id="1_ftpxy"]
 [ext_resource type="Shader" path="res://data/blurr_canvas.gdshader" id="1_ijklf"]
@@ -6,6 +6,7 @@
 [ext_resource type="Theme" uid="uid://ddimtgpnd4gip" path="res://data/Button_Theme_01.tres" id="2_j41nc"]
 [ext_resource type="FontFile" uid="uid://dbli7jexs0nak" path="res://assets/ui/GelatinTTFCAPS.ttf" id="3_6a0q2"]
 [ext_resource type="Texture2D" uid="uid://bcqrm5veen3i6" path="res://assets/textures/Abstract_Noise_021-512x512.png" id="3_waerq"]
+[ext_resource type="PackedScene" uid="uid://cbkickc83pnb3" path="res://scenes/fade_screen.tscn" id="7_7thqs"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1ek1i"]
 shader = ExtResource("1_ijklf")
@@ -14,7 +15,7 @@ shader_parameter/lod = 0.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hr7du"]
 shader = ExtResource("1_ucxoo")
 shader_parameter/resolution = Vector2(600, 400)
-shader_parameter/line_color = Color(0.1, 0.4, 0.2, 1)
+shader_parameter/line_color = Color(0.101961, 0.4, 0.992157, 1)
 shader_parameter/octaves = 20
 shader_parameter/zoom_factor = 10.0
 shader_parameter/zoom_coef = 1.1
@@ -240,6 +241,9 @@ text = "Quit"
 libraries = {
 "": SubResource("AnimationLibrary_s8x3c")
 }
+
+[node name="fade_screen" parent="." instance=ExtResource("7_7thqs")]
+layer = 5
 
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/resume_bttn" to="." method="_on_resume_bttn_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/restart_bttn" to="." method="_on_restart_bttn_pressed"]

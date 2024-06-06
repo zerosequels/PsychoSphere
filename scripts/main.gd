@@ -86,8 +86,10 @@ var enemy_spawn_data_array = []
 #NORTH INCREASES ON Y AND SOUTH DECREASES ON Y
 
 func _ready():
-	print("READY!")
-	#reset_game_state()
+	if WaveData.check_is_reset():
+		%PauseMenu.fade_out_menu()
+		#print("we just reset")
+	
 	camera_controller.chaos_grid = chaos_grid
 	camera_controller.path_grid = path_grid
 	camera_controller.chaos_grid_cell_clicked.connect(_on_chaos_cell_clicked)

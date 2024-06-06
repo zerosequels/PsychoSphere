@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=3 uid="uid://lwl1fbjeq3nj"]
 
 [ext_resource type="PackedScene" uid="uid://c26hur8a4gnw1" path="res://scenes/negative_vibe.tscn" id="1_1xj58"]
+[ext_resource type="Script" path="res://scripts/shake_on_hit.gd" id="1_06jom"]
 [ext_resource type="PackedScene" uid="uid://c21fpkkmc27hy" path="res://scenes/health_bar.tscn" id="1_ri170"]
-[ext_resource type="Script" path="res://shake_on_hit.gd" id="1_svnki"]
 
 [sub_resource type="GDScript" id="GDScript_55np8"]
 script/source = "extends PathFollow3D
@@ -28,9 +28,9 @@ func update_values_by_enemy_spawn_data(enemy_spawn_data:EnemySpawnData):
 	exp_on_kill = enemy_spawn_data.exp_on_kill
 	
 
-func take_damage(damage:int):
+func take_damage(damage:int,wiggle_direction:Vector3):
 	$enemy/enemy_model.damage_flash()
-	$enemy.damage_wiggle()
+	$enemy.damage_wiggle(wiggle_direction)
 	health = health - damage
 	health_bar.set_value(health)
 
@@ -68,7 +68,7 @@ tilt_enabled = false
 script = SubResource("GDScript_55np8")
 
 [node name="enemy" type="Node3D" parent="."]
-script = ExtResource("1_svnki")
+script = ExtResource("1_06jom")
 
 [node name="enemy_mesh" type="MeshInstance3D" parent="enemy"]
 visible = false

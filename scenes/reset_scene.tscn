@@ -1,30 +1,18 @@
-[gd_scene load_steps=9 format=3 uid="uid://buyx6g0kg3kwa"]
+[gd_scene load_steps=12 format=3 uid="uid://buyx6g0kg3kwa"]
 
 [ext_resource type="Script" path="res://scripts/reset_scene.gd" id="1_4ns5h"]
 [ext_resource type="Shader" path="res://data/reset_scene.gdshader" id="2_8qq2q"]
 [ext_resource type="Texture2D" uid="uid://4884p5hjjqdg" path="res://assets/textures/Streak_04-512x512.png" id="2_j76wv"]
 [ext_resource type="AudioStream" uid="uid://bojv2535t5nuu" path="res://assets/sounds/menu_1.wav" id="4_6qcl7"]
+[ext_resource type="AudioStream" uid="uid://xlluvf3q83dy" path="res://assets/sounds/menu_17.wav" id="4_habcx"]
+[ext_resource type="PackedScene" uid="uid://bbywm8ph2bwsv" path="res://scenes/restart_shift_text_box.tscn" id="6_p6mc5"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_s5eep"]
 shader = ExtResource("2_8qq2q")
 shader_parameter/center = Vector2(0.5, 0.5)
 shader_parameter/force = 0.0
 shader_parameter/hue_shift = 0.0
-shader_parameter/line_color = Color(0.552941, 0.0627451, 0.517647, 1)
-
-[sub_resource type="Animation" id="Animation_34p8e"]
-resource_name = "zoom_bounce"
-tracks/0/type = "bezier"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:material:shader_parameter/force")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1.5, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 1)
-}
+shader_parameter/line_color = Color(0.898039, 0.337255, 0.847059, 1)
 
 [sub_resource type="Animation" id="Animation_f5rgb"]
 length = 0.001
@@ -40,10 +28,40 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0)
 }
 
+[sub_resource type="Animation" id="Animation_34p8e"]
+resource_name = "zoom_bounce"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/force")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1.5, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="Animation" id="Animation_7fu47"]
+resource_name = "zoomerang"
+length = 2.0
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/force")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1.2, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1, 2)
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_32fmy"]
 _data = {
 "RESET": SubResource("Animation_f5rgb"),
-"zoom_bounce": SubResource("Animation_34p8e")
+"zoom_bounce": SubResource("Animation_34p8e"),
+"zoomerang": SubResource("Animation_7fu47")
 }
 
 [node name="Reset_Scene" type="Node3D"]
@@ -66,4 +84,11 @@ libraries = {
 }
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_habcx")
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_6qcl7")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="restart_box" parent="CanvasLayer" instance=ExtResource("6_p6mc5")]
