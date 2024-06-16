@@ -1,0 +1,155 @@
+[gd_scene load_steps=11 format=3 uid="uid://cbfwcj26tck8l"]
+
+[ext_resource type="Shader" path="res://data/card_3d_shader.gdshader" id="1_efudy"]
+[ext_resource type="Texture2D" uid="uid://dtggbi6hucs72" path="res://icon.svg" id="2_i2jai"]
+[ext_resource type="Script" path="res://scripts/card.gd" id="2_ofhw2"]
+[ext_resource type="Texture2D" uid="uid://cg8su1nfgovlk" path="res://assets/tilesets/card_sprite_sheet3.png" id="3_21s2t"]
+[ext_resource type="FontFile" uid="uid://dbli7jexs0nak" path="res://assets/ui/GelatinTTFCAPS.ttf" id="4_feelh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ic8rx"]
+shader = ExtResource("1_efudy")
+shader_parameter/fov = 90.0
+shader_parameter/cull_back = true
+shader_parameter/y_rot = 0.0
+shader_parameter/x_rot = 0.0
+shader_parameter/inset = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2lamb"]
+resource_local_to_scene = true
+shader = ExtResource("1_efudy")
+shader_parameter/fov = 90.0
+shader_parameter/cull_back = false
+shader_parameter/y_rot = 0.0
+shader_parameter/x_rot = 0.0
+shader_parameter/inset = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_trx5j"]
+resource_local_to_scene = true
+shader = ExtResource("1_efudy")
+shader_parameter/fov = 90.0
+shader_parameter/cull_back = true
+shader_parameter/y_rot = 0.0
+shader_parameter/x_rot = 0.0
+shader_parameter/inset = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0dyat"]
+shader = ExtResource("1_efudy")
+shader_parameter/fov = 90.0
+shader_parameter/cull_back = false
+shader_parameter/y_rot = 0.0
+shader_parameter/x_rot = 0.0
+shader_parameter/inset = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t1a7l"]
+shader = ExtResource("1_efudy")
+shader_parameter/fov = 90.0
+shader_parameter/cull_back = false
+shader_parameter/y_rot = 0.0
+shader_parameter/x_rot = 0.0
+shader_parameter/inset = 0.0
+
+[node name="card_setup" type="Control"]
+material = SubResource("ShaderMaterial_ic8rx")
+layout_mode = 3
+anchors_preset = 0
+offset_left = 995.0
+offset_top = 555.0
+offset_right = 995.0
+offset_bottom = 555.0
+script = ExtResource("2_ofhw2")
+
+[node name="tower_sprite" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_2lamb")
+scale = Vector2(0.90625, 0.6875)
+texture = ExtResource("2_i2jai")
+
+[node name="card_sprite" type="Sprite2D" parent="."]
+texture_filter = 1
+material = SubResource("ShaderMaterial_trx5j")
+scale = Vector2(5, 5)
+texture = ExtResource("3_21s2t")
+
+[node name="icon_texture" type="TextureRect" parent="."]
+visible = false
+texture_filter = 1
+material = SubResource("ShaderMaterial_0dyat")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -54.5
+offset_top = -37.5
+offset_right = 54.5
+offset_bottom = 37.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_i2jai")
+expand_mode = 3
+
+[node name="card_texture" type="TextureRect" parent="."]
+visible = false
+texture_filter = 1
+material = SubResource("ShaderMaterial_t1a7l")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -62.0
+offset_top = -91.0
+offset_right = 62.0
+offset_bottom = 91.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_21s2t")
+stretch_mode = 5
+
+[node name="tower_type_label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -1.195
+anchor_top = -1.8
+anchor_right = 1.175
+anchor_bottom = -1.175
+offset_left = -29.0
+offset_top = -67.0
+offset_right = 29.0002
+offset_bottom = -54.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_feelh")
+text = "Tower Type"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="tower_price_label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -1.195
+anchor_top = 1.2
+anchor_right = 1.175
+anchor_bottom = 1.8
+offset_left = -31.0
+offset_top = 53.0
+offset_right = 31.0002
+offset_bottom = 66.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_feelh")
+text = "Tower price"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ui_mouse_detector" type="Control" parent="."]
+anchors_preset = 0
+offset_left = -62.0
+offset_top = -87.0
+offset_right = 62.0
+offset_bottom = 86.0
+
+[connection signal="gui_input" from="ui_mouse_detector" to="." method="_on_ui_mouse_detector_gui_input"]
+[connection signal="mouse_entered" from="ui_mouse_detector" to="." method="_on_ui_mouse_detector_mouse_entered"]
+[connection signal="mouse_exited" from="ui_mouse_detector" to="." method="_on_ui_mouse_detector_mouse_exited"]

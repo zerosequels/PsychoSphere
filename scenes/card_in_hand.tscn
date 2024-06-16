@@ -1,0 +1,55 @@
+[gd_scene load_steps=5 format=3 uid="uid://dwl7qh7n7ysqt"]
+
+[ext_resource type="Script" path="res://scripts/tower_card.gd" id="1_cu1s2"]
+[ext_resource type="Shader" path="res://data/card_3d_shader.gdshader" id="3_3yu62"]
+[ext_resource type="PackedScene" uid="uid://cbfwcj26tck8l" path="res://scenes/card_setup.tscn" id="3_y4od7"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kxckq"]
+shader = ExtResource("3_3yu62")
+shader_parameter/fov = 90.0
+shader_parameter/cull_back = true
+shader_parameter/y_rot = 0.0
+shader_parameter/x_rot = 0.0
+shader_parameter/inset = 0.0
+
+[node name="card_in_hand" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cu1s2")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+material = SubResource("ShaderMaterial_kxckq")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -100.0
+offset_right = 100.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+canvas_item_default_texture_filter = 3
+size = Vector2i(200, 200)
+render_target_update_mode = 4
+
+[node name="card_setup" parent="SubViewportContainer/SubViewport" instance=ExtResource("3_y4od7")]
+
+[connection signal="gui_input" from="SubViewportContainer" to="." method="_on_sub_viewport_container_gui_input"]
+[connection signal="mouse_entered" from="SubViewportContainer" to="." method="_on_sub_viewport_container_mouse_entered"]
+[connection signal="mouse_exited" from="SubViewportContainer" to="." method="_on_sub_viewport_container_mouse_exited"]

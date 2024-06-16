@@ -70,6 +70,5 @@ func _on_attack_area_area_entered(area):
 
 func _on_attack_area_area_exited(area):
 	if current_enemy_target == area:
-		print("current enemy has left")
 		set_has_target(false)
 		current_enemy_target = null

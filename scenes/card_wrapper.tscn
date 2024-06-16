@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://cbousfow3mnba"]
+
+[ext_resource type="Shader" path="res://data/card_3d_shader.gdshader" id="1_5hag8"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7tsmj"]
+shader = ExtResource("1_5hag8")
+shader_parameter/fov = 90.0
+shader_parameter/cull_back = true
+shader_parameter/y_rot = 0.0
+shader_parameter/x_rot = 0.0
+shader_parameter/inset = 0.0
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+material = SubResource("ShaderMaterial_7tsmj")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.49
+anchor_top = 0.481
+anchor_right = 0.555
+anchor_bottom = 0.644
+offset_left = -193.8
+offset_top = -161.48
+offset_right = 193.4
+offset_bottom = 174.48
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+render_target_update_mode = 4

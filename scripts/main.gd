@@ -30,10 +30,11 @@ extends Node3D
 
 @onready var expand_path_trigger_prefab = preload("res://scenes/expand_path_button.tscn")
 
-@onready var basic_tower_prefab = preload("res://scenes/basic_tower.tscn")
+@onready var pyramid_tower_prefab = preload("res://scenes/tower_pyramid.tscn")
 @onready var enemy_energy_portal = preload("res://scenes/portal_vfx.tscn")
 
 @onready var gui = %player_gui.get_gui()
+@onready var hand = %card_hand
 
 var game_center: Vector3
 var camera_default_zoom = 15
@@ -82,6 +83,9 @@ var last_spawn_time = 0
 var enemy_spawn_data_array = []
 #var current_active_path: path_id
 
+var current_tower_type = -1
+var current_tower_price = 0
+
 #EAST INCREASES ON X and WEST DECREASES ON X
 #NORTH INCREASES ON Y AND SOUTH DECREASES ON Y
 
@@ -89,6 +93,9 @@ func _ready():
 	if WaveData.check_is_reset():
 		%PauseMenu.fade_out_menu()
 		#print("we just reset")
+	hand.tower_toggled.connect(_on_tower_toggled)
+	hand.price_update.connect(_on_price_update)
+	set_awareness_gui(currency_amount)
 	
 	camera_controller.chaos_grid = chaos_grid
 	camera_controller.path_grid = path_grid
@@ -118,6 +125,10 @@ func check_path_triggers_have_enemy_data_to_spawn():
 		if x.has_enemies_to_spawn():
 			return true
 	return false
+
+func _on_price_update(type,price):
+	current_tower_price = price
+	
 
 func spawn_enemies():
 	for x in path_trigger_array:
@@ -291,17 +302,74 @@ func _on_chaos_cell_clicked(grid_pos:Vector3i):
 		var entity_clicked = taken_chaos_grid_dict[grid_pos]
 		#print(grid_pos)
 		#print(taken_chaos_grid_dict)
+		
 		#if the cell is FREE then spawn a normal tower in it's place
 		if entity_clicked == grid_entity.FREE:
-			var tower = basic_tower_prefab.instantiate()
-			tower.transform.origin = Vector3(grid_pos.x,grid_pos.y,grid_pos.z)
-			active_tower_array.append(tower)
-			%chaos_grid.add_child(tower)
+			if current_tower_type == -1:
+				return
+			instantiate_tower_by_current_type(grid_pos)
 			
 	else:
 		print("ERROR:Cell not found in grid")
 		#print(grid_pos)
-	
+
+func instantiate_tower_by_current_type(grid_pos:Vector3i):
+	var tower
+	if current_tower_price <= currency_amount:
+		currency_amount -= current_tower_price
+		set_awareness_gui(currency_amount)
+	else:
+		#print("can't afford tower, try again brokie")
+		#print(current_tower_price)
+		#print(currency_amount)
+		return 
+	match current_tower_type:
+		0:
+			tower = pyramid_tower_prefab.instantiate()
+		1:
+			print("ERROR: Tower not currently supported")
+			return
+		2:
+			print("ERROR: Tower not currently supported")
+			return
+		3:
+			print("ERROR: Tower not currently supported")
+			return
+		4:
+			print("ERROR: Tower not currently supported")
+			return
+		5:
+			print("ERROR: Tower not currently supported")
+			return
+		6:
+			print("ERROR: Tower not currently supported")
+			return
+		7:
+			print("ERROR: Tower not currently supported")
+			return
+		8:
+			print("ERROR: Tower not currently supported")
+			return
+		9:
+			print("ERROR: Tower not currently supported")
+			return
+		10:
+			print("ERROR: Tower not currently supported")
+			return
+		11:
+			print("ERROR: Tower not currently supported")
+			return
+		_:
+			print("ERROR: Tower not currently supported")
+			return
+			
+	tower.transform.origin = Vector3(grid_pos.x,grid_pos.y,grid_pos.z)
+	active_tower_array.append(tower)
+	%chaos_grid.add_child(tower)
+	increment_cost_of_tower_by_type()
+
+func increment_cost_of_tower_by_type():
+	hand.increment_cost_by_tower_type(current_tower_type)
 
 #TODO: Fix the below error, perhaps by creating a a new tile type that represents an end
 
@@ -475,9 +543,6 @@ func update_game_status(gs:game_state):
 			#print("Level:%s"%LEVEL_COUNTER)
 		game_state.PEACE:
 			toggle_visibility_of_path_triggers()
-
-
-
 			print("game state: PEACE")
 
 func remove_path_trigger_by_trigger_uuid(trigger_uuid):
@@ -515,7 +580,7 @@ func _on_path_trigger_activated(trigger_id,trigger_uuid,depth):
 	remove_path_trigger_by_trigger_uuid(trigger_uuid)
 
 func _on_enemy_reached_center(damage, enemy_uuid):
-	print("center reached")
+	#print("center reached")
 	remove_enemy_by_uuid(enemy_uuid)
 	player_health = player_health - damage
 	set_health_gui(player_health)
@@ -539,6 +604,12 @@ func set_difficulty_gui(value:int):
 func set_awareness_gui(value:int):
 	gui.set_awareness(value)
 	
-
+func _on_tower_toggled(tower_type:int, tower_price:int):
+	if current_tower_type == tower_type:
+		current_tower_type = -1
+	else:
+		current_tower_type = tower_type
+		current_tower_price = tower_price
+	print(current_tower_type)
 
 
