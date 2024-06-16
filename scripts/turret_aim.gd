@@ -50,7 +50,6 @@ func look_at_enemy(enemy_pos:Vector3):
 func set_has_target(has_a_target:bool):
 	if has_a_target:
 		turret.rotation_degrees = Vector3(90,180,0)
-
 		#set rotation of the rotator to look forward
 	else:
 		turret.rotation_degrees = Vector3(0,180,0)
