@@ -103,6 +103,8 @@ func _ready():
 	initialize_core_pathing()
 
 func _process(delta):
+	if Input.is_action_just_released("toggle_range_visibility_mode"):
+		TowerAndBoonData.set_range_visibility_mode(!TowerAndBoonData.get_is_range_visibility_mode_toggled())
 	#WAR MODE
 	if (game_status == game_state.WAR):
 		if active_enemy_array.is_empty() and !has_enemies_to_spawn:
@@ -610,6 +612,6 @@ func _on_tower_toggled(tower_type:int, tower_price:int):
 	else:
 		current_tower_type = tower_type
 		current_tower_price = tower_price
-	print(current_tower_type)
+	#print(current_tower_type)
 
 

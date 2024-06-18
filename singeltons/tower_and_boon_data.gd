@@ -1,6 +1,8 @@
 extends Node
 
 var growth_rate = 0.2
+var range_visibility_mode_toggled = false
+
 
 enum tower_types {
 	#simple turret that shoots bullets
@@ -46,6 +48,12 @@ var tower_type_count = {
 	tower_types.COSMIC_EGG:0,
 	tower_types.ANNUNAKI_WEAPON:0
 }
+
+func get_is_range_visibility_mode_toggled():
+	return range_visibility_mode_toggled
+	
+func set_range_visibility_mode(should:bool):
+	range_visibility_mode_toggled = should
 
 func get_next_tower_price_and_increment_count(type:tower_types):
 	var count = tower_type_count[type]

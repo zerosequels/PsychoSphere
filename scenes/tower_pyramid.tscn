@@ -28,11 +28,13 @@ radius = 5.0
 size = Vector2(10, 10)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ckrcl"]
+resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("5_iuspf")
 shader_parameter/scan_line_count = 20.0
 shader_parameter/circle_color = Color(5.77569e-07, 0.859141, 0.945599, 1)
 shader_parameter/scroll_speed = 10.0
+shader_parameter/circle_opacity = 1.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_iyg3s"]
 size = Vector3(2, 0.0817871, 2)

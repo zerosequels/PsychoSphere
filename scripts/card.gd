@@ -19,8 +19,7 @@ var oscillator_velocity: float = 0.0
 
 var tween_rot: Tween
 var tween_hover: Tween
-var tween_destroy: Tween
-var tween_handle: Tween
+
 
 var last_mouse_pos: Vector2
 var mouse_velocity: Vector2

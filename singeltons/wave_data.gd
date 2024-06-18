@@ -68,6 +68,7 @@ func get_enemy_spawn_data_array_by_level(level:int):
 	load_enemy_spawn_data_by_type(negative_vibes.ANXIETY)
 	load_enemy_spawn_data_by_type(negative_vibes.ANXIETY)
 	load_enemy_spawn_data_by_type(negative_vibes.ANXIETY)
+	load_enemy_spawn_data_by_type(negative_vibes.ANXIETY)
 	#print(level)
 
 	#print("array loaded")
