@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://ch7fncmv84m5"]
+[gd_scene load_steps=12 format=3 uid="uid://ch7fncmv84m5"]
 
 [ext_resource type="Script" path="res://scripts/turret_aim.gd" id="1_vaevb"]
 [ext_resource type="ArrayMesh" uid="uid://c2yxi4osv4evl" path="res://assets/meshs/pyramid.obj" id="2_l7eom"]
 [ext_resource type="Shader" path="res://data/pyramidal.gdshader" id="3_x6xu1"]
 [ext_resource type="ArrayMesh" uid="uid://dks21xsjpssjm" path="res://assets/meshs/four_sided_pointer.obj" id="4_lg047"]
+[ext_resource type="Shader" path="res://data/circle_highlight.gdshader" id="5_iuspf"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_p1sgs"]
 render_priority = 0
@@ -20,8 +21,21 @@ shader_parameter/line_color = Color(0.937255, 0.768627, 0, 1)
 shader_parameter/scroll_speed = 10.0
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_qg8kp"]
-height = 4.0
+height = 1.0
 radius = 5.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_k22qq"]
+size = Vector2(10, 10)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ckrcl"]
+render_priority = 0
+shader = ExtResource("5_iuspf")
+shader_parameter/scan_line_count = 20.0
+shader_parameter/circle_color = Color(5.77569e-07, 0.859141, 0.945599, 1)
+shader_parameter/scroll_speed = 10.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_iyg3s"]
+size = Vector3(2, 0.0817871, 2)
 
 [node name="tower_pyramid" type="Node3D"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
@@ -42,13 +56,29 @@ skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("ShaderMaterial_iossk")
 
 [node name="attack_area" type="Area3D" parent="base"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 
 [node name="attack_radius_zone" type="CollisionShape3D" parent="base/attack_area"]
 shape = SubResource("CylinderShape3D_qg8kp")
 
+[node name="attack_radius_plane" type="MeshInstance3D" parent="base/attack_area"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+mesh = SubResource("PlaneMesh_k22qq")
+surface_material_override/0 = SubResource("ShaderMaterial_ckrcl")
+
 [node name="bullet_locus" type="Node3D" parent="base"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="mouse_area" type="Area3D" parent="base"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+collision_layer = 16384
+collision_mask = 16384
+
+[node name="static_mouse_detection_body" type="StaticBody3D" parent="base"]
+
+[node name="mouse_detection_zone" type="CollisionShape3D" parent="base/static_mouse_detection_body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0408934, 0)
+shape = SubResource("BoxShape3D_iyg3s")
 
 [connection signal="area_entered" from="base/attack_area" to="." method="_on_attack_area_area_entered"]
 [connection signal="area_exited" from="base/attack_area" to="." method="_on_attack_area_area_exited"]

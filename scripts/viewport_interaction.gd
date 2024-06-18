@@ -3,12 +3,25 @@ extends Camera3D
 @export var path_grid: GridMap
 @export var chaos_grid: GridMap
 
+var time_since_ping = 0
+var ping_interval_ms = 500
+
 signal chaos_grid_cell_clicked(grid_position:Vector3)
 
+func _process(delta):
+	process_ping_opportunity()
+
 func _input(event):
-	if event.is_action_pressed("click"):
-		shoot_ray()
 	
+	if event.is_action_pressed("click"):
+		get_grid_cell_from_raycast(shoot_ray())
+
+func process_ping_opportunity():
+	if Time.get_ticks_msec() > (time_since_ping + ping_interval_ms):
+		get_hoverable_from_raycast(shoot_ray())
+		time_since_ping = Time.get_ticks_msec()
+	
+
 func shoot_ray():
 	var mouse_position = get_viewport().get_mouse_position()
 	var ray_length = 1000
@@ -22,7 +35,7 @@ func shoot_ray():
 	#ray_query.collide_with_bodies = true
 
 	var raycast_result = space.intersect_ray(ray_query)
-	get_grid_cell_from_raycast(raycast_result)
+	return raycast_result
 	
 func get_grid_cell_from_raycast(raycast: Dictionary):
 	if raycast.is_empty():
@@ -38,5 +51,11 @@ func get_grid_cell_from_raycast(raycast: Dictionary):
 		raycast["collider"].get_parent().get_parent().activate_trigger()
 	else:
 		print(raycast)
+		
+func get_hoverable_from_raycast(raycast:Dictionary):
+	if raycast.is_empty():
+		return
+	elif raycast["collider"].get_name() == "static_mouse_detection_body":
+		raycast["collider"].get_parent().get_parent().update_last_hovered()
 		
 	

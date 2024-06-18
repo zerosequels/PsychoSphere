@@ -69,3 +69,5 @@ func _physics_process(delta):
 
 func align_velocity_to_camera(velocity:Vector3):
 	return velocity.rotated(Vector3(0,1,0),deg_to_rad(camera_rotator.rotation_degrees.y))
+
+

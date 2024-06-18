@@ -152,6 +152,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, 0.5)
 [node name="player_gui" parent="CanvasLayer" instance=ExtResource("16_6siav")]
 unique_name_in_owner = true
 z_as_relative = false
+mouse_filter = 2
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="."]
 
@@ -160,3 +161,4 @@ unique_name_in_owner = true
 
 [node name="card_hand" parent="." instance=ExtResource("18_dl0mc")]
 unique_name_in_owner = true
+mouse_filter = 2
