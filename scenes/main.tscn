@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://cs16kc5fk27fi"]
+[gd_scene load_steps=23 format=3 uid="uid://cs16kc5fk27fi"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_whe4h"]
 [ext_resource type="PackedScene" uid="uid://cuy5um8ffugo8" path="res://scenes/plexus.tscn" id="2_ejq2b"]
@@ -16,6 +16,7 @@
 [ext_resource type="Shader" path="res://data/plexus.gdshader" id="13_nsnuf"]
 [ext_resource type="PackedScene" uid="uid://chycnjtad0jj3" path="res://scenes/brain_kundalini.tscn" id="15_bbeja"]
 [ext_resource type="PackedScene" uid="uid://ck8vj575febrh" path="res://scenes/main_gui.tscn" id="16_6siav"]
+[ext_resource type="PackedScene" uid="uid://cxme5m2v2nbon" path="res://scenes/placement_indicator.tscn" id="16_semjb"]
 [ext_resource type="PackedScene" uid="uid://dsetycerax1g" path="res://scenes/pause_menu.tscn" id="17_w0eh3"]
 [ext_resource type="PackedScene" uid="uid://cxjjfn6wehi0h" path="res://scenes/hand.tscn" id="18_dl0mc"]
 
@@ -146,6 +147,9 @@ progress = 1.0
 
 [node name="kundalini" parent="." instance=ExtResource("15_bbeja")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, 0.5)
+
+[node name="placement_indicator" parent="." instance=ExtResource("16_semjb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 0)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

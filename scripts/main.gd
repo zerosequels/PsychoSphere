@@ -27,7 +27,7 @@ extends Node3D
 
 @onready var west_enemy_path: Path3D = %west_enemy_path
 @onready var west_enemy_path_follow: PathFollow3D = %west_enemy_path_follow
-
+@onready var indicator = $placement_indicator
 @onready var expand_path_trigger_prefab = preload("res://scenes/expand_path_button.tscn")
 
 @onready var pyramid_tower_prefab = preload("res://scenes/tower_pyramid.tscn")
@@ -100,6 +100,7 @@ func _ready():
 	camera_controller.chaos_grid = chaos_grid
 	camera_controller.path_grid = path_grid
 	camera_controller.chaos_grid_cell_clicked.connect(_on_chaos_cell_clicked)
+	camera_controller.chaos_grid_cell_hovered.connect(_on_chaos_grid_cell_hovered)
 	initialize_core_pathing()
 
 func _process(delta):
@@ -108,13 +109,10 @@ func _process(delta):
 	#WAR MODE
 	if (game_status == game_state.WAR):
 		if active_enemy_array.is_empty() and !has_enemies_to_spawn:
-			#print("All enemies destroyed")
 			update_game_status(game_state.PEACE)
 		else:
 			if has_enemies_to_spawn:
 				has_enemies_to_spawn = check_path_triggers_have_enemy_data_to_spawn()
-				#process_enemy_spawn_opportunity()
-
 	#PEACE
 
 	#DEATH CHECK
@@ -314,6 +312,18 @@ func _on_chaos_cell_clicked(grid_pos:Vector3i):
 	else:
 		print("ERROR:Cell not found in grid")
 		#print(grid_pos)
+
+func _on_chaos_grid_cell_hovered(grid_pos:Vector3i):
+	if current_tower_type != -1:
+		var entity_clicked = taken_chaos_grid_dict[grid_pos]
+		if entity_clicked == grid_entity.FREE:
+			indicator.visible = true
+			indicator.transform.origin = Vector3(grid_pos.x,grid_pos.y,grid_pos.z)
+		else:
+			indicator.visible = false
+			indicator.transform.origin = Vector3(0,0,0)
+	#else:
+		#indicator.visible = false
 
 func instantiate_tower_by_current_type(grid_pos:Vector3i):
 	var tower
@@ -609,9 +619,12 @@ func set_awareness_gui(value:int):
 func _on_tower_toggled(tower_type:int, tower_price:int):
 	if current_tower_type == tower_type:
 		current_tower_type = -1
+		indicator.visible = false
+		indicator.transform.origin = Vector3(0,0,0)
 	else:
 		current_tower_type = tower_type
 		current_tower_price = tower_price
-	#print(current_tower_type)
+		indicator.visible = true
+
 
 

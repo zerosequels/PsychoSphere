@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://cxme5m2v2nbon"]
+
+[ext_resource type="ArrayMesh" uid="uid://yhei863mcafp" path="res://assets/meshs/square.obj" id="1_646wn"]
+[ext_resource type="Shader" path="res://data/pyramidal.gdshader" id="2_qfc1s"]
+[ext_resource type="Script" path="res://scripts/indicator_rotator.gd" id="3_bkq8k"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_48ms7"]
+render_priority = 0
+shader = ExtResource("2_qfc1s")
+shader_parameter/scan_line_count = 100.0
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/scroll_speed = 10.0
+
+[node name="placement_indicator" type="Node3D"]
+
+[node name="indicator" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 1, 0, 0, 0, 0.5, 0.5, 0.55, 0.5)
+mesh = ExtResource("1_646wn")
+surface_material_override/0 = SubResource("ShaderMaterial_48ms7")
+script = ExtResource("3_bkq8k")
+rot_speed = 2.0

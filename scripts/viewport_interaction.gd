@@ -4,9 +4,10 @@ extends Camera3D
 @export var chaos_grid: GridMap
 
 var time_since_ping = 0
-var ping_interval_ms = 500
+var ping_interval_ms = 300
 
 signal chaos_grid_cell_clicked(grid_position:Vector3)
+signal chaos_grid_cell_hovered(grid_position:Vector3)
 
 func _process(delta):
 	process_ping_opportunity()
@@ -43,9 +44,7 @@ func get_grid_cell_from_raycast(raycast: Dictionary):
 	elif raycast["collider"] == path_grid:
 		print("path_grid")
 	elif raycast["collider"] == chaos_grid:
-		#print("chaos_grid")
 		var grid_pos = chaos_grid.local_to_map(raycast.position)
-		#print(raycast)
 		emit_signal("chaos_grid_cell_clicked",grid_pos)
 	elif raycast["collider"].get_name() == "expand_path_static_body": 
 		raycast["collider"].get_parent().get_parent().activate_trigger()
@@ -56,6 +55,9 @@ func get_hoverable_from_raycast(raycast:Dictionary):
 	if raycast.is_empty():
 		return
 	elif raycast["collider"].get_name() == "static_mouse_detection_body":
-		raycast["collider"].get_parent().get_parent().update_last_hovered()
+		raycast["collider"].get_parent().hover_by_raycast()
+	elif raycast["collider"] == chaos_grid:
+		var grid_pos = chaos_grid.local_to_map(raycast.position)
+		emit_signal("chaos_grid_cell_hovered",grid_pos)
 		
 	
