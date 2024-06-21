@@ -101,6 +101,7 @@ func _ready():
 	camera_controller.path_grid = path_grid
 	camera_controller.chaos_grid_cell_clicked.connect(_on_chaos_cell_clicked)
 	camera_controller.chaos_grid_cell_hovered.connect(_on_chaos_grid_cell_hovered)
+	camera_controller.hide_indicator.connect(_on_hide_indicator)
 	initialize_core_pathing()
 
 func _process(delta):
@@ -625,6 +626,9 @@ func _on_tower_toggled(tower_type:int, tower_price:int):
 		current_tower_type = tower_type
 		current_tower_price = tower_price
 		indicator.visible = true
+func _on_hide_indicator():
+	indicator.visible = false
+	indicator.transform.origin = Vector3(0,0,0)
 
 
 
