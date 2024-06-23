@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cm87hlbprlfcd"]
+
+[ext_resource type="PackedScene" uid="uid://bi4bt52hjoeu8" path="res://scenes/egg_subcomp.tscn" id="1_4h6xy"]
+[ext_resource type="PackedScene" uid="uid://bywb0s5mufrhy" path="res://scenes/inverted_egg_subcomp.tscn" id="2_834pr"]
+
+[node name="cosmic_egg_controller" type="Node3D"]
+
+[node name="egg2" parent="." instance=ExtResource("1_4h6xy")]
+
+[node name="inverted_egg2" parent="." instance=ExtResource("2_834pr")]

@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://b73ihw1fs6s4e"]
+
+[ext_resource type="PackedScene" uid="uid://dta3dvi03f8h7" path="res://scenes/dna.tscn" id="1_ne2ll"]
+[ext_resource type="Script" path="res://scripts/ankh_rotator.gd" id="2_ww0hj"]
+
+[node name="spiral_controller" type="Node3D"]
+
+[node name="spiral" parent="." instance=ExtResource("1_ne2ll")]
+script = ExtResource("2_ww0hj")

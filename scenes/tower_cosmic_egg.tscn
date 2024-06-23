@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dkxgwsc16xyan"]
+
+[ext_resource type="PackedScene" uid="uid://bp3mcmd2at4vw" path="res://scenes/static_mouse_detection_body.tscn" id="1_uahnn"]
+[ext_resource type="PackedScene" uid="uid://cdr8t75n5pvrb" path="res://scenes/tower_radius_zone.tscn" id="2_eox2o"]
+
+[node name="time_cube_tower" type="Node3D"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+
+[node name="static_mouse_detection_body" parent="." instance=ExtResource("1_uahnn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.1, 1)
+
+[node name="attack_area" parent="." instance=ExtResource("2_eox2o")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.1, 1)

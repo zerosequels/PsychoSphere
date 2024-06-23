@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://usabk2d0io7h"]
+
+[ext_resource type="PackedScene" uid="uid://cogjxdcv6vbmu" path="res://assets/towers/time_cube.glb" id="1_kgafa"]
+[ext_resource type="Shader" path="res://data/pyramidal.gdshader" id="2_swjsr"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_is5bn"]
+render_priority = 0
+shader = ExtResource("2_swjsr")
+shader_parameter/scan_line_count = 100.0
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/scroll_speed = 10.0
+shader_parameter/n = 0.8
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dbndr"]
+render_priority = 0
+shader = ExtResource("2_swjsr")
+shader_parameter/scan_line_count = 100.0
+shader_parameter/line_color = Color(0, 0, 0, 1)
+shader_parameter/scroll_speed = 10.0
+shader_parameter/n = 0.3
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_syibq"]
+render_priority = 0
+shader = ExtResource("2_swjsr")
+shader_parameter/scan_line_count = 100.0
+shader_parameter/line_color = Color(0.458824, 0.458824, 0.458824, 1)
+shader_parameter/scroll_speed = 10.0
+shader_parameter/n = 0.8
+
+[node name="time_cube2" instance=ExtResource("1_kgafa")]
+
+[node name="time_cube" parent="." index="0"]
+surface_material_override/0 = SubResource("ShaderMaterial_is5bn")
+surface_material_override/1 = SubResource("ShaderMaterial_dbndr")
+surface_material_override/2 = SubResource("ShaderMaterial_syibq")

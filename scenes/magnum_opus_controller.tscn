@@ -1,0 +1,62 @@
+[gd_scene load_steps=5 format=3 uid="uid://bsfb15gilvi53"]
+
+[ext_resource type="Script" path="res://scripts/ankh_rotator.gd" id="1_tdldp"]
+[ext_resource type="PackedScene" uid="uid://nkm1wa0hymjk" path="res://scenes/mangnum_opus_subcomp.tscn" id="1_wdfs7"]
+[ext_resource type="Script" path="res://scripts/ray_rotator.gd" id="2_dwcn8"]
+[ext_resource type="PackedScene" uid="uid://c00xbgb00t3m2" path="res://scenes/sun_ray_subcomp.tscn" id="2_hixrf"]
+
+[node name="magnum_opus" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 1, 0)
+script = ExtResource("1_tdldp")
+
+[node name="sun" parent="." instance=ExtResource("1_wdfs7")]
+
+[node name="ray_rotator" type="Node3D" parent="."]
+script = ExtResource("2_dwcn8")
+
+[node name="ray" parent="ray_rotator" instance=ExtResource("2_hixrf")]
+
+[node name="ray2" parent="ray_rotator" instance=ExtResource("2_hixrf")]
+transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="ray3" parent="ray_rotator" instance=ExtResource("2_hixrf")]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="ray4" parent="ray_rotator" instance=ExtResource("2_hixrf")]
+transform = Transform3D(-0.707107, -0.707107, 0, 0.707107, -0.707107, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="ray5" parent="ray_rotator" instance=ExtResource("2_hixrf")]
+transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="ray6" parent="ray_rotator" instance=ExtResource("2_hixrf")]
+transform = Transform3D(0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="ray7" parent="ray_rotator" instance=ExtResource("2_hixrf")]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="ray8" parent="ray_rotator" instance=ExtResource("2_hixrf")]
+transform = Transform3D(-0.707107, 0.707107, 0, -0.707107, -0.707107, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="ray9" parent="ray_rotator" instance=ExtResource("2_hixrf")]
+transform = Transform3D(0.925064, -0.379811, 0, 0.379811, 0.925064, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="ray10" parent="ray_rotator" instance=ExtResource("2_hixrf")]
+transform = Transform3D(0.385552, -0.922686, 0, 0.922686, 0.385552, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="ray11" parent="ray_rotator" instance=ExtResource("2_hixrf")]
+transform = Transform3D(-0.379811, -0.925064, 0, 0.925064, -0.379811, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="ray12" parent="ray_rotator" instance=ExtResource("2_hixrf")]
+transform = Transform3D(-0.922686, -0.385552, 0, 0.385552, -0.922686, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="ray13" parent="ray_rotator" instance=ExtResource("2_hixrf")]
+transform = Transform3D(-0.925064, 0.379811, 0, -0.379811, -0.925064, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="ray14" parent="ray_rotator" instance=ExtResource("2_hixrf")]
+transform = Transform3D(0.922686, 0.385552, 0, -0.385552, 0.922686, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="ray15" parent="ray_rotator" instance=ExtResource("2_hixrf")]
+transform = Transform3D(0.379811, 0.925064, 0, -0.925064, 0.379811, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="ray16" parent="ray_rotator" instance=ExtResource("2_hixrf")]
+transform = Transform3D(-0.385552, 0.922686, 0, -0.922686, -0.385552, 0, 0, 0, 1, 0, 0, 0)

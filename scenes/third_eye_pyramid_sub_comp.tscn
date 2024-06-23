@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://ck3ystg6jm10b"]
+
+[ext_resource type="PackedScene" uid="uid://dg5ff0ncko7jj" path="res://assets/towers/third_eye_pyramid.glb" id="1_aiuj4"]
+[ext_resource type="Shader" path="res://data/pyramidal.gdshader" id="2_4k7hb"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ia8wm"]
+render_priority = 0
+shader = ExtResource("2_4k7hb")
+shader_parameter/scan_line_count = 100.0
+shader_parameter/line_color = Color(0, 1, 1, 1)
+shader_parameter/scroll_speed = 10.0
+
+[node name="third_eye_pyramid" instance=ExtResource("1_aiuj4")]
+
+[node name="Third_Eye_pyramid" parent="." index="0"]
+surface_material_override/0 = SubResource("ShaderMaterial_ia8wm")

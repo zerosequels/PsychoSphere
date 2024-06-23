@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://bnsptb0nj5wme"]
+
+[ext_resource type="PackedScene" uid="uid://dwqsmk4v7mhj3" path="res://assets/towers/fol_base.glb" id="1_y5l4n"]
+[ext_resource type="Shader" path="res://data/pyramidal.gdshader" id="2_iu2n8"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fw0vp"]
+render_priority = 0
+shader = ExtResource("2_iu2n8")
+shader_parameter/scan_line_count = 100.0
+shader_parameter/line_color = Color(0.686275, 0.784314, 1, 1)
+shader_parameter/scroll_speed = 10.0
+
+[node name="fol_base" instance=ExtResource("1_y5l4n")]
+
+[node name="flower_of_life" parent="." index="0"]
+surface_material_override/0 = SubResource("ShaderMaterial_fw0vp")

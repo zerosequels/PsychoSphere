@@ -1,10 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://dtkqpkc71h8ov"]
+[gd_scene load_steps=7 format=3 uid="uid://d170dovvjswk2"]
 
-[ext_resource type="Script" path="res://scripts/ankh_tower.gd" id="1_in20q"]
 [ext_resource type="ArrayMesh" uid="uid://dks21xsjpssjm" path="res://assets/meshs/four_sided_pointer.obj" id="2_ifoc4"]
-[ext_resource type="Shader" path="res://data/circle_highlight.gdshader" id="2_s61jc"]
 [ext_resource type="Shader" path="res://data/pyramidal.gdshader" id="3_a1l6s"]
 [ext_resource type="PackedScene" uid="uid://c6n15if0j8w4k" path="res://scenes/ankh_controller.tscn" id="4_4xt64"]
+[ext_resource type="PackedScene" uid="uid://cdr8t75n5pvrb" path="res://scenes/tower_radius_zone.tscn" id="6_vjqhm"]
+[ext_resource type="PackedScene" uid="uid://bp3mcmd2at4vw" path="res://scenes/static_mouse_detection_body.tscn" id="7_cfwcj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_p1sgs"]
 render_priority = 0
@@ -13,64 +13,24 @@ shader_parameter/scan_line_count = 50.0
 shader_parameter/line_color = Color(1, 1, 1, 1)
 shader_parameter/scroll_speed = 10.0
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_qg8kp"]
-height = 1.0
-radius = 5.0
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_k22qq"]
-size = Vector2(10, 10)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ckrcl"]
-resource_local_to_scene = true
-render_priority = 0
-shader = ExtResource("2_s61jc")
-shader_parameter/scan_line_count = 20.0
-shader_parameter/circle_color = Color(5.77569e-07, 0.859141, 0.945599, 1)
-shader_parameter/scroll_speed = 10.0
-shader_parameter/circle_opacity = 1.0
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_iyg3s"]
-size = Vector3(2, 0.0817871, 2)
-
-[node name="basic_tower" type="Node3D"]
+[node name="ankh_tower" type="Node3D"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
-script = ExtResource("1_in20q")
 
-[node name="base" type="MeshInstance3D" parent="."]
+[node name="turret_base" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.1, 1)
 mesh = ExtResource("2_ifoc4")
 surface_material_override/0 = SubResource("ShaderMaterial_p1sgs")
 
-[node name="rotator" type="Node3D" parent="base"]
+[node name="rotator" type="Node3D" parent="turret_base"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
-[node name="ankh_controller" parent="base/rotator" instance=ExtResource("4_4xt64")]
-transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, -0.432861, 0)
+[node name="ankh_controller" parent="turret_base/rotator" instance=ExtResource("4_4xt64")]
+transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, -0.381123, 0)
 
-[node name="attack_area" type="Area3D" parent="base"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+[node name="aoe_locus" type="Node3D" parent="turret_base/rotator/ankh_controller"]
+transform = Transform3D(1, 0, -1.98952e-13, 1.4068e-13, 0.707107, 0.707107, 1.4068e-13, -0.707107, 0.707107, 0, 0, 0)
 
-[node name="attack_radius_zone" type="CollisionShape3D" parent="base/attack_area"]
-shape = SubResource("CylinderShape3D_qg8kp")
+[node name="attack_area" parent="turret_base" instance=ExtResource("6_vjqhm")]
 
-[node name="attack_radius_plane" type="MeshInstance3D" parent="base/attack_area"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
-mesh = SubResource("PlaneMesh_k22qq")
-surface_material_override/0 = SubResource("ShaderMaterial_ckrcl")
-
-[node name="aoe_locus" type="Node3D" parent="base"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-
-[node name="mouse_area" type="Area3D" parent="base"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-collision_layer = 16384
-collision_mask = 16384
-
-[node name="static_mouse_detection_body" type="StaticBody3D" parent="base"]
-
-[node name="mouse_detection_zone" type="CollisionShape3D" parent="base/static_mouse_detection_body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0408934, 0)
-shape = SubResource("BoxShape3D_iyg3s")
-
-[connection signal="area_entered" from="base/attack_area" to="." method="_on_attack_area_area_entered"]
-[connection signal="area_exited" from="base/attack_area" to="." method="_on_attack_area_area_exited"]
+[node name="static_mouse_detection_body" parent="." instance=ExtResource("7_cfwcj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.1, 1)

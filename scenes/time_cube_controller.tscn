@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://bjj030ccw05kw"]
+
+[ext_resource type="PackedScene" uid="uid://usabk2d0io7h" path="res://scenes/time_cube_subcomp.tscn" id="1_sijql"]
+[ext_resource type="Script" path="res://scripts/ankh_rotator.gd" id="2_2671o"]
+[ext_resource type="ArrayMesh" uid="uid://yhei863mcafp" path="res://assets/meshs/square.obj" id="3_jdfi4"]
+[ext_resource type="Shader" path="res://data/pyramidal.gdshader" id="4_pj2cw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bckn6"]
+render_priority = 0
+shader = ExtResource("4_pj2cw")
+shader_parameter/scan_line_count = 100.0
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/scroll_speed = 10.0
+shader_parameter/n = 0.8
+
+[node name="time_cube_controller" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="offset" type="Node3D" parent="."]
+transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("2_2671o")
+
+[node name="time_cube3" parent="offset" instance=ExtResource("1_sijql")]
+script = ExtResource("2_2671o")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+mesh = ExtResource("3_jdfi4")
+surface_material_override/0 = SubResource("ShaderMaterial_bckn6")

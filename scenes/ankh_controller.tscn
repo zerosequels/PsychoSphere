@@ -1,9 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://c6n15if0j8w4k"]
+[gd_scene load_steps=3 format=3 uid="uid://c6n15if0j8w4k"]
 
 [ext_resource type="PackedScene" uid="uid://4u0xifxcjlge" path="res://scenes/ankh.tscn" id="1_cjqik"]
+[ext_resource type="Script" path="res://scripts/ankh_rotator.gd" id="1_dqns7"]
 
 [node name="ankh_controller" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0)
+script = ExtResource("1_dqns7")
 
 [node name="ankh" parent="." instance=ExtResource("1_cjqik")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.140943, -0.0154315)

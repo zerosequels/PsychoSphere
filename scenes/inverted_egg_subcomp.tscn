@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://bywb0s5mufrhy"]
+
+[ext_resource type="PackedScene" uid="uid://22a6m3wxqqpx" path="res://assets/towers/inverted_egg.glb" id="1_1rufo"]
+
+[node name="inverted_egg2" instance=ExtResource("1_1rufo")]

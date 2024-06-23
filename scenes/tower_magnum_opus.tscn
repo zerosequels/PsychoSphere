@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://bjn4jwm3eaisq"]
+
+[ext_resource type="PackedScene" uid="uid://bp3mcmd2at4vw" path="res://scenes/static_mouse_detection_body.tscn" id="1_rl1ko"]
+[ext_resource type="PackedScene" uid="uid://cdr8t75n5pvrb" path="res://scenes/tower_radius_zone.tscn" id="2_f7227"]
+[ext_resource type="PackedScene" uid="uid://bsfb15gilvi53" path="res://scenes/magnum_opus_controller.tscn" id="3_r8bu3"]
+[ext_resource type="PackedScene" uid="uid://dg6ehysjpo2dm" path="res://scenes/flask_sub_comp.tscn" id="4_eep3t"]
+
+[node name="time_cube_tower" type="Node3D"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+
+[node name="static_mouse_detection_body" parent="." instance=ExtResource("1_rl1ko")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.1, 1)
+
+[node name="attack_area" parent="." instance=ExtResource("2_f7227")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.1, 1)
+
+[node name="magnum_opus" parent="." instance=ExtResource("3_r8bu3")]
+transform = Transform3D(0.3, 0, 0, 0, 0.212132, -0.212132, 0, 0.212132, 0.212132, 1, 2, 1)
+
+[node name="flask2" parent="." instance=ExtResource("4_eep3t")]
+transform = Transform3D(0.5, 0, 0, 0, 0.4, 0, 0, 0, 0.5, 1, 1.5, 1)

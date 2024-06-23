@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://c00xbgb00t3m2"]
+
+[ext_resource type="PackedScene" uid="uid://clhpuo8skqql3" path="res://assets/towers/sun_ray.glb" id="1_nt4ix"]
+[ext_resource type="ArrayMesh" uid="uid://tp10e2vknttr" path="res://data/sun_ray.tres" id="2_ob7f0"]
+[ext_resource type="Shader" path="res://data/pyramidal.gdshader" id="3_nwedp"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2n2qk"]
+render_priority = 0
+shader = ExtResource("3_nwedp")
+shader_parameter/scan_line_count = 100.0
+shader_parameter/line_color = Color(1, 0, 0.0470588, 1)
+shader_parameter/scroll_speed = 10.0
+shader_parameter/n = 0.2
+
+[node name="sun_ray2" instance=ExtResource("1_nt4ix")]
+
+[node name="sun_ray" parent="." index="0"]
+mesh = ExtResource("2_ob7f0")
+surface_material_override/0 = SubResource("ShaderMaterial_2n2qk")

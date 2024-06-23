@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://ppxqch1lj521"]
+
+[ext_resource type="PackedScene" uid="uid://du3dlaj4wgs6v" path="res://scenes/fungus_subcomp.tscn" id="1_eu8rc"]
+[ext_resource type="ArrayMesh" uid="uid://0l410es6h2kn" path="res://assets/meshs/triangle.obj" id="2_dfde0"]
+[ext_resource type="Shader" path="res://data/pyramidal.gdshader" id="3_0vqpb"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_364ac"]
+render_priority = 0
+shader = ExtResource("3_0vqpb")
+shader_parameter/scan_line_count = 100.0
+shader_parameter/line_color = Color(0.278431, 0.482353, 0.368627, 1)
+shader_parameter/scroll_speed = 10.0
+shader_parameter/n = 0.8
+
+[node name="death_fungus_controller" type="Node3D"]
+
+[node name="fungus2" parent="." instance=ExtResource("1_eu8rc")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 1, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+mesh = ExtResource("2_dfde0")
+surface_material_override/0 = SubResource("ShaderMaterial_364ac")

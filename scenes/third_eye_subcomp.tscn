@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://djsrt8no1vg2e"]
+
+[ext_resource type="PackedScene" uid="uid://dh5d1xeugba7m" path="res://assets/towers/third_eye.glb" id="1_qkxei"]
+[ext_resource type="Shader" path="res://data/pyramidal.gdshader" id="2_nncs5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qhlnj"]
+render_priority = 0
+shader = ExtResource("2_nncs5")
+shader_parameter/scan_line_count = 100.0
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/scroll_speed = 10.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0108k"]
+render_priority = 0
+shader = ExtResource("2_nncs5")
+shader_parameter/scan_line_count = 100.0
+shader_parameter/line_color = Color(0.890196, 0, 0.694118, 1)
+shader_parameter/scroll_speed = 10.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0yqy0"]
+render_priority = 0
+shader = ExtResource("2_nncs5")
+shader_parameter/scan_line_count = 100.0
+shader_parameter/line_color = Color(0, 0.745098, 0.435294, 1)
+shader_parameter/scroll_speed = 10.0
+
+[node name="third_eye" instance=ExtResource("1_qkxei")]
+
+[node name="Third_Eye" parent="." index="0"]
+surface_material_override/0 = SubResource("ShaderMaterial_qhlnj")
+surface_material_override/1 = SubResource("ShaderMaterial_0108k")
+surface_material_override/2 = SubResource("ShaderMaterial_0yqy0")

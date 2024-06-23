@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://c3m1aytyu8bxe"]
+
+[ext_resource type="PackedScene" uid="uid://vr2xx1rh623l" path="res://assets/towers/mani_wheel.glb" id="1_mebas"]
+[ext_resource type="Shader" path="res://data/pyramidal.gdshader" id="2_4pvfa"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e8yu4"]
+render_priority = 0
+shader = ExtResource("2_4pvfa")
+shader_parameter/scan_line_count = 100.0
+shader_parameter/line_color = Color(1, 0.184314, 0.0509804, 1)
+shader_parameter/scroll_speed = 10.0
+shader_parameter/n = 0.3
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ilodf"]
+render_priority = 0
+shader = ExtResource("2_4pvfa")
+shader_parameter/scan_line_count = 100.0
+shader_parameter/line_color = Color(1, 1, 0.054902, 1)
+shader_parameter/scroll_speed = 10.0
+shader_parameter/n = 0.6
+
+[node name="mani_wheel" instance=ExtResource("1_mebas")]
+
+[node name="mani wheel" parent="." index="0"]
+surface_material_override/0 = SubResource("ShaderMaterial_e8yu4")
+surface_material_override/1 = SubResource("ShaderMaterial_ilodf")

@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://bbwjg83id5fij"]
+
+[ext_resource type="PackedScene" uid="uid://b88gpio5egxxq" path="res://assets/towers/altar.glb" id="1_xj76g"]
+[ext_resource type="Shader" path="res://data/pyramidal.gdshader" id="2_qgpcs"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4mug6"]
+render_priority = 0
+shader = ExtResource("2_qgpcs")
+shader_parameter/scan_line_count = 100.0
+shader_parameter/line_color = Color(1, 0, 1, 1)
+shader_parameter/scroll_speed = 10.0
+
+[node name="altar2" instance=ExtResource("1_xj76g")]
+
+[node name="altar" parent="." index="0"]
+surface_material_override/0 = SubResource("ShaderMaterial_4mug6")

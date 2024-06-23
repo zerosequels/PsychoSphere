@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://7hp83wemqhwe"]
+
+[ext_resource type="PackedScene" uid="uid://uoybmcgcg2n0" path="res://scenes/fol_1.tscn" id="1_foc61"]
+[ext_resource type="PackedScene" uid="uid://cgrgtgja476h7" path="res://scenes/fol_2.tscn" id="2_e4jn3"]
+[ext_resource type="Script" path="res://scripts/ankh_rotator.gd" id="2_mknob"]
+[ext_resource type="PackedScene" uid="uid://djjo78123yi02" path="res://scenes/fol_3.tscn" id="3_d681t"]
+[ext_resource type="PackedScene" uid="uid://bnsptb0nj5wme" path="res://scenes/fol_base.tscn" id="4_h67eu"]
+
+[node name="flower_of_life_controller" type="Node3D"]
+
+[node name="fol_1" parent="." instance=ExtResource("1_foc61")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+script = ExtResource("2_mknob")
+
+[node name="fol_2" parent="." instance=ExtResource("2_e4jn3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+script = ExtResource("2_mknob")
+rot_speed = 2.0
+
+[node name="fol_3" parent="." instance=ExtResource("3_d681t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+script = ExtResource("2_mknob")
+rot_speed = 4.0
+
+[node name="fol_base" parent="." instance=ExtResource("4_h67eu")]
+script = ExtResource("2_mknob")
+rot_speed = 0.5

@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://dta3dvi03f8h7"]
+
+[ext_resource type="PackedScene" uid="uid://655ukcq516ny" path="res://assets/towers/spiral.glb" id="1_chwso"]
+[ext_resource type="Shader" path="res://data/pyramidal.gdshader" id="2_e0ynh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wwjbf"]
+render_priority = 0
+shader = ExtResource("2_e0ynh")
+shader_parameter/scan_line_count = 100.0
+shader_parameter/line_color = Color(0, 0.788235, 0.0196078, 1)
+shader_parameter/scroll_speed = 10.0
+
+[node name="spiral" instance=ExtResource("1_chwso")]
+
+[node name="dna" parent="." index="0"]
+surface_material_override/0 = SubResource("ShaderMaterial_wwjbf")

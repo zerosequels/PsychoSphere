@@ -1,0 +1,24 @@
+[gd_scene load_steps=6 format=3 uid="uid://dtalxoifdvgu8"]
+
+[ext_resource type="Shader" path="res://data/pyramidal.gdshader" id="2_0tj86"]
+[ext_resource type="ArrayMesh" uid="uid://c3a4ocv28w4yt" path="res://assets/meshs/pentagon.obj" id="2_11hwe"]
+[ext_resource type="PackedScene" uid="uid://ct558vxewqcr6" path="res://scenes/emerald_tablet_subcomp.tscn" id="3_c3r86"]
+[ext_resource type="Script" path="res://scripts/ankh_rotator.gd" id="4_cf0wu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vf07v"]
+render_priority = 0
+shader = ExtResource("2_0tj86")
+shader_parameter/scan_line_count = 100.0
+shader_parameter/line_color = Color(0.054902, 1, 0.0509804, 1)
+shader_parameter/scroll_speed = 10.0
+shader_parameter/n = 0.8
+
+[node name="emerald_tablet_controller" type="Node3D"]
+
+[node name="basis" type="MeshInstance3D" parent="."]
+mesh = ExtResource("2_11hwe")
+surface_material_override/0 = SubResource("ShaderMaterial_vf07v")
+
+[node name="emerald_tablet" parent="." instance=ExtResource("3_c3r86")]
+transform = Transform3D(-2.18557e-08, 0.353553, 0.353553, 0, 0.353553, -0.353553, -0.5, -1.54543e-08, -1.54543e-08, 0, 0.7, 0)
+script = ExtResource("4_cf0wu")

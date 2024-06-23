@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://ct558vxewqcr6"]
+
+[ext_resource type="PackedScene" uid="uid://cjabg48a02wry" path="res://assets/towers/emerald_tablet.glb" id="1_8mmar"]
+[ext_resource type="Shader" path="res://data/pyramidal.gdshader" id="2_aalk6"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nu83s"]
+render_priority = 0
+shader = ExtResource("2_aalk6")
+shader_parameter/scan_line_count = 100.0
+shader_parameter/line_color = Color(0.231373, 1, 0, 1)
+shader_parameter/scroll_speed = 10.0
+shader_parameter/n = 0.2
+
+[node name="emerald_tablet" instance=ExtResource("1_8mmar")]
+
+[node name="emeral_tablet" parent="." index="0"]
+surface_material_override/0 = SubResource("ShaderMaterial_nu83s")

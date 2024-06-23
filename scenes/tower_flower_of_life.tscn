@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://ctja1kvyf0qad"]
+
+[ext_resource type="PackedScene" uid="uid://cdr8t75n5pvrb" path="res://scenes/tower_radius_zone.tscn" id="3_f3j4b"]
+[ext_resource type="PackedScene" uid="uid://7hp83wemqhwe" path="res://scenes/flower_of_life_controller.tscn" id="3_qbcjl"]
+[ext_resource type="PackedScene" uid="uid://bp3mcmd2at4vw" path="res://scenes/static_mouse_detection_body.tscn" id="5_kjs3v"]
+
+[node name="basic_tower" type="Node3D"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+
+[node name="static_mouse_detection_body" parent="." instance=ExtResource("5_kjs3v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.1, 1)
+
+[node name="attack_area" parent="." instance=ExtResource("3_f3j4b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.1, 1)
+
+[node name="flower_of_life_controller" parent="." instance=ExtResource("3_qbcjl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1)

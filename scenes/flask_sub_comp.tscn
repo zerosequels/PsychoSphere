@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://dg6ehysjpo2dm"]
+
+[ext_resource type="PackedScene" uid="uid://by2hkdnti60ml" path="res://assets/towers/flask.glb" id="1_br21k"]
+[ext_resource type="Shader" path="res://data/pyramidal.gdshader" id="2_ovyrm"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8noou"]
+render_priority = 0
+shader = ExtResource("2_ovyrm")
+shader_parameter/scan_line_count = 100.0
+shader_parameter/line_color = Color(1, 0, 0.0666667, 1)
+shader_parameter/scroll_speed = 10.0
+shader_parameter/n = 0.4
+
+[node name="flask2" instance=ExtResource("1_br21k")]
+
+[node name="flask" parent="." index="0"]
+surface_material_override/0 = SubResource("ShaderMaterial_8noou")
