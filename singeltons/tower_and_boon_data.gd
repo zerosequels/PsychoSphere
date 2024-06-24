@@ -126,7 +126,7 @@ func get_tower_name(tower_type:tower_types):
 		tower_types.COSMIC_EGG:
 			return "Cosmic Egg"
 		tower_types.ANNUNAKI_WEAPON:
-			return "Akkashik truth bomb"
+			return "Annunaki Cell Phone"
 
 
 

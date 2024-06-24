@@ -54,5 +54,6 @@ func _ready():
 	add_card_by_type(9)
 	add_card_by_type(10)
 	add_card_by_type(11)
+	add_card_by_type(12)
 
 

@@ -149,7 +149,7 @@ progress = 1.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, 0.5)
 
 [node name="placement_indicator" parent="." instance=ExtResource("16_semjb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
