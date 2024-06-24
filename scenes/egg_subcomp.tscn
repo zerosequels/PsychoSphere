@@ -1,5 +1,21 @@
-[gd_scene load_steps=2 format=3 uid="uid://bi4bt52hjoeu8"]
+[gd_scene load_steps=4 format=3 uid="uid://bi4bt52hjoeu8"]
 
 [ext_resource type="PackedScene" uid="uid://b751nobvun2x0" path="res://assets/towers/egg.glb" id="1_y7syk"]
+[ext_resource type="Shader" path="res://data/spacial_plexus_2.gdshader" id="2_kxhui"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8fk8o"]
+render_priority = 0
+shader = ExtResource("2_kxhui")
+shader_parameter/resolution = Vector2(600, 400)
+shader_parameter/line_color = Color(0.447059, 0.447059, 0.447059, 1)
+shader_parameter/octaves = 1
+shader_parameter/zoom_factor = 60.0
+shader_parameter/zoom_coef = 1.5
+shader_parameter/brightness = 1.0
+shader_parameter/rotation_angle = 0.7
+shader_parameter/alpha_threshold = 0.0
 
 [node name="egg2" instance=ExtResource("1_y7syk")]
+
+[node name="egg" parent="." index="0"]
+surface_material_override/0 = SubResource("ShaderMaterial_8fk8o")

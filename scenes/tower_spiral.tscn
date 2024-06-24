@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://cpcdh14c325dc"]
+[gd_scene load_steps=8 format=3 uid="uid://cpcdh14c325dc"]
 
 [ext_resource type="ArrayMesh" uid="uid://d1lychf2bfq2r" path="res://assets/meshs/haxagon.obj" id="1_2jeg8"]
+[ext_resource type="Script" path="res://scripts/tower_spiral.gd" id="1_e8fjd"]
 [ext_resource type="Shader" path="res://data/pyramidal.gdshader" id="2_u8iav"]
 [ext_resource type="PackedScene" uid="uid://b73ihw1fs6s4e" path="res://scenes/spiral_controller.tscn" id="4_m0b2h"]
 [ext_resource type="PackedScene" uid="uid://cdr8t75n5pvrb" path="res://scenes/tower_radius_zone.tscn" id="4_oyrge"]
@@ -12,19 +13,22 @@ shader = ExtResource("2_u8iav")
 shader_parameter/scan_line_count = 50.0
 shader_parameter/line_color = Color(1, 1, 1, 1)
 shader_parameter/scroll_speed = 10.0
+shader_parameter/n = 0.8
 
 [node name="basic_tower" type="Node3D"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+script = ExtResource("1_e8fjd")
 
 [node name="turret_base" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.1, 1)
 mesh = ExtResource("1_2jeg8")
 surface_material_override/0 = SubResource("ShaderMaterial_p1sgs")
 
-[node name="attack_area" parent="turret_base" instance=ExtResource("4_oyrge")]
-
 [node name="spiral_controller" parent="turret_base" instance=ExtResource("4_m0b2h")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="static_mouse_detection_body" parent="." instance=ExtResource("5_6njtj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.1, 1)
+
+[node name="attack_area" parent="." instance=ExtResource("4_oyrge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.1, 1)

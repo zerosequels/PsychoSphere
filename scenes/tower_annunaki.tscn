@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://cxw7showpgldx"]
+
+[ext_resource type="Script" path="res://scripts/tower_annunaki.gd" id="1_bbune"]
+[ext_resource type="PackedScene" uid="uid://bp3mcmd2at4vw" path="res://scenes/static_mouse_detection_body.tscn" id="1_oscdv"]
+[ext_resource type="PackedScene" uid="uid://cdr8t75n5pvrb" path="res://scenes/tower_radius_zone.tscn" id="2_ma8t7"]
+[ext_resource type="PackedScene" uid="uid://35h46bodmr5s" path="res://scenes/annunaki_controller.tscn" id="3_dn3ym"]
+
+[node name="annunaki_tower" type="Node3D"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+script = ExtResource("1_bbune")
+
+[node name="attack_area" parent="." instance=ExtResource("2_ma8t7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.1, 1)
+
+[node name="annunaki_controller" parent="." instance=ExtResource("3_dn3ym")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1)
+
+[node name="static_mouse_detection_body" parent="." instance=ExtResource("1_oscdv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.1, 1)

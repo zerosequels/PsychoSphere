@@ -4,7 +4,9 @@
 [ext_resource type="PackedScene" uid="uid://bywb0s5mufrhy" path="res://scenes/inverted_egg_subcomp.tscn" id="2_834pr"]
 
 [node name="cosmic_egg_controller" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="egg2" parent="." instance=ExtResource("1_4h6xy")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
 
 [node name="inverted_egg2" parent="." instance=ExtResource("2_834pr")]

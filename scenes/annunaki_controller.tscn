@@ -1,0 +1,25 @@
+[gd_scene load_steps=6 format=3 uid="uid://35h46bodmr5s"]
+
+[ext_resource type="PackedScene" uid="uid://u4jefmsaotbq" path="res://scenes/annunaki_subcomp.tscn" id="1_s6axs"]
+[ext_resource type="Script" path="res://scripts/ankh_rotator.gd" id="2_8r2d2"]
+[ext_resource type="ArrayMesh" uid="uid://cyskwxjch20j3" path="res://assets/meshs/star.obj" id="2_mroet"]
+[ext_resource type="Shader" path="res://data/pyramidal.gdshader" id="3_wivbi"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g842a"]
+render_priority = 0
+shader = ExtResource("3_wivbi")
+shader_parameter/scan_line_count = 100.0
+shader_parameter/line_color = Color(1, 0.988235, 0.231373, 1)
+shader_parameter/scroll_speed = 10.0
+shader_parameter/n = 0.3
+
+[node name="annunaki_controller" type="Node3D"]
+
+[node name="annunaki" parent="." instance=ExtResource("1_s6axs")]
+transform = Transform3D(0.8, 0, 0, 0, 0.69282, 0.4, 0, -0.4, 0.69282, 0, 1, 0)
+script = ExtResource("2_8r2d2")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.1, 0)
+mesh = ExtResource("2_mroet")
+surface_material_override/0 = SubResource("ShaderMaterial_g842a")

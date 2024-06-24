@@ -1,11 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://c6ix4lgb3gx2w"]
+[gd_scene load_steps=5 format=3 uid="uid://c6ix4lgb3gx2w"]
 
+[ext_resource type="Script" path="res://scripts/tower_time_cube.gd" id="1_ccrhd"]
 [ext_resource type="PackedScene" uid="uid://bp3mcmd2at4vw" path="res://scenes/static_mouse_detection_body.tscn" id="1_jy3bc"]
 [ext_resource type="PackedScene" uid="uid://cdr8t75n5pvrb" path="res://scenes/tower_radius_zone.tscn" id="2_tshtf"]
 [ext_resource type="PackedScene" uid="uid://bjj030ccw05kw" path="res://scenes/time_cube_controller.tscn" id="3_sqphp"]
 
 [node name="time_cube_tower" type="Node3D"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+script = ExtResource("1_ccrhd")
 
 [node name="static_mouse_detection_body" parent="." instance=ExtResource("1_jy3bc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.1, 1)

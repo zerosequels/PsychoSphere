@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://u4jefmsaotbq"]
+
+[ext_resource type="PackedScene" uid="uid://202th7rx1dwt" path="res://assets/towers/annunaki.glb" id="1_08mln"]
+[ext_resource type="Shader" path="res://data/pyramidal.gdshader" id="2_brvrh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l27fs"]
+render_priority = 0
+shader = ExtResource("2_brvrh")
+shader_parameter/scan_line_count = 100.0
+shader_parameter/line_color = Color(1, 1, 0.00784314, 1)
+shader_parameter/scroll_speed = 10.0
+shader_parameter/n = 0.3
+
+[node name="annunaki" instance=ExtResource("1_08mln")]
+
+[node name="annunaki_glyph" parent="." index="0"]
+surface_material_override/0 = SubResource("ShaderMaterial_l27fs")

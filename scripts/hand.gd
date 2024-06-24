@@ -43,16 +43,16 @@ func increment_cost_by_tower_type(tower_type_enum:int):
 	
 func _ready():
 	add_card_by_type(0)
-	#add_card_by_type(1)
-	#add_card_by_type(2)
-	#add_card_by_type(3)
-	#add_card_by_type(4)
-	#add_card_by_type(5)
-	#add_card_by_type(6)
-	#add_card_by_type(7)
-	#add_card_by_type(8)
-	#add_card_by_type(9)
-	#add_card_by_type(10)
-	#add_card_by_type(11)
+	add_card_by_type(1)
+	add_card_by_type(2)
+	add_card_by_type(3)
+	add_card_by_type(4)
+	add_card_by_type(5)
+	add_card_by_type(6)
+	add_card_by_type(7)
+	add_card_by_type(8)
+	add_card_by_type(9)
+	add_card_by_type(10)
+	add_card_by_type(11)
 
 

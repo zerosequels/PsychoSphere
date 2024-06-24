@@ -1,13 +1,34 @@
-[gd_scene load_steps=3 format=3 uid="uid://dkxgwsc16xyan"]
+[gd_scene load_steps=8 format=3 uid="uid://dkxgwsc16xyan"]
 
+[ext_resource type="Script" path="res://scripts/tower_cosmic_egg.gd" id="1_5f5uy"]
 [ext_resource type="PackedScene" uid="uid://bp3mcmd2at4vw" path="res://scenes/static_mouse_detection_body.tscn" id="1_uahnn"]
 [ext_resource type="PackedScene" uid="uid://cdr8t75n5pvrb" path="res://scenes/tower_radius_zone.tscn" id="2_eox2o"]
+[ext_resource type="PackedScene" uid="uid://cm87hlbprlfcd" path="res://scenes/cosmic_egg_controller.tscn" id="3_ecgyo"]
+[ext_resource type="ArrayMesh" uid="uid://c35msn2kmphbg" path="res://assets/meshs/five_sided_pointer.obj" id="4_slu22"]
+[ext_resource type="Shader" path="res://data/pyramidal.gdshader" id="5_vceob"]
 
-[node name="time_cube_tower" type="Node3D"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hi2ms"]
+render_priority = 0
+shader = ExtResource("5_vceob")
+shader_parameter/scan_line_count = 100.0
+shader_parameter/line_color = Color(0.00392157, 1, 1, 1)
+shader_parameter/scroll_speed = 10.0
+shader_parameter/n = 0.5
+
+[node name="cosmic_egg_tower" type="Node3D"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+script = ExtResource("1_5f5uy")
 
 [node name="static_mouse_detection_body" parent="." instance=ExtResource("1_uahnn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.1, 1)
 
 [node name="attack_area" parent="." instance=ExtResource("2_eox2o")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.1, 1)
+
+[node name="cosmic_egg_controller" parent="." instance=ExtResource("3_ecgyo")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 1, 2, 1)
+
+[node name="base" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0, 0, 0, 1, 1, 1, 1)
+mesh = ExtResource("4_slu22")
+surface_material_override/0 = SubResource("ShaderMaterial_hi2ms")

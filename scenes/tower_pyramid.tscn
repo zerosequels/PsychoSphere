@@ -14,6 +14,7 @@ shader = ExtResource("3_x6xu1")
 shader_parameter/scan_line_count = 50.0
 shader_parameter/line_color = Color(1, 1, 1, 1)
 shader_parameter/scroll_speed = 10.0
+shader_parameter/n = 0.8
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_iossk"]
 render_priority = 0
@@ -21,6 +22,7 @@ shader = ExtResource("3_x6xu1")
 shader_parameter/scan_line_count = 50.0
 shader_parameter/line_color = Color(0.937255, 0.768627, 0, 1)
 shader_parameter/scroll_speed = 10.0
+shader_parameter/n = 0.8
 
 [node name="basic_tower" type="Node3D"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
@@ -44,7 +46,8 @@ surface_material_override/0 = SubResource("ShaderMaterial_iossk")
 [node name="bullet_locus" type="Node3D" parent="turret_base/rotator/turret"]
 transform = Transform3D(-2, 0, 1.74846e-07, 0, 2, 0, -1.74846e-07, 0, -2, 0, 0.4, 0)
 
-[node name="attack_area" parent="turret_base" instance=ExtResource("6_ssblx")]
-
 [node name="static_mouse_detection_body" parent="." instance=ExtResource("6_fj8x8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.1, 1)
+
+[node name="attack_area" parent="." instance=ExtResource("6_ssblx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.1, 1)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://c23sx04u1jh5p"]
+[gd_scene load_steps=16 format=3 uid="uid://c23sx04u1jh5p"]
 
 [ext_resource type="PackedScene" uid="uid://dyig1h2oqvgy7" path="res://scenes/phantom_camera_controller.tscn" id="1_2rv0j"]
 [ext_resource type="PackedScene" uid="uid://d170dovvjswk2" path="res://scenes/tower_ankh.tscn" id="2_7ddtu"]
@@ -12,12 +12,15 @@
 [ext_resource type="PackedScene" uid="uid://03snie3v21pn" path="res://scenes/tower_tuning_fork.tscn" id="10_fihfb"]
 [ext_resource type="PackedScene" uid="uid://d38lxnyd565tx" path="res://scenes/tower_death_fungus.tscn" id="11_644yf"]
 [ext_resource type="PackedScene" uid="uid://bjn4jwm3eaisq" path="res://scenes/tower_magnum_opus.tscn" id="12_uph71"]
+[ext_resource type="PackedScene" uid="uid://dkxgwsc16xyan" path="res://scenes/tower_cosmic_egg.tscn" id="13_071r3"]
+[ext_resource type="PackedScene" uid="uid://cxw7showpgldx" path="res://scenes/tower_annunaki.tscn" id="14_shnho"]
+[ext_resource type="PackedScene" uid="uid://ch7fncmv84m5" path="res://scenes/tower_pyramid.tscn" id="15_pasxs"]
 
 [node name="staging_area" type="Node3D"]
 
 [node name="phantom_camera_controller" parent="." instance=ExtResource("1_2rv0j")]
 
-[node name="basic_tower" parent="." instance=ExtResource("2_7ddtu")]
+[node name="ankh_tower" parent="." instance=ExtResource("2_7ddtu")]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -0.768194, 0.640217, 0, -0.640217, -0.768194, 0, 50.4541, 0)
@@ -56,3 +59,12 @@ transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, -2)
 
 [node name="magnum_opus" parent="." instance=ExtResource("12_uph71")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 1, 0, -2)
+
+[node name="cosmic_egg_tower" parent="." instance=ExtResource("13_071r3")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -1, 0, -2)
+
+[node name="annunaki_tower" parent="." instance=ExtResource("14_shnho")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -2, 0, -2)
+
+[node name="pyramid_tower" parent="." instance=ExtResource("15_pasxs")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 2, 0, -1)
