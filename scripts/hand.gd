@@ -9,12 +9,14 @@ var hand_array = []
 
 signal tower_toggled(tower_type_enum:int,tower_price:int)
 signal price_update(tower_type_enum:int,tower_price:int)
+signal _is_card_hovered(is_hovered:bool)
 
 func add_card_by_type(type:int):
 	type = clampi(type,0,12)
 	var name = TowerAndBoonData.get_tower_name(type)
 	var price = TowerAndBoonData.get_next_tower_price_and_increment_count(type)
 	add_card(name,price,type)
+
 func add_card(card_name:String, card_price:int, card_type:int):
 	var new_card = card_prefab.instantiate()
 	hand_box.add_child(new_card)
@@ -23,7 +25,11 @@ func add_card(card_name:String, card_price:int, card_type:int):
 	new_card.set_tower_type(card_type)
 	new_card.card_selected.connect(_on_card_selected)
 	new_card.price_updated.connect(_on_price_updated)
+	new_card.is_card_hovered.connect(_on_card_hovered)
 	hand_array.append(new_card)
+
+func _on_card_hovered(is_hovered:bool):
+	emit_signal("_is_card_hovered",is_hovered)
 
 func _on_price_updated(type:int, price:int):
 	emit_signal("price_update",type,price)

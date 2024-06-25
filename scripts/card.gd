@@ -34,6 +34,7 @@ var is_selected:bool = false
 
 signal card_selected(tower_type_enum:int,tower_price:int)
 signal price_updated(tower_type_enum:int,tower_price:int)
+signal is_card_hovered(is_hovered:bool)
 
 func _ready():
 	set_tower_name(tower_name)
@@ -104,11 +105,13 @@ func _on_ui_mouse_detector_gui_input(event):
 
 func _on_ui_mouse_detector_mouse_entered():
 	if is_selected:
+		emit_signal("is_card_hovered",true)
 		return
 	if tween_hover and tween_hover.is_running():
 		tween_hover.kill()
 	tween_hover = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
 	tween_hover.tween_property(self, "scale", Vector2(1.2, 1.2), 0.5)
+	emit_signal("is_card_hovered",true)
 
 
 func _on_ui_mouse_detector_mouse_exited():
@@ -123,12 +126,14 @@ func _on_ui_mouse_detector_mouse_exited():
 	tween_rot.tween_property(tower_sprite.material, "shader_parameter/y_rot", 0.0, 0.1)
 	
 	if is_selected:
+		emit_signal("is_card_hovered",false)
 		return
 	# Reset scale
 	if tween_hover and tween_hover.is_running():
 		tween_hover.kill()
 	tween_hover = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
 	tween_hover.tween_property(self, "scale", Vector2.ONE, 0.55)
+	emit_signal("is_card_hovered",false)
 
 
 

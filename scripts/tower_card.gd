@@ -4,6 +4,7 @@ extends Control
 @onready  var tower_price_label:Label = $tower_price_label
 @onready var tower_icon = $tower_sprite
 @onready var card_container:SubViewportContainer = $SubViewportContainer
+@onready var card_setup = $SubViewportContainer/SubViewport/card_setup
 
 @export var angle_x_max: float = 5.0
 @export var angle_y_max: float = 5.0
@@ -12,6 +13,8 @@ extends Control
 @export var spring: float = 150.0
 @export var damp: float = 10.0
 @export var velocity_multiplier: float = 2.0
+
+signal _is_card_hovered(is_hovered:bool)
 
 var displacement: float = 0.0 
 var oscillator_velocity: float = 0.0
@@ -36,10 +39,14 @@ signal card_selected(tower_type_enum:int,tower_price:int)
 
 
 func _ready():
+	card_setup.is_card_hovered.connect(_on_is_card_hovered)
 	set_tower_name(tower_name)
 	set_price(tower_price)
 	angle_x_max = deg_to_rad(angle_x_max)
 	angle_y_max = deg_to_rad(angle_y_max)
+
+func _on_is_card_hovered(is_hovered:bool):
+	emit_signal("_is_card_hovered",is_hovered)
 
 func set_price(new_price:int):
 	tower_price = new_price

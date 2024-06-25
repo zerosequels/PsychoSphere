@@ -100,6 +100,8 @@ var enemy_spawn_data_array = []
 var current_tower_type = -1
 var current_tower_price = 0
 
+var is_card_hovered:bool = false
+
 #EAST INCREASES ON X and WEST DECREASES ON X
 #NORTH INCREASES ON Y AND SOUTH DECREASES ON Y
 
@@ -109,6 +111,7 @@ func _ready():
 		#print("we just reset")
 	hand.tower_toggled.connect(_on_tower_toggled)
 	hand.price_update.connect(_on_price_update)
+	hand._is_card_hovered.connect(_on_card_hovered)
 	set_awareness_gui(currency_amount)
 	
 	camera_controller.chaos_grid = chaos_grid
@@ -320,7 +323,7 @@ func _on_chaos_cell_clicked(grid_pos:Vector3i):
 		
 		#if the cell is FREE then spawn a normal tower in it's place
 		if entity_clicked == grid_entity.FREE:
-			if current_tower_type == -1:
+			if current_tower_type == -1 or is_card_hovered:
 				return
 			instantiate_tower_by_current_type(grid_pos)
 			
@@ -636,5 +639,8 @@ func _on_hide_indicator():
 	indicator.visible = false
 	indicator.global_position = Vector3(0,0,0)
 
-
+func _on_card_hovered(is_hovered:bool):
+	is_card_hovered = is_hovered
+	print(is_card_hovered)
+	
 
