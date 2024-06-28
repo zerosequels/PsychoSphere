@@ -41,8 +41,6 @@ func _ready():
 	set_price(tower_price)
 	angle_x_max = deg_to_rad(angle_x_max)
 	angle_y_max = deg_to_rad(angle_y_max)
-	
-
 
 func set_price(new_price:int):
 	tower_price = new_price

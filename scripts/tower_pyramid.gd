@@ -1,7 +1,5 @@
 extends Node3D
 
-
-
 @onready var attack_area = $attack_area
 @onready var mouse_detector = $static_mouse_detection_body
 @onready var projectile = preload("res://scenes/projectile.tscn")

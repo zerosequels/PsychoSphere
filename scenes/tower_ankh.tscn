@@ -1,9 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://d170dovvjswk2"]
+[gd_scene load_steps=11 format=3 uid="uid://d170dovvjswk2"]
 
 [ext_resource type="Script" path="res://scripts/tower_ankh.gd" id="1_mq6ff"]
 [ext_resource type="ArrayMesh" uid="uid://dks21xsjpssjm" path="res://assets/meshs/four_sided_pointer.obj" id="2_ifoc4"]
 [ext_resource type="Shader" path="res://data/pyramidal.gdshader" id="3_a1l6s"]
 [ext_resource type="PackedScene" uid="uid://c6n15if0j8w4k" path="res://scenes/ankh_controller.tscn" id="4_4xt64"]
+[ext_resource type="ArrayMesh" uid="uid://cqsr7uulrlpe1" path="res://assets/meshs/disc_plane.obj" id="5_foh5p"]
+[ext_resource type="Shader" uid="uid://cu4wdhmqsajob" path="res://scenes/tower_ankh_effect.tres" id="6_culct"]
 [ext_resource type="PackedScene" uid="uid://cdr8t75n5pvrb" path="res://scenes/tower_radius_zone.tscn" id="6_vjqhm"]
 [ext_resource type="PackedScene" uid="uid://bp3mcmd2at4vw" path="res://scenes/static_mouse_detection_body.tscn" id="7_cfwcj"]
 
@@ -14,6 +16,11 @@ shader_parameter/scan_line_count = 50.0
 shader_parameter/line_color = Color(1, 1, 1, 1)
 shader_parameter/scroll_speed = 10.0
 shader_parameter/n = 0.8
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o8f1a"]
+render_priority = 0
+shader = ExtResource("6_culct")
+shader_parameter/ColorParameter = Color(1, 1, 0, 1)
 
 [node name="ankh_tower" type="Node3D"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
@@ -32,6 +39,12 @@ transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 
 
 [node name="aoe_locus" type="Node3D" parent="turret_base/rotator/ankh_controller"]
 transform = Transform3D(1, 0, -1.98952e-13, 1.4068e-13, 0.707107, 0.707107, 1.4068e-13, -0.707107, 0.707107, 0, 0, 0)
+
+[node name="aoe_plane" type="MeshInstance3D" parent="turret_base/rotator/ankh_controller/aoe_locus"]
+transform = Transform3D(1, 0, 1.98952e-13, 0, 1, 0, -1.98952e-13, 0, 1, 0, 0, 0)
+mesh = ExtResource("5_foh5p")
+skeleton = NodePath("../../../../..")
+surface_material_override/0 = SubResource("ShaderMaterial_o8f1a")
 
 [node name="static_mouse_detection_body" parent="." instance=ExtResource("7_cfwcj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.1, 1)

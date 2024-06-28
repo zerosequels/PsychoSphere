@@ -2,6 +2,19 @@ extends Control
 
 @onready var hand_box = $CanvasLayer/hand_box
 @onready var card_prefab = preload("res://scenes/card_setup.tscn")
+@onready var pyramid_card = preload("res://scenes/pyramid_card.tscn")
+@onready var ankh_card = preload("res://scenes/ankh_card.tscn")
+@onready var third_eye_card = preload("res://scenes/third_eye_card.tscn")
+@onready var spiral_card = preload("res://scenes/spiral_card.tscn")
+@onready var fol_card = preload("res://scenes/fol_card.tscn")
+@onready var emerald_tablet_card = preload("res://scenes/emerald_tablet_card.tscn")
+@onready var mani_wheel_card = preload("res://scenes/mani_wheel_card.tscn")
+@onready var timecube_card = preload("res://scenes/timecube_card.tscn")
+@onready var fork_card = preload("res://scenes/fork_card.tscn")
+@onready var fungus_card = preload("res://scenes/fungus_card.tscn")
+@onready var magnum_opus_card = preload("res://scenes/magnum_opus_card.tscn")
+@onready var cosmic_egg_card = preload("res://scenes/cosmic_egg_card.tscn")
+@onready var annunaki_card = preload("res://scenes/annunaki_card.tscn")
 
 var max_hand_size:int = 13
 
@@ -18,7 +31,38 @@ func add_card_by_type(type:int):
 	add_card(name,price,type)
 
 func add_card(card_name:String, card_price:int, card_type:int):
-	var new_card = card_prefab.instantiate()
+	var new_card
+	match card_type:
+		0:
+			new_card = pyramid_card.instantiate()
+		1:
+			new_card = third_eye_card.instantiate()
+		2:
+			new_card = ankh_card.instantiate()
+		3:
+			new_card = spiral_card.instantiate()
+		4:
+			new_card = fol_card.instantiate()
+		5:
+			new_card = emerald_tablet_card.instantiate()
+		6:
+			new_card = mani_wheel_card.instantiate()
+		7:
+			new_card = timecube_card.instantiate()
+		8:
+			new_card = fork_card.instantiate()
+		9:
+			new_card = fungus_card.instantiate()
+		10:
+			new_card = magnum_opus_card.instantiate()
+		11:
+			new_card = cosmic_egg_card.instantiate()
+		12:
+			new_card = annunaki_card.instantiate()
+		_:
+			new_card = card_prefab.instantiate()
+
+
 	hand_box.add_child(new_card)
 	new_card.set_tower_name(card_name)
 	new_card.set_price(card_price)

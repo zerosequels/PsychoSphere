@@ -19,6 +19,8 @@ signal target_new_enemy(enemy)
 
 func _ready():
 	update_range(range)
+	range_vis_mode_enabled = TowerAndBoonData.get_is_range_visibility_mode_toggled()
+	should_display_range_indicator = range_vis_mode_enabled
 	toggle_range_visibility_indicator(should_display_range_indicator)
 
 
@@ -80,3 +82,7 @@ func _on_area_exited(area):
 	if current_enemy == area:
 		select_new_target(enemies_in_range.pick_random())
 	remove_enemy_from_array(area)
+
+func get_all_enemies_in_range():
+	return enemies_in_range.duplicate(true)
+	
