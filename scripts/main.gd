@@ -641,6 +641,5 @@ func _on_hide_indicator():
 
 func _on_card_hovered(is_hovered:bool):
 	is_card_hovered = is_hovered
-	print(is_card_hovered)
 	
 

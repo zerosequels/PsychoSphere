@@ -30,6 +30,22 @@ func _process(delta):
 		toggle_range_visibility_indicator(TowerAndBoonData.get_is_range_visibility_mode_toggled())
 			
 	process_range_visibility_dim_opportunity()
+	process_retargeting_opportunity()
+
+func process_retargeting_opportunity():
+	if enemies_in_range.size() == 0:
+		#print("we are out of enemies sir")
+		return
+	elif current_enemy != null:
+		return
+	select_new_target(enemies_in_range.front())
+	
+	
+		
+	#do we currently have a valid target in range?
+	#if yes return
+	#if not grab new target from enemy array
+	
 
 func process_range_visibility_dim_opportunity():
 	if range_vis_mode_enabled:
@@ -75,11 +91,15 @@ func _on_area_entered(area):
 	enemies_in_range.append(area)
 
 func select_new_target(enemy):
+	if enemy == null:
+		current_enemy = null
+		return
 	current_enemy = enemy
 	emit_signal("target_new_enemy",enemy)
 
 func _on_area_exited(area):
 	if current_enemy == area:
+		current_enemy = null
 		select_new_target(enemies_in_range.pick_random())
 	remove_enemy_from_array(area)
 

@@ -10,7 +10,12 @@ var has_target:bool = false
 
 @onready var projectile = preload("res://scenes/projectile.tscn")
 
+#TODO: the pyramid tower has a bug where it should pick a new target but doesn't
 func set_current_enemy(target):
+	if target == null:
+		current_enemy_target = null
+		set_has_target(false)
+		return
 	current_enemy_target = target
 	set_has_target(true)
 
@@ -24,14 +29,18 @@ func set_has_target(has_a_target:bool):
 	has_target = has_a_target
 	
 func _process(delta):
+	if has_target and current_enemy_target == null:
+		print("null target")
 	if has_target and current_enemy_target != null:
 		look_at_enemy(current_enemy_target.global_position)
 		process_attack_opportunity()
 	else:
 		rotator.rotation_degrees = Vector3(0,0,0)
+		set_has_target(false)
+
 
 func look_at_enemy(enemy_pos:Vector3):
-	rotator.look_at(enemy_pos + Vector3(0.0,0.0,0.0),Vector3(0,0,1))
+	rotator.look_at(enemy_pos,Vector3(0,1,0))
 
 func process_attack_opportunity():
 	if Time.get_ticks_msec() > (last_fire_time + attack_speed_ms):
