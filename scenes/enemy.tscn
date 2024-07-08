@@ -1,22 +1,26 @@
-[gd_scene load_steps=7 format=3 uid="uid://lwl1fbjeq3nj"]
+[gd_scene load_steps=9 format=3 uid="uid://lwl1fbjeq3nj"]
 
 [ext_resource type="PackedScene" uid="uid://c26hur8a4gnw1" path="res://scenes/negative_vibe.tscn" id="1_1xj58"]
 [ext_resource type="Script" path="res://scripts/shake_on_hit.gd" id="1_06jom"]
 [ext_resource type="PackedScene" uid="uid://c21fpkkmc27hy" path="res://scenes/health_bar.tscn" id="1_ri170"]
+[ext_resource type="PackedScene" uid="uid://c57hovrp7ehl6" path="res://scenes/status_display_enemy_ui.tscn" id="4_bgn17"]
 
 [sub_resource type="GDScript" id="GDScript_55np8"]
 script/source = "extends PathFollow3D
 
 @export var speed = 1
 
-@export var health = 10
-@export var damage_on_hit = 1
+@export var health:float = 100
+@export var damage_on_hit:float = 1
 @export var exp_on_kill = 1
 
 @export var enemy_uuid = ResourceUID.create_id()
 
 @onready var health_bar = $damage_number_origin/health_bar
+@onready var ticker = $damage_number_origin/ticker
 
+var time_to_glow_decay_ms = 3000
+var last_decay_time = 0
 
 signal reached_the_center(damage:int, enemy_uuid:int)
 signal enemy_killed(exp:int, enemy_uuid:int)
@@ -28,17 +32,31 @@ func update_values_by_enemy_spawn_data(enemy_spawn_data:EnemySpawnData):
 	exp_on_kill = enemy_spawn_data.exp_on_kill
 	
 
-func take_damage(damage:int,wiggle_direction:Vector3):
+func apply_glowing_stack(stack_count:int):
+	ticker.increment_glowing(stack_count)
+	
+func apply_cubic_stack(stack_count:int):
+	ticker.increment_cubic(stack_count)
+	
+
+func take_damage(damage:float,wiggle_direction:Vector3):
 	$enemy/enemy_model.damage_flash()
 	$enemy.damage_wiggle(wiggle_direction)
-	health = health - damage
+	health = health - calculate_damage(damage)
 	health_bar.set_value(health)
+	
+func calculate_damage(damage:float):
+	var calculated_damage = damage * (1.00+ (ticker.get_glowing_count() * 0.20))
+
+	return calculated_damage
 
 func _ready():
 	progress_ratio = 1.0
 	health_bar._initialize_health_bar(health)
 
 func _process(delta):
+	#process glowing status decay opportunity
+	process_glowing_decay_opportunity()
 
 	progress = progress - speed * delta
 	if health <= 0:
@@ -48,12 +66,20 @@ func _process(delta):
 		#we reached the center
 		emit_signal(\"reached_the_center\",damage_on_hit,enemy_uuid)
 		self.queue_free()
+
+func process_glowing_decay_opportunity():
+	if Time.get_ticks_msec() > (last_decay_time + time_to_glow_decay_ms):
+		apply_glowing_stack(-1)
+		last_decay_time = Time.get_ticks_msec()
 "
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_etx4c"]
 height = 4.0
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_xb8rw"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_3eqy1"]
 viewport_path = NodePath("SubViewport")
 
 [node name="enemy_path" type="PathFollow3D"]
@@ -82,3 +108,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="health_bar" parent="damage_number_origin" instance=ExtResource("1_ri170")]
 texture = SubResource("ViewportTexture_xb8rw")
+
+[node name="ticker" parent="damage_number_origin" instance=ExtResource("4_bgn17")]
+transform = Transform3D(0.36, 0, 0, 0, 0.36, 0, 0, 0, 0.36, 0, 0.176771, 0)
+texture = SubResource("ViewportTexture_3eqy1")

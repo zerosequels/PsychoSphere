@@ -8,6 +8,7 @@ var enemies_in_range = []
 
 func _ready():
 	attack_area.target_new_enemy.connect($turret_base.set_current_enemy)
+	attack_area.targets_depleted.connect(_on_targets_depleted)
 	mouse_detector.mouse_detector_hovered.connect(_on_mouse_detector_hovered)
 
 func _on_mouse_detector_hovered():
@@ -21,6 +22,10 @@ func update_range(new_range:float):
 	
 func hover_by_raycast():
 	attack_area.update_last_hovered()
+
+func _on_targets_depleted():
+	$turret_base.set_current_enemy(null)
+	
 
 
 

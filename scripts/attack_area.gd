@@ -16,6 +16,7 @@ var current_enemy = null
 var is_aoe:bool = false
 
 signal target_new_enemy(enemy)
+signal targets_depleted()
 
 func _ready():
 	update_range(range)
@@ -38,13 +39,8 @@ func process_retargeting_opportunity():
 		return
 	elif current_enemy != null:
 		return
+	#print("retarget")
 	select_new_target(enemies_in_range.front())
-	
-	
-		
-	#do we currently have a valid target in range?
-	#if yes return
-	#if not grab new target from enemy array
 	
 
 func process_range_visibility_dim_opportunity():
@@ -98,10 +94,14 @@ func select_new_target(enemy):
 	emit_signal("target_new_enemy",enemy)
 
 func _on_area_exited(area):
+	remove_enemy_from_array(area)
 	if current_enemy == area:
 		current_enemy = null
-		select_new_target(enemies_in_range.pick_random())
-	remove_enemy_from_array(area)
+		if enemies_in_range.size() == 0:
+			emit_signal("targets_depleted")
+		else:	
+			select_new_target(enemies_in_range.pick_random())
+	#print("_on_area_exited")
 
 func get_all_enemies_in_range():
 	return enemies_in_range.duplicate(true)

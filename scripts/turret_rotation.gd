@@ -2,7 +2,7 @@ extends MeshInstance3D
 @onready var turret = $rotator/turret
 @onready var rotator = $rotator
 @export var attack_speed_ms = 1000
-@export var damage = 1
+@export var damage:float = 1
 var last_fire_time = 0
 
 var current_enemy_target: Node3D
@@ -10,11 +10,12 @@ var has_target:bool = false
 
 @onready var projectile = preload("res://scenes/projectile.tscn")
 
-#TODO: the pyramid tower has a bug where it should pick a new target but doesn't
+
 func set_current_enemy(target):
 	if target == null:
 		current_enemy_target = null
 		set_has_target(false)
+		#print("target is null")
 		return
 	current_enemy_target = target
 	set_has_target(true)
@@ -29,8 +30,7 @@ func set_has_target(has_a_target:bool):
 	has_target = has_a_target
 	
 func _process(delta):
-	if has_target and current_enemy_target == null:
-		print("null target")
+
 	if has_target and current_enemy_target != null:
 		look_at_enemy(current_enemy_target.global_position)
 		process_attack_opportunity()

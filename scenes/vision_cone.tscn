@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://dpu5x3eg03pqt"]
+
+[ext_resource type="PackedScene" uid="uid://cfjmi8bmv0hly" path="res://assets/meshs/vision_cone.glb" id="1_xnmx8"]
+[ext_resource type="Shader" uid="uid://bcxw3m72f2iur" path="res://scenes/vision_cone.tres" id="2_dnqno"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iutoo"]
+render_priority = 0
+shader = ExtResource("2_dnqno")
+shader_parameter/ColorParameter = Color(1, 0.25098, 0, 1)
+
+[node name="vision_cone" instance=ExtResource("1_xnmx8")]
+
+[node name="Cylinder" parent="." index="0"]
+surface_material_override/0 = SubResource("ShaderMaterial_iutoo")

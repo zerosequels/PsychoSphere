@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://c57hovrp7ehl6"]
+
+[ext_resource type="Script" path="res://scenes/ticker_controller.gd" id="1_udtbr"]
+[ext_resource type="PackedScene" uid="uid://dxf0jihpt0d2t" path="res://scenes/glow_counter.tscn" id="2_o47kx"]
+[ext_resource type="PackedScene" uid="uid://ctpmk5qgjpv0p" path="res://scenes/cubic_time_counter.tscn" id="3_5rud4"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_7cj40"]
+viewport_path = NodePath("SubViewport")
+
+[node name="ticker" type="Sprite3D"]
+transform = Transform3D(0.36, 0, 0, 0, 0.36, 0, 0, 0, 0.36, 0, 0, 0)
+billboard = 1
+texture_filter = 0
+texture = SubResource("ViewportTexture_7cj40")
+script = ExtResource("1_udtbr")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(400, 90)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SubViewport"]
+layout_direction = 2
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 75
+
+[node name="glow_counter" parent="SubViewport/HBoxContainer" instance=ExtResource("2_o47kx")]
+visible = false
+layout_mode = 2
+
+[node name="cubic_counter" parent="SubViewport/HBoxContainer" instance=ExtResource("3_5rud4")]
+visible = false
+layout_mode = 2

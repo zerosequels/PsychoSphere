@@ -1,23 +1,28 @@
-[gd_scene load_steps=6 format=3 uid="uid://bncbuu8w28xeu"]
+[gd_scene load_steps=7 format=3 uid="uid://bncbuu8w28xeu"]
 
 [ext_resource type="PackedScene" uid="uid://bbwjg83id5fij" path="res://scenes/altar_subcomp.tscn" id="1_02e6b"]
+[ext_resource type="Script" path="res://scripts/third_eye_controller.gd" id="1_r3ful"]
 [ext_resource type="PackedScene" uid="uid://ck3ystg6jm10b" path="res://scenes/third_eye_pyramid_sub_comp.tscn" id="2_0al1r"]
-[ext_resource type="Script" path="res://scripts/ankh_rotator.gd" id="3_85wnt"]
 [ext_resource type="PackedScene" uid="uid://bw5dw71c5v02p" path="res://scenes/third_eye_orb_subcomp.tscn" id="3_lt800"]
 [ext_resource type="PackedScene" uid="uid://djsrt8no1vg2e" path="res://scenes/third_eye_subcomp.tscn" id="4_d4nab"]
+[ext_resource type="PackedScene" uid="uid://dpu5x3eg03pqt" path="res://scenes/vision_cone.tscn" id="7_5rr6j"]
 
 [node name="third_eye_controller" type="Node3D"]
+script = ExtResource("1_r3ful")
 
 [node name="altar" parent="." instance=ExtResource("1_02e6b")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
 
 [node name="third_eye_pyramid" parent="altar" instance=ExtResource("2_0al1r")]
 transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -0.002, 2, 0.004)
-script = ExtResource("3_85wnt")
 
-[node name="Node3D" type="Node3D" parent="altar"]
+[node name="third_eye_rotator" type="Node3D" parent="altar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
 
-[node name="third_eye_orb" parent="altar/Node3D" instance=ExtResource("3_lt800")]
-transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -0.002, 2, 0.004)
+[node name="vision_cone" parent="altar/third_eye_rotator" instance=ExtResource("7_5rr6j")]
+transform = Transform3D(1.52855e-15, 4.37114e-08, 1.2, 0.8, -4.37114e-08, 1.13222e-21, 3.49691e-08, 1, -5.24537e-08, 0, 0, -1)
 
-[node name="third_eye" parent="altar/Node3D/third_eye_orb" instance=ExtResource("4_d4nab")]
+[node name="third_eye_orb" parent="altar/third_eye_rotator" instance=ExtResource("3_lt800")]
+transform = Transform3D(-3.49691e-08, 0, 0.8, 0, 0.8, 0, -0.8, 0, -3.49691e-08, 0, 0.3, 0)
+
+[node name="third_eye" parent="altar/third_eye_rotator/third_eye_orb" instance=ExtResource("4_d4nab")]

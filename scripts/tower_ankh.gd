@@ -29,7 +29,7 @@ func process_wave_damage_opportunity():
 		var targets = attack_area.get_all_enemies_in_range()
 		if targets.is_empty():
 			return
-		trigger_radiant_wave_vfx()
+
 		trigger_radiant_wave_damage(targets)
 		last_attack = Time.get_ticks_msec()
 		
@@ -38,8 +38,7 @@ func trigger_radiant_wave_damage(targets):
 	for enemy in targets:
 		enemy.get_parent().get_parent().get_parent().take_damage(radiant_damage,Vector3(randf_range(-1,1),randf_range(-1,1),randf_range(-1,1)))
 
-func trigger_radiant_wave_vfx():
-	pass
+
 	
 
 

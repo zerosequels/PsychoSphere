@@ -28,7 +28,7 @@ func load_enemy_spawn_data_by_type(type:negative_vibes):
 	var enemy_spawn_data
 	match type:
 		negative_vibes.ANXIETY:
-			enemy_spawn_data = EnemySpawnData.new(3,0.5,5,1,2000)
+			enemy_spawn_data = EnemySpawnData.new(100,0.1,5,1,2000)
 			enemy_spawn_data_array.append(enemy_spawn_data)
 			#print("anxiety")
 		negative_vibes.FEAR:
@@ -66,9 +66,7 @@ func get_enemy_spawn_data_array_by_level(level:int):
 	enemy_spawn_data_array.clear()
 	#add enemies based on level and modifiers
 	load_enemy_spawn_data_by_type(negative_vibes.ANXIETY)
-	load_enemy_spawn_data_by_type(negative_vibes.ANXIETY)
-	load_enemy_spawn_data_by_type(negative_vibes.ANXIETY)
-	load_enemy_spawn_data_by_type(negative_vibes.ANXIETY)
+
 	#print(level)
 
 	#print("array loaded")

@@ -48,7 +48,6 @@ func get_input(delta):
 	if Input.is_action_pressed("camera_zoom_in"):
 		zoom_value -= zoom_speed
 		zoom_value = maxf(zoom_value,zoom_min)
-		print(zoom_value)
 	if Input.is_action_pressed("camera_zoom_out"):
 		zoom_value += zoom_speed
 		zoom_value = minf(zoom_value,zoom_max)
@@ -64,8 +63,7 @@ func get_input(delta):
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 	get_input(delta)
-	#print(camera_rotator.rotation_degrees)
-	
+
 
 func align_velocity_to_camera(velocity:Vector3):
 	return velocity.rotated(Vector3(0,1,0),deg_to_rad(camera_rotator.rotation_degrees.y))
