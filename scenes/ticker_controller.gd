@@ -28,3 +28,5 @@ func increment_cubic(delta:int):
 
 func get_glowing_count():
 	return glowing_counter
+func get_cubic_count():
+	return cubic_counter

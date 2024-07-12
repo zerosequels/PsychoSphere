@@ -4,7 +4,7 @@ extends Node3D
 @onready var mouse_detector = $static_mouse_detection_body
 @onready var aoe_plane = $aoeplane
 var last_debuff = 0
-var time_to_debuff_ms = 2500
+var time_to_debuff_ms = 200
 var tower_range = 5
 
 func _ready():
@@ -22,6 +22,15 @@ func update_tower_range(new_range:float):
 	aoe_plane.scale = Vector3(new_range,new_range,new_range)
 
 func process_cubic_debuff_opportunity():
-	pass
+	if Time.get_ticks_msec() > (last_debuff + time_to_debuff_ms):
+		var targets = attack_area.get_all_enemies_in_range()
+		if targets.is_empty():
+			return
+		trigger_cubic_debuff(targets)
+		last_debuff = Time.get_ticks_msec()
+
+func trigger_cubic_debuff(targets):
+	for enemy in targets:
+		enemy.get_parent().get_parent().get_parent().apply_cubic_stack(1)
 	
 
