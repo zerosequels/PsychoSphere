@@ -77,31 +77,31 @@ func get_next_tower_price_and_increment_count(type:tower_types):
 func get_tower_base_cost(tower_type:tower_types):
 	match tower_type:
 		tower_types.ANKH:
-			return 9
+			return 1
 		tower_types.PYRAMID:
-			return 3
+			return 1
 		tower_types.THIRD_EYE:
-			return 33
+			return 1
 		tower_types.SPIRAL:
-			return 5
+			return 1
 		tower_types.FLOWER_OF_LIFE:
-			return 12
+			return 1
 		tower_types.EMERALD_TABLET:
-			return 31
+			return 1
 		tower_types.PRAYER_WHEEL:
-			return 20
+			return 1
 		tower_types.TIME_CUBE:
-			return 44
+			return 1
 		tower_types.TUNING_FORK:
-			return 42
+			return 1
 		tower_types.DEATH_FUNGUS:
-			return 30
+			return 1
 		tower_types.RUBEDO:
-			return 99
+			return 1
 		tower_types.COSMIC_EGG:
-			return 72
+			return 1
 		tower_types.ANNUNAKI_WEAPON:
-			return 69
+			return 1
 
 func get_tower_name(tower_type:tower_types):
 	match tower_type:

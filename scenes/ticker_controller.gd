@@ -2,8 +2,10 @@ extends Sprite3D
 
 @onready var glowing_ticker = $SubViewport/HBoxContainer/glow_counter
 @onready var cubic_ticker = $SubViewport/HBoxContainer/cubic_counter
+@onready var slow_ticker = $SubViewport/HBoxContainer/slow_counter
 var glowing_counter = 0
 var cubic_counter = 0
+var slow_counter = 0
 
 func increment_glowing(delta:int):
 	glowing_counter += delta
@@ -26,7 +28,19 @@ func increment_cubic(delta:int):
 	elif cubic_counter == 0:
 		cubic_ticker.set_visibility(false)
 
+func increment_slow(delta:int):
+	slow_counter += delta
+	if slow_counter < 0:
+		slow_counter = 0
+	if slow_counter >= 1:
+		slow_counter = 1
+	if slow_counter > 0:
+		slow_ticker.set_visibility(true)
+	elif slow_counter == 0:
+		slow_ticker.set_visibility(false)
+
 func get_glowing_count():
 	return glowing_counter
+
 func get_cubic_count():
 	return cubic_counter

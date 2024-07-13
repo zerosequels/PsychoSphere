@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://c57hovrp7ehl6"]
+[gd_scene load_steps=6 format=3 uid="uid://c57hovrp7ehl6"]
 
 [ext_resource type="Script" path="res://scenes/ticker_controller.gd" id="1_udtbr"]
 [ext_resource type="PackedScene" uid="uid://dxf0jihpt0d2t" path="res://scenes/glow_counter.tscn" id="2_o47kx"]
 [ext_resource type="PackedScene" uid="uid://ctpmk5qgjpv0p" path="res://scenes/cubic_time_counter.tscn" id="3_5rud4"]
+[ext_resource type="PackedScene" uid="uid://brvm5x3qxeygo" path="res://scenes/slow_counter.tscn" id="4_n2o6x"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_7cj40"]
 viewport_path = NodePath("SubViewport")
@@ -35,5 +36,9 @@ visible = false
 layout_mode = 2
 
 [node name="cubic_counter" parent="SubViewport/HBoxContainer" instance=ExtResource("3_5rud4")]
+visible = false
+layout_mode = 2
+
+[node name="slow_counter" parent="SubViewport/HBoxContainer" instance=ExtResource("4_n2o6x")]
 visible = false
 layout_mode = 2
