@@ -1,9 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://d38lxnyd565tx"]
+[gd_scene load_steps=8 format=3 uid="uid://d38lxnyd565tx"]
 
 [ext_resource type="Script" path="res://scripts/tower_death_fungus.gd" id="1_6c6ik"]
 [ext_resource type="PackedScene" uid="uid://bp3mcmd2at4vw" path="res://scenes/static_mouse_detection_body.tscn" id="1_onocw"]
 [ext_resource type="PackedScene" uid="uid://cdr8t75n5pvrb" path="res://scenes/tower_radius_zone.tscn" id="2_fwsmu"]
 [ext_resource type="PackedScene" uid="uid://ppxqch1lj521" path="res://scenes/death_fungus_controller.tscn" id="3_6coef"]
+[ext_resource type="ArrayMesh" uid="uid://cqsr7uulrlpe1" path="res://assets/meshs/disc_plane.obj" id="5_g4gqe"]
+[ext_resource type="Shader" uid="uid://bfiwtcpfsej8s" path="res://data/tower_time_cube.tres" id="6_26mn6"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jnb11"]
+render_priority = 0
+shader = ExtResource("6_26mn6")
+shader_parameter/ColorParameter = Color(0.54902, 0.545098, 1, 1)
 
 [node name="death_fungus_tower" type="Node3D"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
@@ -17,3 +24,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.1, 1)
 
 [node name="death_fungus_controller" parent="." instance=ExtResource("3_6coef")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1)
+
+[node name="aoeplane" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 1)
+mesh = ExtResource("5_g4gqe")
+surface_material_override/0 = SubResource("ShaderMaterial_jnb11")

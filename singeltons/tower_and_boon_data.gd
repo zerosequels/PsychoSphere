@@ -3,6 +3,7 @@ extends Node
 var growth_rate = 0.2
 var range_visibility_mode_toggled = false
 
+signal increase_currency(exp)
 
 enum tower_types {
 	#simple turret that shoots bullets
@@ -54,6 +55,9 @@ func get_is_range_visibility_mode_toggled():
 	
 func set_range_visibility_mode(should:bool):
 	range_visibility_mode_toggled = should
+
+func increase_awarness(exp:int):
+	emit_signal("increase_currency",exp)
 
 func get_next_tower_price_and_increment_count(type:tower_types):
 	var count = tower_type_count[type]

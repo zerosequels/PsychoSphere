@@ -17,6 +17,7 @@ var is_aoe:bool = false
 
 signal target_new_enemy(enemy)
 signal targets_depleted()
+signal enemy_died_in_radius(exp)
 
 func _ready():
 	update_range(range)
@@ -85,6 +86,10 @@ func _on_area_entered(area):
 	if current_enemy == null:
 		select_new_target(area)
 	enemies_in_range.append(area)
+	area.get_parent().get_parent().get_parent().connect("enemy_killed", _on_enemy_in_radius_killed)
+
+func _on_enemy_in_radius_killed(exp:int, enemy_uuid:int):
+	emit_signal("enemy_died_in_radius",exp)
 
 func select_new_target(enemy):
 	if enemy == null:
@@ -102,6 +107,7 @@ func _on_area_exited(area):
 		else:	
 			select_new_target(enemies_in_range.pick_random())
 	#print("_on_area_exited")
+	area.get_parent().get_parent().get_parent().disconnect("enemy_killed", _on_enemy_in_radius_killed)
 
 func get_all_enemies_in_range():
 	return enemies_in_range.duplicate(true)

@@ -106,6 +106,7 @@ var is_card_hovered:bool = false
 #NORTH INCREASES ON Y AND SOUTH DECREASES ON Y
 
 func _ready():
+	TowerAndBoonData.increase_currency.connect(_on_currency_increase)
 	if WaveData.check_is_reset():
 		%PauseMenu.fade_out_menu()
 		#print("we just reset")
@@ -606,6 +607,10 @@ func _on_enemy_reached_center(damage, enemy_uuid):
 	remove_enemy_by_uuid(enemy_uuid)
 	player_health = player_health - damage
 	set_health_gui(player_health)
+
+func _on_currency_increase(exp):
+	currency_amount += exp
+	set_awareness_gui(currency_amount)
 
 func _on_enemy_killed(exp,enemy_uuid):
 	currency_amount += exp
