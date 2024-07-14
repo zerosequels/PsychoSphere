@@ -1,6 +1,7 @@
 extends MeshInstance3D
 @onready var turret = $rotator/turret
 @onready var rotator = $rotator
+@export var base_attack_speed_ms = 1000
 @export var attack_speed_ms = 1000
 @export var damage:float = 1
 var last_fire_time = 0
@@ -10,6 +11,17 @@ var has_target:bool = false
 
 @onready var projectile = preload("res://scenes/projectile.tscn")
 
+func _ready():
+	attack_speed_ms = base_attack_speed_ms
+
+func set_attack_speed_modifier(tunning_stack:int):
+	attack_speed_ms = base_attack_speed_ms
+	for x in tunning_stack:
+		iterate_attack_speed_reduction()
+
+func iterate_attack_speed_reduction():
+	attack_speed_ms -= (attack_speed_ms * 0.10)
+	
 
 func set_current_enemy(target):
 	if target == null:

@@ -10,14 +10,20 @@ var time_to_dim_ms = 550
 var tween_opacity:Tween
 
 var enemies_in_range = []
+var towers_in_range = []
 var range_vis_mode_enabled = false
 var current_enemy = null
 
+var is_support:bool = false
 var is_aoe:bool = false
 
 signal target_new_enemy(enemy)
 signal targets_depleted()
 signal enemy_died_in_radius(exp)
+signal new_tower_entered_radius(area)
+
+
+
 
 func _ready():
 	update_range(range)
@@ -33,6 +39,9 @@ func _process(delta):
 			
 	process_range_visibility_dim_opportunity()
 	process_retargeting_opportunity()
+
+func set_is_support(toggle:bool):
+	is_support = toggle
 
 func process_retargeting_opportunity():
 	if enemies_in_range.size() == 0:
@@ -80,8 +89,11 @@ func remove_enemy_from_array(area):
 		enemies_in_range.erase(area)
 
 func _on_area_entered(area):
-		#check if it's an enemy 
+	#check if it's an enemy 
 	if area.get_name() != "enemy_area":
+		if area.get_name() == "attack_area" and is_support:
+			towers_in_range.append(area)
+			emit_signal("new_tower_entered_radius",area)
 		return
 	if current_enemy == null:
 		select_new_target(area)
@@ -99,6 +111,11 @@ func select_new_target(enemy):
 	emit_signal("target_new_enemy",enemy)
 
 func _on_area_exited(area):
+	if area.get_name() != "enemy_area":
+		if area.get_name() == "attack_area" and is_support:
+			if towers_in_range.has(area):
+				towers_in_range.erase(area)
+		return
 	remove_enemy_from_array(area)
 	if current_enemy == area:
 		current_enemy = null
@@ -111,4 +128,7 @@ func _on_area_exited(area):
 
 func get_all_enemies_in_range():
 	return enemies_in_range.duplicate(true)
+
+func get_all_towers_in_range():
+	return towers_in_range.duplicate(true)
 	
