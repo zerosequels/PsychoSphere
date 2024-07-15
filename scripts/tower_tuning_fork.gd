@@ -13,11 +13,11 @@ func _on_mouse_detector_hovered():
 	
 func _on_tower_entered_radius(tower_area):
 	var tower = tower_area.get_parent()
-	if tower.has_method("set_tunning_fork_buff"):
-		tower.set_tunning_fork_buff(1)
+	if tower.has_method("increment_tunning_fork_buff"):
+		tower.increment_tunning_fork_buff(1)
 
 func tower_removal_process():
 	for tower in attack_area.get_all_towers_in_range():
-		if tower.has_method("set_tunning_fork_buff"):
-			tower.set_tunning_fork_buff(-1)
+		if tower.has_method("increment_tunning_fork_buff"):
+			tower.increment_tunning_fork_buff(-1)
 	

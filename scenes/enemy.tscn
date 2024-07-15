@@ -66,11 +66,15 @@ func apply_cubic_stack(stack_count:int):
 	ticker.increment_cubic(stack_count)
 	last_cubic_debuff_decay_time = Time.get_ticks_msec()
 	
-func take_damage(damage:float,wiggle_direction:Vector3):
+func take_damage(damage:float,multi_hit_proc_chance:float,wiggle_direction:Vector3):
 	$enemy/enemy_model.damage_flash()
 	$enemy.damage_wiggle(wiggle_direction)
 	health = health - calculate_damage(damage)
 	health_bar.set_value(health)
+	process_multi_hit(multi_hit_proc_chance)
+
+func process_multi_hit(chance:float):
+	pass
 	
 func calculate_damage(damage:float):
 	var calculated_damage = damage * (1.00+ (ticker.get_glowing_count() * 0.20))

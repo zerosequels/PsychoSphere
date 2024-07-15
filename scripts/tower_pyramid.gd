@@ -3,11 +3,14 @@ extends Node3D
 @onready var attack_area = $attack_area
 @onready var mouse_detector = $static_mouse_detection_body
 @onready var turret_base = $turret_base
-@onready var projectile = preload("res://scenes/projectile.tscn")
+
 
 var enemies_in_range = []
 
 var tunning_fork_stack_level = 0
+var flower_of_life_stack_level = 0
+var spiral_stack_level = 0
+
 
 func _ready():
 	attack_area.target_new_enemy.connect($turret_base.set_current_enemy)
@@ -29,13 +32,26 @@ func hover_by_raycast():
 func _on_targets_depleted():
 	$turret_base.set_current_enemy(null)
 
-func set_tunning_fork_buff(delta:int):
+func increment_tunning_fork_buff(delta:int):
 	tunning_fork_stack_level += delta
 	turret_base.set_attack_speed_modifier(tunning_fork_stack_level)
 
 func get_tunning_fork_stack():
 	return tunning_fork_stack_level 
-	
+
+func increment_flower_of_life_buff(delta:int):
+	flower_of_life_stack_level += delta
+	turret_base.set_multi_hit_proc_chance(flower_of_life_stack_level)
+
+func increment_spiral_buff(delta:int):
+	spiral_stack_level += delta
+	turret_base.set_damage_modifier(spiral_stack_level)
+
+func get_flower_of_life_stack():
+	return flower_of_life_stack_level 
+
+func get_spiral_stack():
+	return spiral_stack_level 
 	
 
 
