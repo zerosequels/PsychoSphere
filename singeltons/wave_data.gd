@@ -22,8 +22,10 @@ enum negative_vibes {
 var enemy_spawn_data_array = []
 var is_fresh_reset = false
 
-#_init(_health:float,_speed:float,_exp:float,_damage:int,_spawn_time:int):EnemySpawnData constructor
+var active_enemy_array = []
 
+
+#(_health:float,_speed:float,_exp:float,_damage:int,_spawn_time:int):EnemySpawnData constructor
 func load_enemy_spawn_data_by_type(type:negative_vibes):
 	var enemy_spawn_data
 	match type:
@@ -32,7 +34,7 @@ func load_enemy_spawn_data_by_type(type:negative_vibes):
 			enemy_spawn_data_array.append(enemy_spawn_data)
 			#print("anxiety")
 		negative_vibes.FEAR:
-			enemy_spawn_data = EnemySpawnData.new(1,1,1,1,1000)
+			enemy_spawn_data = EnemySpawnData.new(50,0.2,1,1,1000)
 			enemy_spawn_data_array.append(enemy_spawn_data)
 			#print("fear")
 		negative_vibes.ANGER:
@@ -65,7 +67,18 @@ func get_enemy_spawn_data_array_by_level(level:int):
 	#clear the array of enemy info
 	enemy_spawn_data_array.clear()
 	#add enemies based on level and modifiers
-	load_enemy_spawn_data_by_type(negative_vibes.ANXIETY)
+	load_enemy_spawn_data_by_type(negative_vibes.FEAR)
+	load_enemy_spawn_data_by_type(negative_vibes.FEAR)
+	load_enemy_spawn_data_by_type(negative_vibes.FEAR)
+	load_enemy_spawn_data_by_type(negative_vibes.FEAR)
+	load_enemy_spawn_data_by_type(negative_vibes.FEAR)
+	load_enemy_spawn_data_by_type(negative_vibes.FEAR)
+	load_enemy_spawn_data_by_type(negative_vibes.FEAR)
+	load_enemy_spawn_data_by_type(negative_vibes.FEAR)
+	load_enemy_spawn_data_by_type(negative_vibes.FEAR)
+	load_enemy_spawn_data_by_type(negative_vibes.FEAR)
+	load_enemy_spawn_data_by_type(negative_vibes.FEAR)
+	load_enemy_spawn_data_by_type(negative_vibes.FEAR)
 
 	#print(level)
 
@@ -82,4 +95,14 @@ func check_is_reset():
 		return true
 	else:
 		return false
-	
+
+func is_active_enemy_array_empty():
+	return active_enemy_array.is_empty()
+
+func register_enemy_to_active_enemy_array(enemy):
+	active_enemy_array.append(enemy)
+
+func remove_enemy_by_uuid(uuid:int):
+	for x in active_enemy_array:
+		if x.enemy_uuid == uuid:
+			active_enemy_array.erase(x)

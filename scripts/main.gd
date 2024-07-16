@@ -70,8 +70,6 @@ var south_next_chunk_id : Vector2i
 var east_next_chunk_id : Vector2i
 var west_next_chunk_id : Vector2i
 
-#array to hold references to all of the active enemies currently on the map
-var active_enemy_array = []
 #array to hold references to all the active towers on the map
 var active_tower_array = []
 
@@ -127,7 +125,7 @@ func _process(delta):
 		TowerAndBoonData.set_range_visibility_mode(!TowerAndBoonData.get_is_range_visibility_mode_toggled())
 	#WAR MODE
 	if (game_status == game_state.WAR):
-		if active_enemy_array.is_empty() and !has_enemies_to_spawn:
+		if WaveData.is_active_enemy_array_empty() and !has_enemies_to_spawn:
 			update_game_status(game_state.PEACE)
 		else:
 			if has_enemies_to_spawn:
@@ -158,7 +156,7 @@ func spawn_enemies():
 func connect_new_enemy(enemy):
 	enemy.reached_the_center.connect(_on_enemy_reached_center)
 	enemy.enemy_killed.connect(_on_enemy_killed)
-	active_enemy_array.append(enemy)
+	WaveData.register_enemy_to_active_enemy_array(enemy)
 
 func process_enemy_spawn_opportunity():
 	#var enemy_spawn_data = enemy_spawn_data_array.pop_front()
@@ -604,7 +602,7 @@ func _on_path_trigger_activated(trigger_id,trigger_uuid,depth):
 
 func _on_enemy_reached_center(damage, enemy_uuid):
 	#print("center reached")
-	remove_enemy_by_uuid(enemy_uuid)
+	WaveData.remove_enemy_by_uuid(enemy_uuid)
 	player_health = player_health - damage
 	set_health_gui(player_health)
 
@@ -615,12 +613,7 @@ func _on_currency_increase(exp):
 func _on_enemy_killed(exp,enemy_uuid):
 	currency_amount += exp
 	set_awareness_gui(currency_amount)
-	remove_enemy_by_uuid(enemy_uuid)
-
-func remove_enemy_by_uuid(uuid:int):
-	for x in active_enemy_array:
-		if x.enemy_uuid == uuid:
-			active_enemy_array.erase(x)
+	WaveData.remove_enemy_by_uuid(enemy_uuid)
 
 func set_health_gui(value:int):
 	gui.set_health(value)

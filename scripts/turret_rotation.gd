@@ -31,7 +31,7 @@ func set_current_enemy(target):
 	if target == null:
 		current_enemy_target = null
 		set_has_target(false)
-		#print("target is null")
+
 		return
 	current_enemy_target = target
 	set_has_target(true)
