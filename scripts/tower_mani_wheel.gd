@@ -6,6 +6,7 @@ extends Node3D
 var last_debuff = 0
 var time_to_debuff_ms = 200
 var tower_range = 5
+var emerald_tablet_stack_level = 0
 
 func _ready():
 	mouse_detector.mouse_detector_hovered.connect(_on_mouse_detector_hovered)
@@ -32,6 +33,11 @@ func process_slow_debuff_opportunity():
 func trigger_slow_debuff(targets):
 	for enemy in targets:
 		enemy.get_parent().get_parent().get_parent().apply_slow_stack(1)
+
+func increment_emerald_tablet_buff(delta:int):
+	emerald_tablet_stack_level += delta
+	var new_range = attack_area.set_range_modifier(emerald_tablet_stack_level)
+	aoe_plane.scale = Vector3(new_range,new_range,new_range)
 
 
 	

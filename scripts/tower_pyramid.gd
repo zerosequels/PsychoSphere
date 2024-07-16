@@ -10,6 +10,9 @@ var enemies_in_range = []
 var tunning_fork_stack_level = 0
 var flower_of_life_stack_level = 0
 var spiral_stack_level = 0
+var emerald_tablet_stack_level = 0
+var tower_range :float = 5
+var base_tower_range:float = 5
 
 
 func _ready():
@@ -19,9 +22,6 @@ func _ready():
 
 func _on_mouse_detector_hovered():
 	attack_area.update_last_hovered()
-
-func _process(delta):
-	pass
 
 func update_range(new_range:float):
 	attack_area.update_range(new_range)
@@ -52,6 +52,14 @@ func get_flower_of_life_stack():
 
 func get_spiral_stack():
 	return spiral_stack_level 
+	
+func increment_emerald_tablet_buff(delta:int):
+	emerald_tablet_stack_level += delta
+	attack_area.set_range_modifier(emerald_tablet_stack_level)
+
+
+	
+
 	
 
 

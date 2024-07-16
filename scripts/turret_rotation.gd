@@ -78,7 +78,6 @@ func iterate_damage_increase():
 
 
 func set_multi_hit_proc_chance(fol_stack:int):
-	
 	multi_hit_proc_chance = base_multi_hit_proc_chance + 0.25
 	for x in fol_stack:
 		iterate_multi_hit_increase()
@@ -86,6 +85,8 @@ func set_multi_hit_proc_chance(fol_stack:int):
 
 func iterate_multi_hit_increase():
 	multi_hit_proc_chance += (multi_hit_proc_chance * 0.25)
+
+
 	
 
 

@@ -74,7 +74,6 @@ func take_damage(damage:float,multi_hit_proc_chance:float,wiggle_direction:Vecto
 	health = health - calculate_damage(damage)
 	health_bar.set_value(health)
 	if process_multi_hit(multi_hit_proc_chance) and !multi_hit_targets.is_empty():
-		print(\"multi_hit_proc\")
 		var bullet = projectile.instantiate()
 		bullet.set_target(multi_hit_targets.pick_random())
 		bullet.set_damage(damage)
@@ -84,7 +83,6 @@ func take_damage(damage:float,multi_hit_proc_chance:float,wiggle_direction:Vecto
 
 
 func process_multi_hit(chance:float):
-	print(chance)
 	if chance >= 1.0:
 		print(\"return true\")
 		return true

@@ -5,12 +5,13 @@ extends Node3D
 @onready var third_eye_controller = $third_eye_controller
 
 var tunning_fork_stack_level = 0
+var emerald_tablet_stack_level = 0
 
 func _ready():
 	mouse_detector.mouse_detector_hovered.connect(_on_mouse_detector_hovered)
 	attack_area.target_new_enemy.connect(_on_retarget)
 	attack_area.targets_depleted.connect(_on_targets_depleted)
-	third_eye_controller.update_vision_cone(attack_area.range)
+	third_eye_controller.update_vision_cone(attack_area.tower_range)
 
 func _on_mouse_detector_hovered():
 	attack_area.update_last_hovered()
@@ -25,4 +26,8 @@ func increment_tunning_fork_buff(delta:int):
 	tunning_fork_stack_level += delta
 	third_eye_controller.set_attack_speed_modifier(tunning_fork_stack_level)
 
+func increment_emerald_tablet_buff(delta:int):
+	emerald_tablet_stack_level += delta
+	var new_range = attack_area.set_range_modifier(emerald_tablet_stack_level)
+	
 

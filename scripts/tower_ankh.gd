@@ -14,6 +14,7 @@ var flower_of_life_stack_level = 0
 var spiral_stack_level = 0
 var base_multi_hit_proc_chance = 0.0
 var multi_hit_proc_chance = 0.0
+var emerald_tablet_stack_level = 0
 
 #this tower will attempt to damage all enemies within its range
 
@@ -82,6 +83,11 @@ func set_damage_modifier(spiral_stack:int):
 
 func iterate_damage_increase():
 	radiant_damage += (radiant_damage * 0.15)
+	
+func increment_emerald_tablet_buff(delta:int):
+	emerald_tablet_stack_level += delta
+	var new_range = attack_area.set_range_modifier(emerald_tablet_stack_level)
+	aoe_plane.scale = Vector3(new_range,new_range,new_range)
 
 
 
