@@ -19,5 +19,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.1, 1)
 [node name="magnum_opus" parent="." instance=ExtResource("3_r8bu3")]
 transform = Transform3D(0.3, 0, 0, 0, 0.212132, -0.212132, 0, 0.212132, 0.212132, 1, 2, 1)
 
-[node name="flask2" parent="." instance=ExtResource("4_eep3t")]
+[node name="flask" parent="." instance=ExtResource("4_eep3t")]
 transform = Transform3D(0.5, 0, 0, 0, 0.4, 0, 0, 0, 0.5, 1, 1.5, 1)

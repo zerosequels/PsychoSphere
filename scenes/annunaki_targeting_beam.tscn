@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://csosutt8lg7qd"]
+
+[ext_resource type="Script" path="res://scripts/meteor.gd" id="1_dp4aa"]
+[ext_resource type="PackedScene" uid="uid://dd1g1xi3ikioo" path="res://scenes/annunaki_targeting_cone.tscn" id="2_yi37l"]
+
+[node name="annunaki_targeting_controller" type="Node3D"]
+script = ExtResource("1_dp4aa")
+
+[node name="targeting_cone" parent="." instance=ExtResource("2_yi37l")]

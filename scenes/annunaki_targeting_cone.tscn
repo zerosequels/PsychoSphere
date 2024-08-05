@@ -1,0 +1,31 @@
+[gd_scene load_steps=8 format=3 uid="uid://dd1g1xi3ikioo"]
+
+[ext_resource type="PackedScene" uid="uid://cfjmi8bmv0hly" path="res://assets/meshs/vision_cone.glb" id="1_fcijl"]
+[ext_resource type="Script" path="res://scripts/annunaki_targeting_cone.gd" id="2_kc4no"]
+[ext_resource type="Shader" path="res://data/fire_shader.gdshader" id="2_p5xco"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_adoxt"]
+cap_top = false
+cap_bottom = false
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_i2wxq"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ygu5u"]
+seamless = true
+noise = SubResource("FastNoiseLite_i2wxq")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iutoo"]
+render_priority = 0
+shader = ExtResource("2_p5xco")
+shader_parameter/yoffset = 0.3
+shader_parameter/animation_speed = -0.5
+shader_parameter/flame_color = Color(5, 0, 5, 1)
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_ygu5u")
+
+[node name="targeting_cone" instance=ExtResource("1_fcijl")]
+script = ExtResource("2_kc4no")
+
+[node name="Cylinder" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 15, 0, 0, 0, 1, 0, 15, 0)
+mesh = SubResource("CylinderMesh_adoxt")
+surface_material_override/0 = SubResource("ShaderMaterial_iutoo")

@@ -27,7 +27,6 @@ signal new_tower_entered_radius(area)
 
 
 func _ready():
-	update_range(base_tower_range)
 	range_vis_mode_enabled = TowerAndBoonData.get_is_range_visibility_mode_toggled()
 	should_display_range_indicator = range_vis_mode_enabled
 	toggle_range_visibility_indicator(should_display_range_indicator)
@@ -40,6 +39,10 @@ func _process(delta):
 			
 	process_range_visibility_dim_opportunity()
 	process_retargeting_opportunity()
+
+func update_base_range(new_range:float):
+	base_tower_range = new_range
+	update_range(new_range)
 
 func set_is_support(toggle:bool):
 	is_support = toggle

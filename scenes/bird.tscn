@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://c3p0pghjr7pvg"]
+
+[ext_resource type="PackedScene" uid="uid://dunrvy0stpprn" path="res://assets/meshs/bird.glb" id="1_ykiil"]
+[ext_resource type="Shader" path="res://data/spacial_plexus_2.gdshader" id="2_puv85"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_77ubw"]
+render_priority = 0
+shader = ExtResource("2_puv85")
+shader_parameter/resolution = Vector2(600, 400)
+shader_parameter/line_color = Color(0.447059, 0.447059, 0.447059, 1)
+shader_parameter/octaves = 2
+shader_parameter/zoom_factor = 100.0
+shader_parameter/zoom_coef = 3.63
+shader_parameter/brightness = 1.0
+shader_parameter/rotation_angle = 0.79
+shader_parameter/alpha_threshold = 0.4
+
+[node name="bird" instance=ExtResource("1_ykiil")]
+
+[node name="phoenix" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+surface_material_override/0 = SubResource("ShaderMaterial_77ubw")

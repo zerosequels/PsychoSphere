@@ -1,0 +1,46 @@
+[gd_scene load_steps=8 format=3 uid="uid://4glnwqf8aifk"]
+
+[ext_resource type="PackedScene" uid="uid://dau8ml8gxuuel" path="res://assets/meshs/galaxy.glb" id="1_nmq1q"]
+[ext_resource type="Script" path="res://scripts/ankh_rotator.gd" id="2_e3wpg"]
+[ext_resource type="Shader" path="res://data/spacial_plexus_2.gdshader" id="2_ron3h"]
+[ext_resource type="Shader" path="res://data/galaxy.gdshader" id="3_hv0n5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_igphl"]
+render_priority = 0
+shader = ExtResource("2_ron3h")
+shader_parameter/resolution = Vector2(600, 400)
+shader_parameter/line_color = Color(1, 1, 0.819608, 1)
+shader_parameter/octaves = 20
+shader_parameter/zoom_factor = 10.0
+shader_parameter/zoom_coef = 1.1
+shader_parameter/brightness = 10.0
+shader_parameter/rotation_angle = 0.5
+shader_parameter/alpha_threshold = 0.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_57ymb"]
+top_radius = 4.5
+bottom_radius = 4.5
+height = 0.05
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pm0wi"]
+render_priority = 0
+shader = ExtResource("3_hv0n5")
+shader_parameter/resolution = Vector2(600, 400)
+shader_parameter/line_color = Color(0.152941, 0.152941, 0.152941, 1)
+shader_parameter/octaves = 1
+shader_parameter/zoom_factor = 57.0
+shader_parameter/zoom_coef = 1.1
+shader_parameter/brightness = 1.0
+shader_parameter/rotation_angle = 0.55
+shader_parameter/alpha_threshold = 0.0
+
+[node name="galaxy_prefab" instance=ExtResource("1_nmq1q")]
+script = ExtResource("2_e3wpg")
+
+[node name="galaxy" parent="." index="0"]
+surface_material_override/0 = SubResource("ShaderMaterial_igphl")
+
+[node name="plane" type="MeshInstance3D" parent="." index="1"]
+mesh = SubResource("CylinderMesh_57ymb")
+skeleton = NodePath("../galaxy")
+surface_material_override/0 = SubResource("ShaderMaterial_pm0wi")

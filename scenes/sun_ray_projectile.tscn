@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://n7vpheienbvk"]
+
+[ext_resource type="Script" path="res://scripts/projectile.gd" id="1_yieej"]
+[ext_resource type="ArrayMesh" uid="uid://tp10e2vknttr" path="res://data/sun_ray.tres" id="2_nb7aj"]
+[ext_resource type="Shader" path="res://data/sunray.gdshader" id="3_1wjjk"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fvw06"]
+render_priority = 0
+shader = ExtResource("3_1wjjk")
+shader_parameter/scan_line_count = 100.0
+shader_parameter/line_color = Color(1, 0.0705882, 0.054902, 1)
+shader_parameter/scroll_speed = 10.0
+shader_parameter/n = 0.8
+
+[node name="projectile" type="Node3D"]
+script = ExtResource("1_yieej")
+
+[node name="projectile_mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 0, 0, 1.75665)
+mesh = ExtResource("2_nb7aj")
+surface_material_override/0 = SubResource("ShaderMaterial_fvw06")

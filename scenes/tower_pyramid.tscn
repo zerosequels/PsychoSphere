@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/tower_pyramid.gd" id="1_76vea"]
 [ext_resource type="ArrayMesh" uid="uid://c2yxi4osv4evl" path="res://assets/meshs/pyramid.obj" id="2_l7eom"]
-[ext_resource type="Shader" path="res://data/pyramidal.gdshader" id="3_x6xu1"]
+[ext_resource type="Shader" path="res://data/sunray.gdshader" id="3_ag24m"]
 [ext_resource type="ArrayMesh" uid="uid://dks21xsjpssjm" path="res://assets/meshs/four_sided_pointer.obj" id="4_lg047"]
 [ext_resource type="Script" path="res://scripts/turret_rotation.gd" id="4_smus8"]
 [ext_resource type="PackedScene" uid="uid://bp3mcmd2at4vw" path="res://scenes/static_mouse_detection_body.tscn" id="6_fj8x8"]
@@ -10,7 +10,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_p1sgs"]
 render_priority = 0
-shader = ExtResource("3_x6xu1")
+shader = ExtResource("3_ag24m")
 shader_parameter/scan_line_count = 50.0
 shader_parameter/line_color = Color(1, 1, 1, 1)
 shader_parameter/scroll_speed = 10.0
@@ -18,7 +18,7 @@ shader_parameter/n = 0.8
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_iossk"]
 render_priority = 0
-shader = ExtResource("3_x6xu1")
+shader = ExtResource("3_ag24m")
 shader_parameter/scan_line_count = 50.0
 shader_parameter/line_color = Color(0.937255, 0.768627, 0, 1)
 shader_parameter/scroll_speed = 10.0

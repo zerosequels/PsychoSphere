@@ -1,11 +1,11 @@
 [gd_scene load_steps=4 format=3 uid="uid://nkm1wa0hymjk"]
 
 [ext_resource type="PackedScene" uid="uid://byfaoh5qwnqr3" path="res://assets/towers/sun.glb" id="1_lhgnr"]
-[ext_resource type="Shader" path="res://data/pyramidal.gdshader" id="2_yp5j8"]
+[ext_resource type="Shader" path="res://data/sunray.gdshader" id="2_kvwg8"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_t2dnt"]
 render_priority = 0
-shader = ExtResource("2_yp5j8")
+shader = ExtResource("2_kvwg8")
 shader_parameter/scan_line_count = 100.0
 shader_parameter/line_color = Color(1, 0.0705882, 0.054902, 1)
 shader_parameter/scroll_speed = 10.0

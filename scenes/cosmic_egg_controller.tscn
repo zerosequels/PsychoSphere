@@ -1,12 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://cm87hlbprlfcd"]
+[gd_scene load_steps=4 format=3 uid="uid://cm87hlbprlfcd"]
 
 [ext_resource type="PackedScene" uid="uid://bi4bt52hjoeu8" path="res://scenes/egg_subcomp.tscn" id="1_4h6xy"]
+[ext_resource type="Script" path="res://scripts/cosmic_egg_controller.gd" id="1_5ut2y"]
 [ext_resource type="PackedScene" uid="uid://bywb0s5mufrhy" path="res://scenes/inverted_egg_subcomp.tscn" id="2_834pr"]
 
 [node name="cosmic_egg_controller" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("1_5ut2y")
 
-[node name="egg2" parent="." instance=ExtResource("1_4h6xy")]
+[node name="egg_scaler" type="Node3D" parent="."]
+
+[node name="egg2" parent="egg_scaler" instance=ExtResource("1_4h6xy")]
 transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
 
-[node name="inverted_egg2" parent="." instance=ExtResource("2_834pr")]
+[node name="inverted_egg2" parent="egg_scaler" instance=ExtResource("2_834pr")]

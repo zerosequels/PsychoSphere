@@ -41,5 +41,6 @@ void fragment() {
 	vec3 color = brightness * line_color * pow(fbm.x + fbm.y+ 0.2 + 0.01/length(fbm),2);
 	float avg = (color.r + color.g + color.b) / 3.0;
 	ALBEDO = color;
+	ALPHA = color.r;
 }
 

@@ -1,0 +1,26 @@
+[gd_scene load_steps=6 format=3 uid="uid://xts2sk7qhp46"]
+
+[ext_resource type="PackedScene" uid="uid://bxrhkn0qcbiye" path="res://assets/meshs/meteor.glb" id="1_3k2oy"]
+[ext_resource type="Shader" path="res://data/fire_shader.gdshader" id="2_aus4q"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_n2cdo"]
+frequency = 0.0306
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_3b8or"]
+width = 300
+height = 300
+seamless = true
+noise = SubResource("FastNoiseLite_n2cdo")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_aqrw8"]
+render_priority = 0
+shader = ExtResource("2_aus4q")
+shader_parameter/yoffset = 0.5
+shader_parameter/animation_speed = 0.5
+shader_parameter/flame_color = Color(5, 0, 5, 1)
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_3b8or")
+
+[node name="meteor2" instance=ExtResource("1_3k2oy")]
+
+[node name="meteor" parent="." index="0"]
+surface_material_override/0 = SubResource("ShaderMaterial_aqrw8")

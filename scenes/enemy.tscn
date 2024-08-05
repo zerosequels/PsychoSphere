@@ -25,6 +25,9 @@ var is_slow:bool = false
 var time_to_glow_decay_ms = 3000
 var last_decay_time = 0
 
+var time_to_magnum_opus_decay_ms = 2000
+var last_magnum_opus_decay_time = 0
+
 var time_to_cubic_debuff_decay_ms = 450
 var last_cubic_debuff_decay_time = 0
 
@@ -36,6 +39,12 @@ signal enemy_killed(exp:int, enemy_uuid:int)
 
 var slowness = 1
 var multi_hit_targets = []
+
+func get_multi_hit_target():
+	return multi_hit_targets.pick_random()
+
+func has_multi_hit_target():
+	return !multi_hit_targets.is_empty()
 
 func update_values_by_enemy_spawn_data(enemy_spawn_data:EnemySpawnData):
 	speed = enemy_spawn_data.speed
@@ -52,11 +61,16 @@ func set_slow(is_slowed:bool):
 			slowness = 2
 	else:
 		slowness = 1
-	
+
 func apply_glowing_stack(stack_count:int):
 	if ticker.get_cubic_count() > 0:
 		stack_count *= 4
 	ticker.increment_glowing(stack_count)
+
+func apply_magnum_opus_stack(stack_count:int):
+	if ticker.get_cubic_count() > 0:
+		stack_count *= 4
+	ticker.increment_magnum_opus(stack_count)
 
 func apply_slow_stack(stack_count:int):
 	ticker.increment_slow(stack_count)
@@ -84,16 +98,12 @@ func take_damage(damage:float,multi_hit_proc_chance:float,wiggle_direction:Vecto
 
 func process_multi_hit(chance:float):
 	if chance >= 1.0:
-		print(\"return true\")
 		return true
 	else:
 		var random_number = randf_range(0.0,1.0)
 		if chance >= random_number:
-			print(\"return true\")
 			return true
-		print(\"return false\")
 		return false
-	
 	
 func calculate_damage(damage:float):
 	var calculated_damage = damage * (1.00+ (ticker.get_glowing_count() * 0.20))
@@ -110,13 +120,13 @@ func _process(delta):
 	process_glowing_decay_opportunity()
 	process_cubic_decay_opportunity()
 	process_slow_decay_opportunity()
+	process_magnum_opus_decay_opportunity()
 
 	progress = progress - (speed/slowness) * delta
 	if health <= 0:
 		emit_signal(\"enemy_killed\", exp_on_kill,enemy_uuid)
 		self.queue_free()
 	if progress <= 0:
-		#we reached the center
 		emit_signal(\"reached_the_center\",damage_on_hit,enemy_uuid)
 		self.queue_free()
 
@@ -124,6 +134,13 @@ func process_glowing_decay_opportunity():
 	if Time.get_ticks_msec() > (last_decay_time + time_to_glow_decay_ms):
 		apply_glowing_stack(-1)
 		last_decay_time = Time.get_ticks_msec()
+	
+func process_magnum_opus_decay_opportunity():
+	if Time.get_ticks_msec() > (last_magnum_opus_decay_time + time_to_magnum_opus_decay_ms):
+		if ticker.get_magnum_opus_count() > 0:
+			apply_magnum_opus_stack(-1)
+			take_damage(ticker.get_magnum_opus_count(),0.0,Vector3(0,0,0))
+		last_magnum_opus_decay_time = Time.get_ticks_msec()
 
 func process_cubic_decay_opportunity():
 	if Time.get_ticks_msec() > (last_cubic_debuff_decay_time + time_to_cubic_debuff_decay_ms):
@@ -136,11 +153,9 @@ func process_slow_decay_opportunity():
 		set_slow(false)
 		last_slow_debuff_decay_time = Time.get_ticks_msec()
 
-
 func _on_multi_hit_area_entered(area):
 	if area.get_name() == \"enemy_area\":
 		multi_hit_targets.append(area)
-
 
 func _on_multi_hit_area_exited(area):
 	if multi_hit_targets.has(area):
