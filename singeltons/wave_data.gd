@@ -67,12 +67,8 @@ func get_enemy_spawn_data_array_by_level(level:int):
 	#clear the array of enemy info
 	enemy_spawn_data_array.clear()
 	#add enemies based on level and modifiers
-	load_enemy_spawn_data_by_type(negative_vibes.FEAR)
-	load_enemy_spawn_data_by_type(negative_vibes.FEAR)
-	load_enemy_spawn_data_by_type(negative_vibes.FEAR)
-	load_enemy_spawn_data_by_type(negative_vibes.FEAR)
-	load_enemy_spawn_data_by_type(negative_vibes.FEAR)
-	load_enemy_spawn_data_by_type(negative_vibes.FEAR)
+	load_enemy_spawn_data_by_type(negative_vibes.ENVY)
+
 	
 	
 	return enemy_spawn_data_array.duplicate(true)

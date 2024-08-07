@@ -13,7 +13,7 @@ var last_spawn_time = 0
 @export var enemy_spawn_data_array = []
 @export var parent_path:Path3D
 var main
-
+var can_be_selected:bool = true
 signal enemy_spawned(enemy)
 
 signal path_trigger_activated(trigger_id:String, trigger_uuid:int,depth:int)
@@ -21,6 +21,8 @@ signal path_trigger_activated(trigger_id:String, trigger_uuid:int,depth:int)
 func _ready():
 	main = get_parent()
 
+func toggle_can_select(toggle:bool):
+	can_be_selected = toggle
 
 func get_next_enemy_data():
 	if !enemy_spawn_data_array.is_empty():
@@ -72,8 +74,10 @@ func set_trigger_id(new_trigger_id:String):
 	trigger_id = new_trigger_id
 
 func activate_trigger():
+	if !can_be_selected:
+		return
 	if is_triggerable:
-		#print(depth_counter)
+		#await get_tree().create_timer(0.5)
 		emit_signal("path_trigger_activated",trigger_id,trigger_uuid,depth_counter)
 		#delete self
 		self.queue_free()

@@ -44,11 +44,13 @@ extends Node3D
 @onready var time_cube_tower_prefab = preload("res://scenes/tower_time_cube.tscn")
 @onready var tuning_fork_tower_prefab = preload("res://scenes/tower_tuning_fork.tscn")
 
-
 @onready var enemy_energy_portal = preload("res://scenes/portal_vfx.tscn")
 
 @onready var gui = %player_gui.get_gui()
 @onready var hand = %card_hand
+@onready var boon_selection_screen = $CanvasLayer3/boon_selection_screen
+
+var is_making_selection:bool = false
 
 var game_center: Vector3
 var camera_default_zoom = 15
@@ -100,14 +102,17 @@ var current_tower_price = 0
 
 var is_card_hovered:bool = false
 
+
 #EAST INCREASES ON X and WEST DECREASES ON X
 #NORTH INCREASES ON Y AND SOUTH DECREASES ON Y
 
 func _ready():
 	TowerAndBoonData.increase_currency.connect(_on_currency_increase)
+	TowerAndBoonData.unlock_tower.connect(_on_tower_unlocked)
+	boon_selection_screen.close_menu.connect(_on_boon_selection_screen_closed)
+	
 	if WaveData.check_is_reset():
 		%PauseMenu.fade_out_menu()
-		#print("we just reset")
 	hand.tower_toggled.connect(_on_tower_toggled)
 	hand.price_update.connect(_on_price_update)
 	hand._is_card_hovered.connect(_on_card_hovered)
@@ -136,6 +141,10 @@ func _process(delta):
 	if player_health <= 0:
 		update_game_status(game_state.DEATH)
 		
+
+func _on_tower_unlocked(tower_type):
+	hand.add_card_by_type(tower_type)
+
 
 func check_path_triggers_have_enemy_data_to_spawn():
 	for x in path_trigger_array:
@@ -399,6 +408,14 @@ func increment_cost_of_tower_by_type():
 func toggle_visibility_of_path_triggers():
 	for x in path_trigger_array:
 		x.toggle_visibility()
+
+func toggle_can_select_of_path_triggers(toggle:bool):
+	clear_path_trigger_array_of_previously_cleared()
+	for x in path_trigger_array:
+		x.toggle_can_select(toggle)
+		
+		
+	
 	
 
 func create_chunk(chunk_id:Vector2i,path_type:path_id):
@@ -566,13 +583,38 @@ func update_game_status(gs:game_state):
 			toggle_visibility_of_path_triggers()
 			print("game state: PEACE")
 
+func clear_path_trigger_array_of_previously_cleared():
+	for x in path_trigger_array:
+		if x == null:
+			path_trigger_array.erase(x)
+
 func remove_path_trigger_by_trigger_uuid(trigger_uuid):
+
 	for x in path_trigger_array.size():
 		if path_trigger_array[x-1].trigger_uuid == trigger_uuid:
 			path_trigger_array.remove_at(x-1)
 	
 
 func _on_path_trigger_activated(trigger_id,trigger_uuid,depth):
+	show_path_trigger_choice_menu(trigger_id,trigger_uuid,depth)
+	
+
+func show_path_trigger_choice_menu(trigger_id,trigger_uuid,depth):
+	toggle_can_select_of_path_triggers(false)
+	is_making_selection = true
+	hand.toggle_hide_hand(true)
+	gui.visible = false
+	boon_selection_screen.load_new_boons_from_data(trigger_id,trigger_uuid,depth)
+	boon_selection_screen.visible = true
+
+func restore_game_ui():
+	toggle_can_select_of_path_triggers(true)
+	is_making_selection = false
+	hand.toggle_hide_hand(false)
+	gui.visible = true
+	boon_selection_screen.visible = false
+
+func enemy_wave_activation_sequence(trigger_id,trigger_uuid,depth):
 	activated_trigger_depth = depth 
 	update_game_status(game_state.WAR)
 	match trigger_id:
@@ -596,9 +638,11 @@ func _on_path_trigger_activated(trigger_id,trigger_uuid,depth):
 
 			copy_adjusted_path(west_path,west_enemy_path)
 			#print("west")
+	#remove_path_trigger_by_trigger_uuid(trigger_uuid)
+	clear_path_trigger_array_of_previously_cleared()
 	toggle_visibility_of_path_triggers()
 	spawn_enemies()
-	remove_path_trigger_by_trigger_uuid(trigger_uuid)
+	
 
 func _on_enemy_reached_center(damage, enemy_uuid):
 	#print("center reached")
@@ -614,6 +658,10 @@ func _on_enemy_killed(exp,enemy_uuid):
 	currency_amount += exp
 	set_awareness_gui(currency_amount)
 	WaveData.remove_enemy_by_uuid(enemy_uuid)
+
+func _on_boon_selection_screen_closed(trigger_id,trigger_uuid,depth):
+	restore_game_ui()
+	enemy_wave_activation_sequence(trigger_id,trigger_uuid,depth)
 
 func set_health_gui(value:int):
 	gui.set_health(value)

@@ -5,7 +5,7 @@
 [ext_resource type="Shader" path="res://data/sunray.gdshader" id="3_3xbrl"]
 [ext_resource type="PackedScene" uid="uid://c6n15if0j8w4k" path="res://scenes/ankh_controller.tscn" id="4_4xt64"]
 [ext_resource type="ArrayMesh" uid="uid://cqsr7uulrlpe1" path="res://assets/meshs/disc_plane.obj" id="5_foh5p"]
-[ext_resource type="Shader" uid="uid://cu4wdhmqsajob" path="res://data/tower_ankh_effect.tres" id="6_culct"]
+[ext_resource type="Shader" uid="uid://cu4wdhmqsajob" path="res://data/tower_ankh_effect.tres" id="6_iko6w"]
 [ext_resource type="PackedScene" uid="uid://cdr8t75n5pvrb" path="res://scenes/tower_radius_zone.tscn" id="6_vjqhm"]
 [ext_resource type="PackedScene" uid="uid://bp3mcmd2at4vw" path="res://scenes/static_mouse_detection_body.tscn" id="7_cfwcj"]
 
@@ -19,7 +19,7 @@ shader_parameter/n = 0.8
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_o8f1a"]
 render_priority = 0
-shader = ExtResource("6_culct")
+shader = ExtResource("6_iko6w")
 shader_parameter/ColorParameter = Color(1, 1, 0, 1)
 
 [node name="ankh_tower" type="Node3D"]

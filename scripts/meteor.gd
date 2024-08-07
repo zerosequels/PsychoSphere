@@ -19,6 +19,9 @@ var laser_ammunition = 25
 signal request_new_target()
 signal beam_finished()
 
+func set_beam_damage(new_damage):
+	laser_damage = new_damage
+
 func set_target(new_target):
 	target = new_target
 		

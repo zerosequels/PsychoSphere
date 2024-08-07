@@ -4,6 +4,26 @@ var growth_rate = 0.2
 var range_visibility_mode_toggled = false
 
 signal increase_currency(exp)
+signal unlock_tower(tower_type)
+
+var unlocked_towers = [
+	tower_types.PYRAMID
+]
+
+var locked_towers = [
+	tower_types.ANKH,
+	tower_types.ANNUNAKI_WEAPON,
+	tower_types.COSMIC_EGG,
+	tower_types.DEATH_FUNGUS,
+	tower_types.EMERALD_TABLET,
+	tower_types.FLOWER_OF_LIFE,
+	tower_types.PRAYER_WHEEL,
+	tower_types.RUBEDO,
+	tower_types.SPIRAL,
+	tower_types.THIRD_EYE,
+	tower_types.TIME_CUBE,
+	tower_types.TUNING_FORK
+]
 
 enum tower_types {
 	#simple turret that shoots bullets
@@ -50,6 +70,63 @@ var tower_type_count = {
 	tower_types.ANNUNAKI_WEAPON:0
 }
 
+enum boon_types {
+	unlock,
+	boost,
+	tower,
+	out_of_boons
+}
+
+var boon_type_array = [
+	boon_types.unlock,
+	boon_types.boost,
+	boon_types.tower,
+	boon_types.out_of_boons
+]
+
+func get_boon_type():
+	if locked_towers.is_empty():
+		return boon_types.out_of_boons
+	return boon_types.tower
+
+func get_random_tower_to_unlock():
+	var tower_to_unlock = locked_towers.pick_random()
+	return tower_to_unlock
+
+func unlock_tower_by_tower_type(tower_type):
+	locked_towers.erase(tower_type)
+	unlocked_towers.append(tower_type)
+	emit_signal("unlock_tower",tower_type)
+
+func get_tower_unlock_name_by_tower_type(tower_type):
+	match tower_type:
+		tower_types.ANKH:
+			return "The Ankh"
+		tower_types.PYRAMID:
+			return "The Pyramid"
+		tower_types.THIRD_EYE:
+			return "The All Seeing Eye"
+		tower_types.SPIRAL:
+			return "Genetic Memories"
+		tower_types.FLOWER_OF_LIFE:
+			return "Sacred Geometry"
+		tower_types.EMERALD_TABLET:
+			return "Emerald Tablet"
+		tower_types.PRAYER_WHEEL:
+			return "Mani Wheel"
+		tower_types.TIME_CUBE:
+			return "TIME CUBE"
+		tower_types.TUNING_FORK:
+			return "Tuning Fork"
+		tower_types.DEATH_FUNGUS:
+			return "Cosmic Fungus"
+		tower_types.RUBEDO:
+			return "Philosopher's Stone"
+		tower_types.COSMIC_EGG:
+			return "Cosmic Egg"
+		tower_types.ANNUNAKI_WEAPON:
+			return "Annunaki Sun Dial"
+
 func get_is_range_visibility_mode_toggled():
 	return range_visibility_mode_toggled
 	
@@ -71,8 +148,6 @@ func get_next_tower_price_and_increment_count(type:tower_types):
 	count = count + 1
 	tower_type_count[type] = count
 	return new_cost
-
-
 
 func get_tower_base_cost(tower_type:tower_types):
 	match tower_type:
@@ -110,30 +185,26 @@ func get_tower_name(tower_type:tower_types):
 		tower_types.PYRAMID:
 			return "Pyramid"
 		tower_types.THIRD_EYE:
-			return "Third Eye"
+			return "All Seeing Eye"
 		tower_types.SPIRAL:
-			return "Spiral"
+			return "Ancestral Memories"
 		tower_types.FLOWER_OF_LIFE:
 			return "Flower of Life"
 		tower_types.EMERALD_TABLET:
 			return "Emerald Tablet"
 		tower_types.PRAYER_WHEEL:
-			return "Prayer Wheel"
+			return "Mani Wheel"
 		tower_types.TIME_CUBE:
 			return "Time Cube"
 		tower_types.TUNING_FORK:
 			return "Tuning Fork"
 		tower_types.DEATH_FUNGUS:
-			return "Death Fungus"
+			return "Cosmic Fungus"
 		tower_types.RUBEDO:
 			return "The Magnum Opus"
 		tower_types.COSMIC_EGG:
 			return "Cosmic Egg"
 		tower_types.ANNUNAKI_WEAPON:
-			return "Annunaki Cell Phone"
-
-
-
-
+			return "Annunaki Sun Dial"
 
 

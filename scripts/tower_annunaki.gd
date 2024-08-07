@@ -9,12 +9,22 @@ var annunaki_tower_base_range = 15
 var emerald_tablet_stack_level = 0
 
 var last_beam_completed = 0
+var base_time_between_beams = 5000
 var time_between_beams = 5000
-var metero_hit_time = 2000
+
+var base_damage = 1
+var damage = 1
 
 var is_beam_in_progress:bool = false
 
 var beam_instance 
+
+var tunning_fork_stack_level = 0
+var spiral_stack_level = 0
+var flower_of_life_stack_level = 0
+
+var multi_hit_proc_chance = 0
+var base_multi_hit_proc_chance = 0
 
 
 func _ready():
@@ -40,12 +50,48 @@ func process_meteor_opportunity():
 			return
 		var target = targets.pick_random()
 		summon_beam(target)
-		
+
+func increment_tunning_fork_buff(delta:int):
+	tunning_fork_stack_level += delta
+	set_attack_speed_modifier(tunning_fork_stack_level)
+
+func set_attack_speed_modifier(tunning_stack:int):
+	time_between_beams = base_time_between_beams
+	for x in tunning_stack:
+		iterate_attack_speed_reduction()
+
+func iterate_attack_speed_reduction():
+	time_between_beams -= (time_between_beams * 0.10)
+
+func increment_spiral_buff(delta:int):
+	spiral_stack_level += delta
+	set_damage_modifier(spiral_stack_level)
+
+func set_damage_modifier(spiral_stack:int):
+	damage = base_damage
+	for x in spiral_stack:
+		iterate_damage_increase()
+
+func iterate_damage_increase():
+	damage += (damage * 0.15)
+
+func increment_flower_of_life_buff(delta:int):
+	flower_of_life_stack_level += delta
+	set_multi_hit_proc_chance(flower_of_life_stack_level)
+
+func set_multi_hit_proc_chance(fol_stack:int):
+	multi_hit_proc_chance = base_multi_hit_proc_chance + 0.25
+	for x in fol_stack:
+		iterate_multi_hit_increase()
+
+func iterate_multi_hit_increase():
+	multi_hit_proc_chance += (multi_hit_proc_chance * 0.25)
 
 func summon_beam(target):
 	is_beam_in_progress = true
 	beam_instance = beam.instantiate()
 	beam_instance.set_target(target)
+	beam_instance.set_beam_damage(damage)
 	beam_instance.request_new_target.connect(_on_request_new_target)
 	beam_instance.beam_finished.connect(_on_beam_finished)
 	add_child(beam_instance)

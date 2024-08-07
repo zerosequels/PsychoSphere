@@ -15,7 +15,7 @@ extends Control
 @onready var magnum_opus_card = preload("res://scenes/magnum_opus_card.tscn")
 @onready var cosmic_egg_card = preload("res://scenes/cosmic_egg_card.tscn")
 @onready var annunaki_card = preload("res://scenes/annunaki_card.tscn")
-
+@onready var hand_layer = $CanvasLayer
 var max_hand_size:int = 13
 
 var hand_array = []
@@ -23,6 +23,12 @@ var hand_array = []
 signal tower_toggled(tower_type_enum:int,tower_price:int)
 signal price_update(tower_type_enum:int,tower_price:int)
 signal _is_card_hovered(is_hovered:bool)
+
+func toggle_hide_hand(toggle):
+	if toggle:
+		hand_layer.visible = false
+	else:
+		hand_layer.visible = true
 
 func add_card_by_type(type:int):
 	type = clampi(type,0,12)
@@ -85,25 +91,14 @@ func _on_card_selected(tower_type_enum:int,tower_price:int):
 			card.set_is_selected(false)
 
 func increment_cost_by_tower_type(tower_type_enum:int):
-
 	for card in hand_array:
 		if card.get_tower_type() == tower_type_enum:
 			card.increment_tower_price(tower_type_enum)
 
-	
 func _ready():
 	add_card_by_type(0)
-	add_card_by_type(1)
-	add_card_by_type(2)
-	add_card_by_type(3)
-	add_card_by_type(4)
-	add_card_by_type(5)
-	add_card_by_type(6)
-	add_card_by_type(7)
-	add_card_by_type(8)
-	add_card_by_type(9)
-	add_card_by_type(10)
-	add_card_by_type(11)
-	add_card_by_type(12)
+
+
+
 
 

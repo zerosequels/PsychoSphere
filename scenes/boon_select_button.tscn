@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://qsydwhoh00dh"]
+
+[ext_resource type="FontFile" uid="uid://dbli7jexs0nak" path="res://assets/ui/GelatinTTFCAPS.ttf" id="1_bd504"]
+[ext_resource type="Script" path="res://scripts/boon_select_button.gd" id="2_4abjd"]
+
+[node name="boon_select_button" type="Button"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -105.5
+offset_top = -24.5
+offset_right = 105.5
+offset_bottom = 24.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("1_bd504")
+theme_override_font_sizes/font_size = 50
+text = "Select Boon"
+script = ExtResource("2_4abjd")
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="pressed" from="." to="." method="_on_pressed"]

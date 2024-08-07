@@ -80,7 +80,6 @@ func set_damage_modifier(spiral_stack:int):
 	for x in spiral_stack:
 		iterate_damage_increase()
 
-
 func iterate_damage_increase():
 	radiant_damage += (radiant_damage * 0.15)
 	
