@@ -41,7 +41,7 @@ func get_boon_to_display():
 			pass
 		boon_types.tower:
 			var tower_boon_id = TowerAndBoonData.get_random_tower_to_unlock()
-			create_boon_option_button(TowerAndBoonData.get_tower_unlock_name_by_tower_type(tower_boon_id),boon_type,tower_boon_id)
+			create_boon_option_button(TowerAndBoonData.get_tower_unlock_name_by_tower_type(tower_boon_id),TowerAndBoonData.get_tower_unlock_description_by_tower_type(tower_boon_id),boon_type,tower_boon_id)
 	
 
 func _on_boon_selected(new_boon_type,new_boon_id):
@@ -64,15 +64,18 @@ func clear_boon_options():
 
 func create_empty_boon_option_button():
 	var btn = boon_button_prefab.instantiate()
-	btn.text = "EMPTY"
+	btn.set_boon_name("404 BOON NOT FOUND")
+	btn.set_boon_description("Still under construction, check back in a future update")
 	btn.initialize_boon_button(boon_types.out_of_boons,-1)
 	btn.boon_selected.connect(_on_boon_selected)
 	h_box.add_child(btn)
 	option_array.append(btn)
 
-func create_boon_option_button(description:String,type,boon_id):
+func create_boon_option_button(boon_name:String, boon_description:String,type,boon_id):
 	var btn = boon_button_prefab.instantiate()
-	btn.text = description
+	btn.set_boon_name(boon_name)
+	btn.set_boon_texture_by_boon_type(boon_id)
+	btn.set_boon_description(boon_description)
 	btn.initialize_boon_button(type,boon_id)
 	btn.boon_selected.connect(_on_boon_selected)
 	h_box.add_child(btn)

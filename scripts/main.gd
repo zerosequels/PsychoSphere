@@ -401,10 +401,7 @@ func instantiate_tower_by_current_type(grid_pos:Vector3i):
 func increment_cost_of_tower_by_type():
 	hand.increment_cost_by_tower_type(current_tower_type)
 
-#TODO: Fix the below error, perhaps by creating a a new tile type that represents an end
 
-#ERROR: If there is a NO CHUNK AVAILABLE then there will be no path trigger 
-#which will cause a null pointer crash on this method
 func toggle_visibility_of_path_triggers():
 	for x in path_trigger_array:
 		x.toggle_visibility()
@@ -415,8 +412,11 @@ func toggle_can_select_of_path_triggers(toggle:bool):
 		x.toggle_can_select(toggle)
 		
 		
-	
-	
+
+#TODO: Fix the below error, perhaps by creating a a new tile type that represents an end
+
+#ERROR: If there is a NO CHUNK AVAILABLE then there will be no path trigger 
+#which will cause a null pointer crash on this method	
 
 func create_chunk(chunk_id:Vector2i,path_type:path_id):
 	#check if current chunk is available
@@ -600,6 +600,7 @@ func _on_path_trigger_activated(trigger_id,trigger_uuid,depth):
 	
 
 func show_path_trigger_choice_menu(trigger_id,trigger_uuid,depth):
+	$phantom_camera_controller.toggle_is_camera_frozen(true)
 	toggle_can_select_of_path_triggers(false)
 	is_making_selection = true
 	hand.toggle_hide_hand(true)
@@ -608,6 +609,7 @@ func show_path_trigger_choice_menu(trigger_id,trigger_uuid,depth):
 	boon_selection_screen.visible = true
 
 func restore_game_ui():
+	$phantom_camera_controller.toggle_is_camera_frozen(false)
 	toggle_can_select_of_path_triggers(true)
 	is_making_selection = false
 	hand.toggle_hide_hand(false)

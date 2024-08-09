@@ -98,6 +98,67 @@ func unlock_tower_by_tower_type(tower_type):
 	unlocked_towers.append(tower_type)
 	emit_signal("unlock_tower",tower_type)
 
+func get_tower_unlock_description_by_tower_type(tower_type):
+	match tower_type:
+		tower_types.ANKH:
+			return "deals aoe damage to enemies within the ankh's range"
+		tower_types.PYRAMID:
+			return "fires volleys of energy at enemies damaging them on hit"
+		tower_types.THIRD_EYE:
+			return "illuminates enemies causing them to take extra damage on hit per stack"
+		tower_types.SPIRAL:
+			return "increases the damage of nearby damage dealing towers"
+		tower_types.FLOWER_OF_LIFE:
+			return "nearby damage dealing towers now have an increased chance to chain damage other enemies on hit"
+		tower_types.EMERALD_TABLET:
+			return "increases the range of nearby towers including itself"
+		tower_types.PRAYER_WHEEL:
+			return "slows down the movement speed of all enemies within range"
+		tower_types.TIME_CUBE:
+			return "inflicts cubic time debuff on all enemies in range, enemies with cubic time will take four times the damage per hit and will be given four times the number of debuff stacks per debuff"
+		tower_types.TUNING_FORK:
+			return "increases the attack speed of nearby towers"
+		tower_types.DEATH_FUNGUS:
+			return "enemies that die within this towrs range will generate double the awarness"
+		tower_types.RUBEDO:
+			return "fires darts at all nearby enemies, applying damage over time stack on hit"
+		tower_types.COSMIC_EGG:
+			return "an egg that will grow until it hatches, birthing a galaxy that will richochete from enemy to enemy on hit"
+		tower_types.ANNUNAKI_WEAPON:
+			return "spawns a beam of light that tracks enemies and burns them over time"
+
+func get_tower_unlock_texture_by_tower_type(tower_type):
+	match tower_type:
+		tower_types.ANKH:
+			return load("res://assets/tilesets/card_ankh.png")
+		tower_types.PYRAMID:
+			return load("res://assets/tilesets/pyramid_card.png")
+		tower_types.THIRD_EYE:
+			return load("res://assets/tilesets/third_eye_card.png")
+		tower_types.SPIRAL:
+			return load("res://assets/tilesets/card_spiral.png")
+		tower_types.FLOWER_OF_LIFE:
+			return load("res://assets/tilesets/fol.png")
+		tower_types.EMERALD_TABLET:
+			return load("res://assets/tilesets/emerald_tablet_cardl.png")
+		tower_types.PRAYER_WHEEL:
+			return load("res://assets/tilesets/mani_wheel_card.png")
+		tower_types.TIME_CUBE:
+			return load("res://assets/tilesets/card_timecubel.png")
+		tower_types.TUNING_FORK:
+			return load("res://assets/tilesets/card_spiral.png")
+		tower_types.DEATH_FUNGUS:
+			return load("res://assets/tilesets/fungusl_card.png")
+		tower_types.RUBEDO:
+			return load("res://assets/tilesets/magnum_opus_card.png")
+		tower_types.COSMIC_EGG:
+			return load("res://assets/tilesets/egg.png")
+		tower_types.ANNUNAKI_WEAPON:
+			return load("res://assets/tilesets/annunaki_card.png")
+
+
+
+
 func get_tower_unlock_name_by_tower_type(tower_type):
 	match tower_type:
 		tower_types.ANKH:
