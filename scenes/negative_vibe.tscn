@@ -8,7 +8,6 @@
 render_priority = 0
 shader = ExtResource("2_i68ui")
 shader_parameter/lines1 = 2.0
-shader_parameter/line_color = Color(0.0117647, 0.117647, 0.0431373, 1)
 shader_parameter/opacity = null
 shader_parameter/r = 1.0
 shader_parameter/g = 1.0
@@ -18,7 +17,6 @@ shader_parameter/b = 1.0
 render_priority = 0
 shader = ExtResource("2_i68ui")
 shader_parameter/lines1 = 2.0
-shader_parameter/line_color = Color(0.1, 0.4, 0.2, 1)
 shader_parameter/opacity = 0.0
 shader_parameter/r = 1.0
 shader_parameter/g = 1.0
@@ -28,27 +26,18 @@ shader_parameter/b = 1.0
 render_priority = 0
 shader = ExtResource("2_i68ui")
 shader_parameter/lines1 = 2.0
-shader_parameter/line_color = Color(0.188235, 0.054902, 0.0823529, 1)
-shader_parameter/opacity = null
-shader_parameter/r = 0.0
-shader_parameter/g = 1.0
-shader_parameter/b = 1.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ot6h3"]
-render_priority = 0
-shader = ExtResource("2_i68ui")
-shader_parameter/lines1 = 2.0
-shader_parameter/line_color = Color(0.1, 0.4, 0.2, 1)
 shader_parameter/opacity = null
 shader_parameter/r = 1.0
 shader_parameter/g = 1.0
 shader_parameter/b = 1.0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i4e6p"]
+albedo_color = Color(0, 0, 0, 1)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5vi8q"]
 render_priority = 0
 shader = ExtResource("2_i68ui")
 shader_parameter/lines1 = 2.0
-shader_parameter/line_color = Color(0.372549, 0.835294, 0.160784, 1)
 shader_parameter/opacity = null
 shader_parameter/r = 1.0
 shader_parameter/g = 1.0
@@ -58,7 +47,6 @@ shader_parameter/b = 1.0
 render_priority = 0
 shader = ExtResource("2_i68ui")
 shader_parameter/lines1 = 2.0
-shader_parameter/line_color = Color(0.1, 0.4, 0.2, 1)
 shader_parameter/opacity = null
 shader_parameter/r = 1.0
 shader_parameter/g = 1.0
@@ -78,7 +66,7 @@ surface_material_override/1 = SubResource("ShaderMaterial_rgcmc")
 
 [node name="double_eyes_001" parent="Armature/Skeleton3D" index="1"]
 surface_material_override/0 = SubResource("ShaderMaterial_jogjg")
-surface_material_override/1 = SubResource("ShaderMaterial_ot6h3")
+surface_material_override/1 = SubResource("StandardMaterial3D_i4e6p")
 
 [node name="Sphere" parent="Armature/Skeleton3D" index="2"]
 surface_material_override/0 = SubResource("ShaderMaterial_5vi8q")

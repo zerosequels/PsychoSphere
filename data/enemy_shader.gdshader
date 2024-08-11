@@ -4,7 +4,7 @@ render_mode cull_disabled;
 #include "funcs.gdshaderinc"
 
 uniform float lines1: hint_range(0.0, 200.0, 1.0) = 2.0;
-uniform vec3 line_color: source_color = vec3(0.1,0.4,0.2);
+instance uniform vec3 line_color: source_color = vec3(0.5,0.5,0.5);
 
 uniform float opacity;
 uniform float r =1.0;

@@ -4,7 +4,10 @@ var target:Node3D
 var homing_speed:float = 10
 var damage = 0
 var multi_hit_proc_chance = 0.0
+var magnum_opus_stack_on_hit = 0
 
+func set_magnum_opus_stack(stack_count):
+	magnum_opus_stack_on_hit = stack_count
 
 func set_homing_speed(new_speed):
 	homing_speed = new_speed
@@ -30,7 +33,7 @@ func _process(delta):
 		var distance_to_target = global_position.distance_to(target.global_position)
 		global_translate(new_position - global_position)
 		if distance_to_target < 0.2:
-			target.get_parent().get_parent().get_parent().apply_magnum_opus_stack(1)
+			target.get_parent().get_parent().get_parent().apply_magnum_opus_stack(magnum_opus_stack_on_hit)
 			target.get_parent().get_parent().get_parent().take_damage(damage,multi_hit_proc_chance,direction_to_target * 0.1)
 			queue_free()
 	else:

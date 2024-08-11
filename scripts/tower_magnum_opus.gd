@@ -44,6 +44,7 @@ func process_attack_opportunity():
 			bullet.set_target(enemy)
 			bullet.set_damage(damage)
 			bullet.set_multi_hit_proc_chance(multi_hit_proc_chance)
+			bullet.set_magnum_opus_stack(1)
 			magnum_opus.add_child(bullet)
 		last_fire_time = Time.get_ticks_msec()
 

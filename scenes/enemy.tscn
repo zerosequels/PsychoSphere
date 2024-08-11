@@ -15,11 +15,14 @@ script/source = "extends PathFollow3D
 @export var exp_on_kill = 1
 
 @export var enemy_uuid = ResourceUID.create_id()
-
-@onready var health_bar = $damage_number_origin/health_bar
-@onready var ticker = $damage_number_origin/ticker
+@onready var enemy_model_controller = $enemy/model_scaler
+@onready var model = $enemy/model_scaler/enemy_model
+@onready var ui_origin = $enemy/damage_number_origin
+@onready var health_bar = $enemy/damage_number_origin/health_bar
+@onready var ticker = $enemy/damage_number_origin/ticker
 @onready var projectile = preload(\"res://scenes/projectile.tscn\")
 
+var enemy_scale_value: float = 1
 var is_slow:bool = false
 
 var time_to_glow_decay_ms = 3000
@@ -40,17 +43,50 @@ signal enemy_killed(exp:int, enemy_uuid:int)
 var slowness = 1
 var multi_hit_targets = []
 
-func get_multi_hit_target():
-	return multi_hit_targets.pick_random()
+var primary_color
+var highlight_color
 
-func has_multi_hit_target():
-	return !multi_hit_targets.is_empty()
+var height_offset
+
+func _ready():
+	progress_ratio = 1.0
+	health_bar._initialize_health_bar(health)
+
+func set_height_pos(offset:float):
+	var current_pos = $enemy.position
+	var new_pos = Vector3(current_pos.x,offset,current_pos.z) 
+	$enemy.position = new_pos
 
 func update_values_by_enemy_spawn_data(enemy_spawn_data:EnemySpawnData):
 	speed = enemy_spawn_data.speed
 	health = enemy_spawn_data.health
 	damage_on_hit = enemy_spawn_data.damage_on_hit
 	exp_on_kill = enemy_spawn_data.exp_on_kill
+	enemy_scale_value = enemy_spawn_data.enemy_size_scale
+	primary_color = enemy_spawn_data.primary_color
+	highlight_color = enemy_spawn_data.highlight_color
+	height_offset = enemy_spawn_data.height_offset
+
+func update_model_color():
+
+	model.set_enemy_primary_color(primary_color)
+	model.set_enemy_highlight_color(highlight_color)
+
+func update_model_scale():
+	enemy_model_controller.scale = Vector3(enemy_scale_value,enemy_scale_value,enemy_scale_value)
+	ui_origin.scale = Vector3(enemy_scale_value,enemy_scale_value,enemy_scale_value)
+	ui_origin.position = Vector3(0,(1 * enemy_scale_value),0)
+	set_height_pos(height_offset)
+	
+func set_model_scale(_scale:float):
+	var new_scale = Vector3(_scale,_scale,_scale)
+	enemy_model_controller.scale = new_scale
+
+func get_multi_hit_target():
+	return multi_hit_targets.pick_random()
+
+func has_multi_hit_target():
+	return !multi_hit_targets.is_empty()
 
 func set_slow(is_slowed:bool):
 	is_slow = is_slowed
@@ -83,7 +119,7 @@ func apply_cubic_stack(stack_count:int):
 	last_cubic_debuff_decay_time = Time.get_ticks_msec()
 	
 func take_damage(damage:float,multi_hit_proc_chance:float,wiggle_direction:Vector3):
-	$enemy/enemy_model.damage_flash()
+	$enemy/model_scaler/enemy_model.damage_flash()
 	$enemy.damage_wiggle(wiggle_direction)
 	health = health - calculate_damage(damage)
 	health_bar.set_value(health)
@@ -94,7 +130,6 @@ func take_damage(damage:float,multi_hit_proc_chance:float,wiggle_direction:Vecto
 		bullet.set_multi_hit_proc_chance(multi_hit_proc_chance - 0.2)
 		bullet.set_starting_position(global_position)
 		get_parent().add_child(bullet)
-
 
 func process_multi_hit(chance:float):
 	if chance >= 1.0:
@@ -110,10 +145,6 @@ func calculate_damage(damage:float):
 	if ticker.get_cubic_count() > 0:
 		calculated_damage *= 4
 	return calculated_damage
-
-func _ready():
-	progress_ratio = 1.0
-	health_bar._initialize_health_bar(health)
 
 func _process(delta):
 	#process glowing status decay opportunity
@@ -198,16 +229,18 @@ collision_mask = 3
 [node name="CollisionShape3D" type="CollisionShape3D" parent="enemy/enemy_mesh/multi_hit_area"]
 shape = SubResource("CylinderShape3D_gitk6")
 
-[node name="enemy_model" parent="enemy" instance=ExtResource("1_1xj58")]
+[node name="model_scaler" type="Node3D" parent="enemy"]
+
+[node name="enemy_model" parent="enemy/model_scaler" instance=ExtResource("1_1xj58")]
 transform = Transform3D(-2.18557e-08, 0, -0.5, 0, 0.5, 0, 0.5, 0, -2.18557e-08, 0, 0, 0)
 
-[node name="damage_number_origin" type="Node3D" parent="."]
+[node name="damage_number_origin" type="Node3D" parent="enemy"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
-[node name="health_bar" parent="damage_number_origin" instance=ExtResource("1_ri170")]
+[node name="health_bar" parent="enemy/damage_number_origin" instance=ExtResource("1_ri170")]
 texture = SubResource("ViewportTexture_xb8rw")
 
-[node name="ticker" parent="damage_number_origin" instance=ExtResource("4_bgn17")]
+[node name="ticker" parent="enemy/damage_number_origin" instance=ExtResource("4_bgn17")]
 transform = Transform3D(0.36, 0, 0, 0, 0.36, 0, 0, 0, 0.36, 0, 0.176771, 0)
 texture = SubResource("ViewportTexture_3eqy1")
 

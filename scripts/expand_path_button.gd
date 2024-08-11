@@ -68,6 +68,8 @@ func spawn_enemy_as_child_of_path_follow(enemy_data:EnemySpawnData):
 	var enemy = enemy_prefab.instantiate()
 	enemy.update_values_by_enemy_spawn_data(enemy_data)
 	parent_path.add_child(enemy)
+	enemy.update_model_scale()
+	enemy.update_model_color()
 	emit_signal("enemy_spawned",enemy)
 
 func set_trigger_id(new_trigger_id:String):

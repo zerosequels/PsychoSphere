@@ -115,7 +115,7 @@ func get_tower_unlock_description_by_tower_type(tower_type):
 		tower_types.PRAYER_WHEEL:
 			return "slows down the movement speed of all enemies within range"
 		tower_types.TIME_CUBE:
-			return "inflicts cubic time debuff on all enemies in range, enemies with cubic time will take four times the damage per hit and will be given four times the number of debuff stacks per debuff"
+			return "inflicts cubic time debuff on all enemies in range, enemies with cubic time multiply all damage taken by four"
 		tower_types.TUNING_FORK:
 			return "increases the attack speed of nearby towers"
 		tower_types.DEATH_FUNGUS:
@@ -146,7 +146,7 @@ func get_tower_unlock_texture_by_tower_type(tower_type):
 		tower_types.TIME_CUBE:
 			return load("res://assets/tilesets/card_timecubel.png")
 		tower_types.TUNING_FORK:
-			return load("res://assets/tilesets/card_spiral.png")
+			return load("res://assets/tilesets/card_forkl.png")
 		tower_types.DEATH_FUNGUS:
 			return load("res://assets/tilesets/fungusl_card.png")
 		tower_types.RUBEDO:
