@@ -55,7 +55,7 @@ func _ready():
 func set_height_pos(offset:float):
 	var current_pos = $enemy.position
 	var new_pos = Vector3(current_pos.x,offset,current_pos.z) 
-	$enemy.position = new_pos
+	$enemy.set_original_position(new_pos)
 
 func update_values_by_enemy_spawn_data(enemy_spawn_data:EnemySpawnData):
 	speed = enemy_spawn_data.speed
@@ -75,7 +75,7 @@ func update_model_color():
 func update_model_scale():
 	enemy_model_controller.scale = Vector3(enemy_scale_value,enemy_scale_value,enemy_scale_value)
 	ui_origin.scale = Vector3(enemy_scale_value,enemy_scale_value,enemy_scale_value)
-	ui_origin.position = Vector3(0,(1 * enemy_scale_value),0)
+	ui_origin.position = Vector3(0,(enemy_scale_value),0)
 	set_height_pos(height_offset)
 	
 func set_model_scale(_scale:float):

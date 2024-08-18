@@ -23,7 +23,7 @@ var enemy_spawn_data_array = []
 var is_fresh_reset = false
 
 var active_enemy_array = []
-
+var total_number_of_waves = 0
 
 #(_health:float,_speed:float,_exp:float,_damage:int,_spawn_time:int):EnemySpawnData constructor
 func load_enemy_spawn_data_by_type(type:negative_vibes):
@@ -34,9 +34,9 @@ func load_enemy_spawn_data_by_type(type:negative_vibes):
 			enemy_spawn_data.set_health(3)
 			enemy_spawn_data.set_damage(1)
 			enemy_spawn_data.set_exp(1)
-			enemy_spawn_data.set_speed(0.5)
+			enemy_spawn_data.set_speed(0.75)
 			enemy_spawn_data.set_spawn_time(1000)
-			enemy_spawn_data.set_enemy_size_scale(0.25)
+			enemy_spawn_data.set_enemy_size_scale(0.5)
 			enemy_spawn_data.set_primary_color(Color.SPRING_GREEN)
 			enemy_spawn_data.set_highlight_color(Color.DARK_GREEN)
 			enemy_spawn_data.set_height_offset(-0.3)
@@ -44,22 +44,22 @@ func load_enemy_spawn_data_by_type(type:negative_vibes):
 			#print("anxiety")
 		negative_vibes.FEAR:
 			enemy_spawn_data = EnemySpawnData.new()
-			enemy_spawn_data.set_health(10)
+			enemy_spawn_data.set_health(1)
 			enemy_spawn_data.set_damage(1)
-			enemy_spawn_data.set_exp(1)
-			enemy_spawn_data.set_speed(1)
-			enemy_spawn_data.set_spawn_time(2000)
-			enemy_spawn_data.set_enemy_size_scale(1)
-			enemy_spawn_data.set_primary_color(Color.ORANGE)
-			enemy_spawn_data.set_highlight_color(Color.YELLOW)
+			enemy_spawn_data.set_exp(2)
+			enemy_spawn_data.set_speed(2)
+			enemy_spawn_data.set_spawn_time(1000)
+			enemy_spawn_data.set_enemy_size_scale(0.25)
+			enemy_spawn_data.set_primary_color(Color.YELLOW)
+			enemy_spawn_data.set_highlight_color(Color.ORANGE)
 			enemy_spawn_data_array.append(enemy_spawn_data)
 			#print("fear")
 		negative_vibes.ANGER:
 			enemy_spawn_data = EnemySpawnData.new()
 			enemy_spawn_data.set_health(10)
-			enemy_spawn_data.set_damage(1)
-			enemy_spawn_data.set_exp(1)
-			enemy_spawn_data.set_speed(1)
+			enemy_spawn_data.set_damage(10)
+			enemy_spawn_data.set_exp(10)
+			enemy_spawn_data.set_speed(0.5)
 			enemy_spawn_data.set_spawn_time(2000)
 			enemy_spawn_data.set_enemy_size_scale(1)
 			enemy_spawn_data.set_primary_color(Color.CRIMSON)
@@ -68,60 +68,63 @@ func load_enemy_spawn_data_by_type(type:negative_vibes):
 			#print("anger")
 		negative_vibes.SADNESS:
 			enemy_spawn_data = EnemySpawnData.new()
-			enemy_spawn_data.set_health(10)
-			enemy_spawn_data.set_damage(1)
-			enemy_spawn_data.set_exp(1)
-			enemy_spawn_data.set_speed(1)
+			enemy_spawn_data.set_health(25)
+			enemy_spawn_data.set_damage(10)
+			enemy_spawn_data.set_exp(15)
+			enemy_spawn_data.set_speed(0.25)
 			enemy_spawn_data.set_spawn_time(2000)
-			enemy_spawn_data.set_enemy_size_scale(1)
+			enemy_spawn_data.set_enemy_size_scale(2)
 			enemy_spawn_data.set_primary_color(Color.DODGER_BLUE)
-			enemy_spawn_data.set_highlight_color(Color.BLUE_VIOLET)
+			enemy_spawn_data.set_highlight_color(Color.SLATE_BLUE)
+			enemy_spawn_data.set_height_offset(0.3)
 			enemy_spawn_data_array.append(enemy_spawn_data)
 			#print("sadness")
 		negative_vibes.CONTEMPT:
 			enemy_spawn_data = EnemySpawnData.new()
-			enemy_spawn_data.set_health(10)
-			enemy_spawn_data.set_damage(1)
-			enemy_spawn_data.set_exp(1)
-			enemy_spawn_data.set_speed(1)
-			enemy_spawn_data.set_spawn_time(2000)
+			enemy_spawn_data.set_health(50)
+			enemy_spawn_data.set_damage(25)
+			enemy_spawn_data.set_exp(10)
+			enemy_spawn_data.set_speed(0.5)
+			enemy_spawn_data.set_spawn_time(3000)
 			enemy_spawn_data.set_enemy_size_scale(1)
-			enemy_spawn_data.set_primary_color(Color.WEB_GRAY)
-			enemy_spawn_data.set_highlight_color(Color.TURQUOISE)
+			enemy_spawn_data.set_primary_color(Color.CORNSILK)
+			enemy_spawn_data.set_highlight_color(Color.DIM_GRAY)
 			enemy_spawn_data_array.append(enemy_spawn_data)
 			#print("contempt")
 		negative_vibes.ENVY:
 			enemy_spawn_data = EnemySpawnData.new()
 			enemy_spawn_data.set_health(10)
-			enemy_spawn_data.set_damage(1)
-			enemy_spawn_data.set_exp(1)
-			enemy_spawn_data.set_speed(1)
-			enemy_spawn_data.set_spawn_time(2000)
-			enemy_spawn_data.set_enemy_size_scale(1)
-			enemy_spawn_data.set_primary_color(Color.DARK_CYAN)
-			enemy_spawn_data.set_highlight_color(Color.DARK_GREEN)
+			enemy_spawn_data.set_damage(10)
+			enemy_spawn_data.set_exp(10)
+			enemy_spawn_data.set_speed(0.75)
+			enemy_spawn_data.set_spawn_time(1000)
+			enemy_spawn_data.set_enemy_size_scale(0.75)
+			enemy_spawn_data.set_primary_color(Color.FUCHSIA)
+			enemy_spawn_data.set_highlight_color(Color.GREEN_YELLOW)
+			enemy_spawn_data.set_height_offset(-0.2)
 			enemy_spawn_data_array.append(enemy_spawn_data)
 			#print("envy")
 		negative_vibes.DESPAIR:
 			enemy_spawn_data = EnemySpawnData.new()
-			enemy_spawn_data.set_health(10)
-			enemy_spawn_data.set_damage(1)
-			enemy_spawn_data.set_exp(1)
-			enemy_spawn_data.set_speed(1)
-			enemy_spawn_data.set_spawn_time(2000)
-			enemy_spawn_data.set_enemy_size_scale(1)
-			enemy_spawn_data.set_primary_color(Color.MEDIUM_BLUE)
-			enemy_spawn_data.set_highlight_color(Color.MIDNIGHT_BLUE)
+			enemy_spawn_data.set_health(75)
+			enemy_spawn_data.set_damage(50)
+			enemy_spawn_data.set_exp(100)
+			enemy_spawn_data.set_speed(0.25)
+			enemy_spawn_data.set_spawn_time(5000)
+			enemy_spawn_data.set_enemy_size_scale(2.5)
+			enemy_spawn_data.set_primary_color(Color.MIDNIGHT_BLUE)
+			enemy_spawn_data.set_highlight_color(Color.MEDIUM_BLUE)
+			enemy_spawn_data.set_height_offset(0.75)
 			enemy_spawn_data_array.append(enemy_spawn_data)
 			#print("despair")
 		negative_vibes.SHAME:
 			enemy_spawn_data = EnemySpawnData.new()
-			enemy_spawn_data.set_health(10)
-			enemy_spawn_data.set_damage(1)
-			enemy_spawn_data.set_exp(1)
-			enemy_spawn_data.set_speed(1)
-			enemy_spawn_data.set_spawn_time(2000)
-			enemy_spawn_data.set_enemy_size_scale(1)
+			enemy_spawn_data.set_health(5)
+			enemy_spawn_data.set_damage(5)
+			enemy_spawn_data.set_exp(5)
+			enemy_spawn_data.set_speed(3)
+			enemy_spawn_data.set_spawn_time(500)
+			enemy_spawn_data.set_enemy_size_scale(0.5)
 			enemy_spawn_data.set_primary_color(Color.STEEL_BLUE)
 			enemy_spawn_data.set_highlight_color(Color.SKY_BLUE)
 			
@@ -129,25 +132,36 @@ func load_enemy_spawn_data_by_type(type:negative_vibes):
 			#print("shame")
 		
 
+func set_total_number_of_waves(_total_number):
+	total_number_of_waves = _total_number
+
 func get_enemy_spawn_data_array_by_level(level:int):
 	#clear the array of enemy info
 	enemy_spawn_data_array.clear()
+	print(level)
 	#add enemies based on level and modifiers
-	load_enemy_spawn_data_by_type(negative_vibes.ANGER)
-	load_enemy_spawn_data_by_type(negative_vibes.ANXIETY)
-	#load_enemy_spawn_data_by_type(negative_vibes.CONTEMPT)
-	#load_enemy_spawn_data_by_type(negative_vibes.DESPAIR)
-	#load_enemy_spawn_data_by_type(negative_vibes.ENVY)
-	#load_enemy_spawn_data_by_type(negative_vibes.FEAR)
-	#load_enemy_spawn_data_by_type(negative_vibes.SHAME)
-	#load_enemy_spawn_data_by_type(negative_vibes.SADNESS)
+	
+	#for x in level + total_number_of_waves:
+	#	load_enemy_spawn_data_by_type(negative_vibes.ANXIETY)
+	#if total_number_of_waves % 5 == 0:
+	#	load_enemy_spawn_data_by_type(negative_vibes.ANGER)
 
+	#load_enemy_spawn_data_by_type(negative_vibes.ANXIETY)
+	#load_enemy_spawn_data_by_type(negative_vibes.FEAR)
+	#load_enemy_spawn_data_by_type(negative_vibes.ANGER)
+	#load_enemy_spawn_data_by_type(negative_vibes.SADNESS)
+	#load_enemy_spawn_data_by_type(negative_vibes.CONTEMPT)
+	#load_enemy_spawn_data_by_type(negative_vibes.ENVY)
+	#load_enemy_spawn_data_by_type(negative_vibes.DESPAIR)
+	#load_enemy_spawn_data_by_type(negative_vibes.SHAME)
 	
 	
 	return enemy_spawn_data_array.duplicate(true)
 
 func reset_game_data():
 	is_fresh_reset = true
+	active_enemy_array.clear()
+	total_number_of_waves = 0
 	
 func check_is_reset():
 	if is_fresh_reset:

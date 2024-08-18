@@ -1,6 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://dhreb3njbrr6l"]
+[gd_scene load_steps=6 format=3 uid="uid://dhreb3njbrr6l"]
 
+[ext_resource type="Script" path="res://scripts/start_screen.gd" id="1_6cajr"]
 [ext_resource type="FontFile" uid="uid://dbli7jexs0nak" path="res://assets/ui/GelatinTTFCAPS.ttf" id="1_6olx2"]
+[ext_resource type="Texture2D" uid="uid://ct2hmcawyc8dp" path="res://assets/textures/sleeper_agent.jpg" id="1_udu1g"]
+
+[sub_resource type="Gradient" id="Gradient_sn71q"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_y5t6d"]
+gradient = SubResource("Gradient_sn71q")
 
 [node name="start-screen" type="Control"]
 layout_mode = 3
@@ -9,14 +17,74 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_6cajr")
 
-[node name="Label" type="Label" parent="."]
+[node name="black_background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture1D_y5t6d")
+
+[node name="agent_texture" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1211.0
+offset_top = -24.0
+offset_right = 29.0
+offset_bottom = 208.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_udu1g")
+expand_mode = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 500
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 500
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
 texture_filter = 1
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+layout_mode = 2
 theme_override_fonts/font = ExtResource("1_6olx2")
+theme_override_font_sizes/font_size = 150
 text = "MK-ULTRA 
 Tower Defense"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="play_button" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_6olx2")
+theme_override_font_sizes/font_size = 100
+text = "Play"
+
+[node name="options_button" type="Button" parent="MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_6olx2")
+theme_override_font_sizes/font_size = 100
+text = "Options"
+
+[node name="exit_button" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_6olx2")
+theme_override_font_sizes/font_size = 100
+text = "Exit"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/play_button" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/options_button" to="." method="_on_options_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/exit_button" to="." method="_on_exit_button_pressed"]

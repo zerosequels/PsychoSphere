@@ -49,9 +49,10 @@ extends Node3D
 @onready var gui = %player_gui.get_gui()
 @onready var hand = %card_hand
 @onready var boon_selection_screen = $CanvasLayer3/boon_selection_screen
+@onready var pause_menu = $CanvasLayer2/PauseMenu
 
 var is_making_selection:bool = false
-
+var is_game_over = false
 var game_center: Vector3
 var camera_default_zoom = 15
 @export var player_health = 100
@@ -82,7 +83,7 @@ var activated_trigger_depth = 0
 
 enum direction {ORIGIN,NORTHWARD, SOUTHWARD, EASTWARD, WESTWARD, NO_CHUNK_AVAILABLE}
 enum path_id {NORTH,SOUTH,EAST,WEST}
-enum game_state {BIRTH, DEATH, PEACE, WAR}
+enum game_state {BIRTH, DEATH, PEACE, WAR, VICTORY}
 enum grid_entity {FREE,PATH,BASIC_TOWER}
 
 var game_status = game_state.BIRTH
@@ -113,6 +114,7 @@ func _ready():
 	
 	if WaveData.check_is_reset():
 		%PauseMenu.fade_out_menu()
+		is_game_over = false
 	hand.tower_toggled.connect(_on_tower_toggled)
 	hand.price_update.connect(_on_price_update)
 	hand._is_card_hovered.connect(_on_card_hovered)
@@ -138,8 +140,11 @@ func _process(delta):
 	#PEACE
 
 	#DEATH CHECK
-	if player_health <= 0:
+	if player_health <= 0 and !is_game_over:
 		update_game_status(game_state.DEATH)
+	if LEVEL_COUNTER == 101 and !is_game_over:
+		update_game_status(game_state.VICTORY)
+	
 		
 
 func _on_tower_unlocked(tower_type):
@@ -573,11 +578,18 @@ func update_game_status(gs:game_state):
 		game_state.BIRTH:
 			print("game state: BIRTH")
 		game_state.DEATH:
-			print("game state: DEATH")
+			#print("game state: DEATH")
+			is_game_over = true
+			pause_menu.game_over_pause()
+		game_state.VICTORY:
+			#print("game state: DEATH")
+			is_game_over = true
+			pause_menu.victory_pause()
 		game_state.WAR:
 			print("game state: WAR")
 			LEVEL_COUNTER = LEVEL_COUNTER + 1
 			set_difficulty_gui(LEVEL_COUNTER)
+			WaveData.set_total_number_of_waves(LEVEL_COUNTER)
 			#print("Level:%s"%LEVEL_COUNTER)
 		game_state.PEACE:
 			toggle_visibility_of_path_triggers()

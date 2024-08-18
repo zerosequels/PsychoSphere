@@ -1,0 +1,127 @@
+[gd_scene load_steps=6 format=3 uid="uid://hrkyrjlkrfii"]
+
+[ext_resource type="Texture2D" uid="uid://ct2hmcawyc8dp" path="res://assets/textures/sleeper_agent.jpg" id="1_p3dv7"]
+[ext_resource type="Script" path="res://scripts/demo_screen.gd" id="1_tn6oe"]
+[ext_resource type="FontFile" uid="uid://dbli7jexs0nak" path="res://assets/ui/GelatinTTFCAPS.ttf" id="2_lt21q"]
+
+[sub_resource type="Gradient" id="Gradient_2vwol"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_5ca31"]
+gradient = SubResource("Gradient_2vwol")
+
+[node name="demo_screen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_tn6oe")
+
+[node name="black_background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture1D_5ca31")
+
+[node name="agent_texture" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1211.0
+offset_top = -24.0
+offset_right = 29.0
+offset_bottom = 208.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_p3dv7")
+expand_mode = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_lt21q")
+theme_override_font_sizes/font_size = 150
+text = "Controls"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_lt21q")
+theme_override_font_sizes/font_size = 75
+text = "demo version 0.01"
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_lt21q")
+theme_override_font_sizes/font_size = 75
+text = "WASD - move camera"
+
+[node name="Label4" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_lt21q")
+theme_override_font_sizes/font_size = 75
+text = "Q and E - rotate camera"
+
+[node name="Label5" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_lt21q")
+theme_override_font_sizes/font_size = 75
+text = "- and = - zoom in and out "
+
+[node name="Label6" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_lt21q")
+theme_override_font_sizes/font_size = 75
+text = "esq - open pause menu
+"
+
+[node name="Label9" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_lt21q")
+theme_override_font_sizes/font_size = 150
+text = "Instructions"
+horizontal_alignment = 1
+
+[node name="Label7" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_lt21q")
+theme_override_font_sizes/font_size = 75
+text = "Click the floating polyhedrons in order to select a boon
+ and start a new enemy wave
+"
+
+[node name="Label8" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_lt21q")
+theme_override_font_sizes/font_size = 75
+text = "prevent enemies from reaching the seat of your 
+conciousness by placing towers to exorcise them
+"
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_lt21q")
+theme_override_font_sizes/font_size = 150
+text = "continue
+"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]

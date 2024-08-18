@@ -1,12 +1,12 @@
-[gd_scene load_steps=10 format=3 uid="uid://ch7fncmv84m5"]
+[gd_scene load_steps=11 format=3 uid="uid://ch7fncmv84m5"]
 
 [ext_resource type="Script" path="res://scripts/tower_pyramid.gd" id="1_76vea"]
 [ext_resource type="ArrayMesh" uid="uid://c2yxi4osv4evl" path="res://assets/meshs/pyramid.obj" id="2_l7eom"]
 [ext_resource type="Shader" path="res://data/sunray.gdshader" id="3_ag24m"]
 [ext_resource type="ArrayMesh" uid="uid://dks21xsjpssjm" path="res://assets/meshs/four_sided_pointer.obj" id="4_lg047"]
 [ext_resource type="Script" path="res://scripts/turret_rotation.gd" id="4_smus8"]
-[ext_resource type="PackedScene" uid="uid://bp3mcmd2at4vw" path="res://scenes/static_mouse_detection_body.tscn" id="6_fj8x8"]
 [ext_resource type="PackedScene" uid="uid://cdr8t75n5pvrb" path="res://scenes/tower_radius_zone.tscn" id="6_ssblx"]
+[ext_resource type="Script" path="res://scripts/static_mouse_detection_body.gd" id="6_wuqh2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_p1sgs"]
 render_priority = 0
@@ -23,6 +23,9 @@ shader_parameter/scan_line_count = 50.0
 shader_parameter/line_color = Color(0.937255, 0.768627, 0, 1)
 shader_parameter/scroll_speed = 10.0
 shader_parameter/n = 0.8
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_iyg3s"]
+size = Vector3(2, 0.0817871, 2)
 
 [node name="basic_tower" type="Node3D"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
@@ -46,8 +49,13 @@ surface_material_override/0 = SubResource("ShaderMaterial_iossk")
 [node name="bullet_locus" type="Node3D" parent="turret_base/rotator/turret"]
 transform = Transform3D(-2, 0, 1.74846e-07, 0, 2, 0, -1.74846e-07, 0, -2, 0, 0.4, 0)
 
-[node name="static_mouse_detection_body" parent="." instance=ExtResource("6_fj8x8")]
+[node name="static_mouse_detection_body" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.1, 1)
+script = ExtResource("6_wuqh2")
+
+[node name="mouse_detection_zone" type="CollisionShape3D" parent="static_mouse_detection_body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0408934, 0)
+shape = SubResource("BoxShape3D_iyg3s")
 
 [node name="attack_area" parent="." instance=ExtResource("6_ssblx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.1, 1)

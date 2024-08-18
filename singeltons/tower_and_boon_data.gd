@@ -268,4 +268,38 @@ func get_tower_name(tower_type:tower_types):
 		tower_types.ANNUNAKI_WEAPON:
 			return "Annunaki Sun Dial"
 
+func reset_tower_and_boon_data():
+	unlocked_towers = [
+	tower_types.PYRAMID
+	]
+	locked_towers = [
+		tower_types.ANKH,
+		tower_types.ANNUNAKI_WEAPON,
+		tower_types.COSMIC_EGG,
+		tower_types.DEATH_FUNGUS,
+		tower_types.EMERALD_TABLET,
+		tower_types.FLOWER_OF_LIFE,
+		tower_types.PRAYER_WHEEL,
+		tower_types.RUBEDO,
+		tower_types.SPIRAL,
+		tower_types.THIRD_EYE,
+		tower_types.TIME_CUBE,
+		tower_types.TUNING_FORK
+	]
+	tower_type_count = {	
+		tower_types.PYRAMID:0,
+		tower_types.THIRD_EYE:0,
+		tower_types.ANKH:0,
+		tower_types.SPIRAL:0,
+		tower_types.FLOWER_OF_LIFE:0,
+		tower_types.EMERALD_TABLET:0,
+		tower_types.PRAYER_WHEEL:0,
+		tower_types.TIME_CUBE:0,
+		tower_types.TUNING_FORK:0,
+		tower_types.DEATH_FUNGUS:0,
+		tower_types.RUBEDO:0,
+		tower_types.COSMIC_EGG:0,
+		tower_types.ANNUNAKI_WEAPON:0
+}
+	
 
