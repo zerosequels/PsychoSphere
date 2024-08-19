@@ -1,0 +1,6 @@
+[gd_resource type="CylinderShape3D" format=3 uid="uid://cxw82r436wp2b"]
+
+[resource]
+resource_local_to_scene = true
+height = 1.0
+radius = 5.0

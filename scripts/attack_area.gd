@@ -2,8 +2,7 @@ extends Area3D
 
 @onready var attack_radius_zone = $attack_radius_zone
 @onready var attack_radius_indicator = $attack_radius_plane
-@export var tower_range = 5
-@export var base_tower_range = 5
+
 var should_display_range_indicator:bool = false
 var last_hovered = 0
 var time_to_dim_ms = 550
@@ -23,26 +22,28 @@ signal targets_depleted()
 signal enemy_died_in_radius(exp)
 signal new_tower_entered_radius(area)
 
-
-
-
 func _ready():
+	print(get_instance_id())
+	create_cylinder_shape()
+	print(attack_radius_zone.shape)
 	range_vis_mode_enabled = TowerAndBoonData.get_is_range_visibility_mode_toggled()
 	should_display_range_indicator = range_vis_mode_enabled
 	toggle_range_visibility_indicator(should_display_range_indicator)
 
+func create_cylinder_shape():
+	var attack_shape = CylinderShape3D.new()
+	attack_shape.height = 1
+	attack_shape.radius = 5
+	attack_shape.margin = 0.04
+	attack_shape.set_local_to_scene(true)
+	attack_radius_zone.shape = attack_shape
 
 func _process(delta):
 	if Input.is_action_just_released("toggle_range_visibility_mode"):
 		range_vis_mode_enabled = TowerAndBoonData.get_is_range_visibility_mode_toggled()
 		toggle_range_visibility_indicator(TowerAndBoonData.get_is_range_visibility_mode_toggled())
-			
 	process_range_visibility_dim_opportunity()
 	process_retargeting_opportunity()
-
-func update_base_range(new_range:float):
-	base_tower_range = new_range
-	update_range(new_range)
 
 func set_is_support(toggle:bool):
 	is_support = toggle
@@ -64,9 +65,8 @@ func process_range_visibility_dim_opportunity():
 		toggle_range_visibility_indicator(false)
 
 func update_range(new_range:float):
-	tower_range = new_range
-	attack_radius_zone.shape.radius = tower_range
-	attack_radius_indicator.mesh.size = Vector2(tower_range * 2,tower_range * 2)
+	attack_radius_zone.shape.radius = new_range
+	attack_radius_indicator.mesh.size = Vector2(new_range * 2,new_range * 2)
 
 func toggle_range_visibility_indicator(should:bool):
 	should_display_range_indicator = should
@@ -136,13 +136,3 @@ func get_all_enemies_in_range():
 func get_all_towers_in_range():
 	return towers_in_range.duplicate(true)
 
-func set_range_modifier(emerald_stack:int):
-	tower_range =  base_tower_range
-	for x in emerald_stack:
-		iterate_range_increase()
-	update_range(tower_range)
-	return tower_range
-
-func iterate_range_increase():
-	tower_range += (tower_range * 0.25)
-	

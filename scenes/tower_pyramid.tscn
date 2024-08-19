@@ -5,8 +5,8 @@
 [ext_resource type="Shader" path="res://data/sunray.gdshader" id="3_ag24m"]
 [ext_resource type="ArrayMesh" uid="uid://dks21xsjpssjm" path="res://assets/meshs/four_sided_pointer.obj" id="4_lg047"]
 [ext_resource type="Script" path="res://scripts/turret_rotation.gd" id="4_smus8"]
-[ext_resource type="PackedScene" uid="uid://cdr8t75n5pvrb" path="res://scenes/tower_radius_zone.tscn" id="6_ssblx"]
 [ext_resource type="Script" path="res://scripts/static_mouse_detection_body.gd" id="6_wuqh2"]
+[ext_resource type="PackedScene" uid="uid://cdr8t75n5pvrb" path="res://scenes/tower_radius_zone.tscn" id="7_0blbh"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_p1sgs"]
 render_priority = 0
@@ -57,5 +57,5 @@ script = ExtResource("6_wuqh2")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0408934, 0)
 shape = SubResource("BoxShape3D_iyg3s")
 
-[node name="attack_area" parent="." instance=ExtResource("6_ssblx")]
+[node name="attack_area" parent="." instance=ExtResource("7_0blbh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.1, 1)

@@ -127,7 +127,6 @@ func load_enemy_spawn_data_by_type(type:negative_vibes):
 			enemy_spawn_data.set_enemy_size_scale(0.5)
 			enemy_spawn_data.set_primary_color(Color.STEEL_BLUE)
 			enemy_spawn_data.set_highlight_color(Color.SKY_BLUE)
-			
 			enemy_spawn_data_array.append(enemy_spawn_data)
 			#print("shame")
 		
@@ -138,7 +137,7 @@ func set_total_number_of_waves(_total_number):
 func get_enemy_spawn_data_array_by_level(level:int):
 	#clear the array of enemy info
 	enemy_spawn_data_array.clear()
-	print(level)
+	
 	#add enemies based on level and modifiers
 	
 	#for x in level + total_number_of_waves:
@@ -154,7 +153,6 @@ func get_enemy_spawn_data_array_by_level(level:int):
 	#load_enemy_spawn_data_by_type(negative_vibes.ENVY)
 	#load_enemy_spawn_data_by_type(negative_vibes.DESPAIR)
 	#load_enemy_spawn_data_by_type(negative_vibes.SHAME)
-	
 	
 	return enemy_spawn_data_array.duplicate(true)
 

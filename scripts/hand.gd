@@ -90,6 +90,11 @@ func _on_card_selected(tower_type_enum:int,tower_price:int):
 		if card.get_tower_type() != tower_type_enum:
 			card.set_is_selected(false)
 
+func select_card(tower_type_enum:int):
+	for card in hand_array:
+		if card.get_tower_type() == tower_type_enum:
+			card.set_is_selected(true)
+
 func increment_cost_by_tower_type(tower_type_enum:int):
 	for card in hand_array:
 		if card.get_tower_type() == tower_type_enum:

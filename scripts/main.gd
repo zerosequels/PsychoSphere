@@ -625,6 +625,8 @@ func restore_game_ui():
 	toggle_can_select_of_path_triggers(true)
 	is_making_selection = false
 	hand.toggle_hide_hand(false)
+	if current_tower_type != -1:
+		hand.select_card(current_tower_type)
 	gui.visible = true
 	boon_selection_screen.visible = false
 

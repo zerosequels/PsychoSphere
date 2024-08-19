@@ -53,7 +53,12 @@ func get_hoverable_from_raycast(raycast:Dictionary):
 		emit_signal("hide_indicator")
 		return
 	elif raycast["collider"].get_name() == "static_mouse_detection_body":
-		raycast["collider"].mouse_detector_hit()
+		
+		if raycast["collider"].has_method("mouse_detector_hit"):
+			raycast["collider"].mouse_detector_hit()
+		else:
+			pass
+			#print(raycast["collider"].get_script())
 	elif raycast["collider"] == chaos_grid:
 		var grid_pos = chaos_grid.local_to_map(raycast.position)
 		emit_signal("chaos_grid_cell_hovered",grid_pos)

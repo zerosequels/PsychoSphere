@@ -16,6 +16,8 @@ var base_tower_range:float = 5
 
 
 func _ready():
+	print(get_instance_id())
+	#print(attack_area.get_script())
 	attack_area.target_new_enemy.connect($turret_base.set_current_enemy)
 	attack_area.targets_depleted.connect(_on_targets_depleted)
 	mouse_detector.mouse_detector_hovered.connect(_on_mouse_detector_hovered)
@@ -54,8 +56,20 @@ func get_spiral_stack():
 	return spiral_stack_level 
 	
 func increment_emerald_tablet_buff(delta:int):
+	print("tablet buff incremented")
 	emerald_tablet_stack_level += delta
-	attack_area.set_range_modifier(emerald_tablet_stack_level)
+	set_range_modifier(emerald_tablet_stack_level)
+
+func set_range_modifier(emerald_stack:int):
+	print(emerald_stack)
+	tower_range =  base_tower_range
+	for x in emerald_stack:
+		iterate_range_increase()
+	update_range(tower_range)
+	return tower_range
+
+func iterate_range_increase():
+	tower_range += (tower_range * 0.25)
 
 
 	
