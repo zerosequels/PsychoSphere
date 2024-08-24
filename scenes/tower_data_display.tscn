@@ -1,0 +1,37 @@
+[gd_scene load_steps=7 format=3 uid="uid://b5po10y5qd4vf"]
+
+[ext_resource type="PackedScene" uid="uid://dtf4uphrswj3a" path="res://scenes/tower_data_display_ui.tscn" id="1_2t2wn"]
+[ext_resource type="Script" path="res://scripts/tower_data_display.gd" id="1_icouo"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_x3wwo"]
+viewport_path = NodePath("viewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mrdpg"]
+resource_local_to_scene = true
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_x3wwo")
+disable_receive_shadows = true
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_sud2q"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_w6q35"]
+size = Vector3(1, 1, 0.0265961)
+
+[node name="tower_data_display" type="Node3D"]
+script = ExtResource("1_icouo")
+
+[node name="display" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_mrdpg")
+mesh = SubResource("QuadMesh_sud2q")
+
+[node name="area" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0063858)
+shape = SubResource("BoxShape3D_w6q35")
+
+[node name="viewport" type="SubViewport" parent="."]
+transparent_bg = true
+
+[node name="Control" parent="viewport" instance=ExtResource("1_2t2wn")]

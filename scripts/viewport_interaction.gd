@@ -45,6 +45,9 @@ func get_grid_cell_from_raycast(raycast: Dictionary):
 		emit_signal("chaos_grid_cell_clicked",grid_pos)
 	elif raycast["collider"].get_name() == "expand_path_static_body": 
 		raycast["collider"].get_parent().get_parent().activate_trigger()
+	elif raycast["collider"].get_name() == "static_mouse_detection_body":
+		if raycast["collider"].has_method("mouse_click"):
+			raycast["collider"].mouse_click()
 	else:
 		print(raycast)
 		
@@ -53,12 +56,8 @@ func get_hoverable_from_raycast(raycast:Dictionary):
 		emit_signal("hide_indicator")
 		return
 	elif raycast["collider"].get_name() == "static_mouse_detection_body":
-		
 		if raycast["collider"].has_method("mouse_detector_hit"):
 			raycast["collider"].mouse_detector_hit()
-		else:
-			pass
-			#print(raycast["collider"].get_script())
 	elif raycast["collider"] == chaos_grid:
 		var grid_pos = chaos_grid.local_to_map(raycast.position)
 		emit_signal("chaos_grid_cell_hovered",grid_pos)

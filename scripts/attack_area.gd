@@ -8,7 +8,8 @@ var last_hovered = 0
 var time_to_dim_ms = 550
 
 var tween_opacity:Tween
-
+var tower_range = 5
+var base_tower_range = 5
 var enemies_in_range = []
 var towers_in_range = []
 var range_vis_mode_enabled = false
@@ -23,20 +24,9 @@ signal enemy_died_in_radius(exp)
 signal new_tower_entered_radius(area)
 
 func _ready():
-	print(get_instance_id())
-	create_cylinder_shape()
-	print(attack_radius_zone.shape)
 	range_vis_mode_enabled = TowerAndBoonData.get_is_range_visibility_mode_toggled()
 	should_display_range_indicator = range_vis_mode_enabled
 	toggle_range_visibility_indicator(should_display_range_indicator)
-
-func create_cylinder_shape():
-	var attack_shape = CylinderShape3D.new()
-	attack_shape.height = 1
-	attack_shape.radius = 5
-	attack_shape.margin = 0.04
-	attack_shape.set_local_to_scene(true)
-	attack_radius_zone.shape = attack_shape
 
 func _process(delta):
 	if Input.is_action_just_released("toggle_range_visibility_mode"):
@@ -135,4 +125,14 @@ func get_all_enemies_in_range():
 
 func get_all_towers_in_range():
 	return towers_in_range.duplicate(true)
+
+func set_range_modifier(emerald_stack:int):
+	tower_range =  base_tower_range
+	for x in emerald_stack:
+		iterate_range_increase()
+	update_range(tower_range)
+	return tower_range
+
+func iterate_range_increase():
+	tower_range += (tower_range * 0.25)
 
