@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://dm4b6nfa443qc"]
+
+[ext_resource type="PackedScene" uid="uid://dbjvmlgct7rjf" path="res://assets/meshs/table.glb" id="1_4ns0x"]
+
+[node name="table2" instance=ExtResource("1_4ns0x")]

@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://d1h5185jxjuxq"]
+
+[ext_resource type="PackedScene" uid="uid://swp5rd3andgv" path="res://assets/meshs/lab_room.glb" id="1_nn7eh"]
+
+[node name="lab_room" instance=ExtResource("1_nn7eh")]

@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://dpyl8g7hnw2yf"]
+
+[ext_resource type="PackedScene" uid="uid://mfb7lj6ass1m" path="res://assets/meshs/lab_victim.glb" id="1_n28bd"]
+[ext_resource type="Script" path="res://scripts/lab_victim.gd" id="2_swqen"]
+
+[node name="lab_victim" instance=ExtResource("1_n28bd")]
+script = ExtResource("2_swqen")
+
+[node name="Skeleton3D" parent="metarig" index="0"]
+bones/0/rotation = Quaternion(-0.547821, 3.56784e-09, 2.81314e-08, 0.836596)
+bones/1/rotation = Quaternion(0.263687, -2.6548e-09, -1.39707e-08, 0.964608)
+bones/2/rotation = Quaternion(-0.0774642, -3.44011e-17, -4.42755e-16, 0.996995)
+bones/3/rotation = Quaternion(0.00162715, 4.45534e-16, -8.87455e-16, 0.999999)
+bones/4/rotation = Quaternion(0.201738, -2.17479e-16, -4.47947e-17, 0.97944)
+bones/5/rotation = Quaternion(-0.0948575, 1.89449e-16, -3.52628e-16, 0.995491)
+bones/100/rotation = Quaternion(-0.376361, 0.664262, -0.466609, 0.446525)
+bones/101/rotation = Quaternion(0.322218, 0.143334, -0.0215103, 0.935504)
+bones/123/rotation = Quaternion(0.376362, 0.664262, -0.466609, -0.446525)
+bones/124/rotation = Quaternion(0.322218, -0.143334, 0.0215103, 0.935504)
+bones/149/rotation = Quaternion(0.998281, 0.049109, -0.0148496, 0.0283263)
+bones/150/rotation = Quaternion(0.0231115, 0.0158564, 0.000156279, 0.999607)
+bones/151/rotation = Quaternion(-0.525178, -0.0395076, 0.0196886, 0.849847)
+bones/154/rotation = Quaternion(0.998281, -0.049109, 0.0148496, 0.0283263)
+bones/155/rotation = Quaternion(0.0231115, -0.0158564, -0.000156271, 0.999607)
+bones/156/rotation = Quaternion(-0.525178, 0.0395076, -0.0196886, 0.849847)

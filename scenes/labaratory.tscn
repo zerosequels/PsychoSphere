@@ -1,0 +1,70 @@
+[gd_scene load_steps=17 format=3 uid="uid://bvpkr3o841j5j"]
+
+[ext_resource type="PackedScene" uid="uid://d1h5185jxjuxq" path="res://scenes/lab_room.tscn" id="1_d24go"]
+[ext_resource type="PackedScene" uid="uid://dw28c3xrv71cj" path="res://scenes/chair.tscn" id="2_ge0e1"]
+[ext_resource type="PackedScene" uid="uid://bgje77lcpthig" path="res://scenes/computer_bank.tscn" id="3_j7ga1"]
+[ext_resource type="PackedScene" uid="uid://bf5751yshwxvd" path="res://scenes/computer_case.tscn" id="4_uahpo"]
+[ext_resource type="PackedScene" uid="uid://bpbt8a8opdrcb" path="res://scenes/computer_tape_drum.tscn" id="5_4qrxc"]
+[ext_resource type="PackedScene" uid="uid://dm4b6nfa443qc" path="res://scenes/table.tscn" id="6_t4j7a"]
+[ext_resource type="PackedScene" uid="uid://d1usco8nib6lk" path="res://scenes/eeg_device.tscn" id="7_ne08l"]
+[ext_resource type="PackedScene" uid="uid://bs1qdi224jddl" path="res://scenes/eeg_needle.tscn" id="8_ossgb"]
+[ext_resource type="PackedScene" uid="uid://d2vbf25au8v0p" path="res://scenes/eeg_print_off.tscn" id="9_ut5du"]
+[ext_resource type="PackedScene" uid="uid://b1ldh1j1y232n" path="res://scenes/lab_victim_1.tscn" id="10_evvk4"]
+[ext_resource type="PackedScene" uid="uid://d5vwqqpbeqij" path="res://scenes/doctor.tscn" id="11_tm5ld"]
+[ext_resource type="PackedScene" uid="uid://ca8vew0vfjbow" path="res://scenes/cia_guy.tscn" id="12_6v1jl"]
+[ext_resource type="PackedScene" uid="uid://cwsj26l5jjtyr" path="res://scenes/laboratory_ui.tscn" id="13_xcqr7"]
+[ext_resource type="PackedScene" uid="uid://usk4q7vyt5i0" path="res://scenes/game_title.tscn" id="14_x1j5e"]
+
+[sub_resource type="Environment" id="Environment_vpsnf"]
+background_mode = 1
+
+[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_ws6ef"]
+
+[node name="laboratory" type="Node3D"]
+
+[node name="lab_room" parent="." instance=ExtResource("1_d24go")]
+
+[node name="chair" parent="." instance=ExtResource("2_ge0e1")]
+
+[node name="computer_bank" parent="." instance=ExtResource("3_j7ga1")]
+
+[node name="computer_case" parent="." instance=ExtResource("4_uahpo")]
+
+[node name="computer_tape_drum" parent="." instance=ExtResource("5_4qrxc")]
+
+[node name="table" parent="." instance=ExtResource("6_t4j7a")]
+
+[node name="eeg_device" parent="." instance=ExtResource("7_ne08l")]
+
+[node name="eeg_needle" parent="." instance=ExtResource("8_ossgb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.598636, 1.4965, 1.91843)
+
+[node name="eeg_print_off" parent="." instance=ExtResource("9_ut5du")]
+
+[node name="camera_boom" type="Node3D" parent="."]
+transform = Transform3D(0.544639, 0.58259, -0.603289, 0, 0.71934, 0.694658, 0.838671, -0.378338, 0.39178, 1.75, 0.13, -0.52)
+
+[node name="Camera3D" type="Camera3D" parent="camera_boom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.1)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_vpsnf")
+camera_attributes = SubResource("CameraAttributesPhysical_ws6ef")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.816913, 0.498904, -0.289391, 0, 0.501752, 0.865011, 0.57676, -0.706639, 0.409888, -6.69799, 3.97518, 8.65185)
+
+[node name="lab_victim_1" parent="." instance=ExtResource("10_evvk4")]
+
+[node name="doctor" parent="." instance=ExtResource("11_tm5ld")]
+
+[node name="cia_guy" parent="." instance=ExtResource("12_6v1jl")]
+transform = Transform3D(0.901175, 0, 0.433455, 0, 1, 0, -0.433455, 0, 0.901175, -1.31321, 4.76837e-07, -3.17002)
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+
+[node name="game-title" parent="CanvasLayer2" instance=ExtResource("14_x1j5e")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="laboratory_ui" parent="CanvasLayer" instance=ExtResource("13_xcqr7")]

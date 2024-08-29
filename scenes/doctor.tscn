@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://d5vwqqpbeqij"]
+
+[ext_resource type="PackedScene" uid="uid://bj8awhrhwoyf7" path="res://assets/meshs/doctor.glb" id="1_kh3q8"]
+[ext_resource type="Script" path="res://scripts/doctor.gd" id="2_vo705"]
+
+[node name="doctor" instance=ExtResource("1_kh3q8")]
+script = ExtResource("2_vo705")
+
+[node name="Skeleton3D" parent="metarig_002" index="0"]
+bones/4/rotation = Quaternion(0.201738, -5.55112e-17, 5.55112e-17, 0.97944)
+bones/5/rotation = Quaternion(-0.0948575, -1.18907e-24, -3.74216e-09, 0.995491)
+bones/100/rotation = Quaternion(-0.398892, 0.569607, -0.556131, 0.455139)
+bones/101/rotation = Quaternion(0.15147, 0.224505, 0.0252939, 0.962296)
+bones/123/rotation = Quaternion(0.398892, 0.569607, -0.556131, -0.455139)
+bones/124/rotation = Quaternion(0.15147, -0.224505, -0.0252939, 0.962296)
+bones/149/rotation = Quaternion(0.996113, 0.0453044, -0.0117048, 0.0746242)
+bones/150/rotation = Quaternion(-0.000294744, -0.00492682, 0.046738, 0.998895)
+bones/151/rotation = Quaternion(-0.528229, 0.0115516, 0.00639647, 0.848999)
+bones/154/rotation = Quaternion(0.996113, -0.0453044, 0.0117048, 0.0746242)
+bones/155/rotation = Quaternion(-0.000294744, 0.00492684, -0.046738, 0.998895)
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

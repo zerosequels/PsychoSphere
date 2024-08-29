@@ -1,0 +1,55 @@
+[gd_scene load_steps=3 format=3 uid="uid://usk4q7vyt5i0"]
+
+[ext_resource type="Texture2D" uid="uid://bcqrm5veen3i6" path="res://assets/textures/Abstract_Noise_021-512x512.png" id="1_0y8q0"]
+[ext_resource type="FontFile" uid="uid://dbli7jexs0nak" path="res://assets/ui/GelatinTTFCAPS.ttf" id="1_5b7f7"]
+
+[node name="game-title" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -794.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 500
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 500
+theme_override_constants/margin_bottom = 20
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer"]
+self_modulate = Color(0.109804, 1, 0.239216, 1)
+layout_mode = 2
+texture = ExtResource("1_0y8q0")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="Label" type="Label" parent="MarginContainer/TextureRect"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -1.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 8
+theme_override_constants/shadow_offset_y = 8
+theme_override_constants/outline_size = 15
+theme_override_constants/shadow_outline_size = 15
+theme_override_fonts/font = ExtResource("1_5b7f7")
+theme_override_font_sizes/font_size = 150
+text = "MK-ULTRA 
+Tower Defense"
+horizontal_alignment = 1
+vertical_alignment = 1

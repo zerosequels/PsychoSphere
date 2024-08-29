@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://ca8vew0vfjbow"]
+
+[ext_resource type="PackedScene" uid="uid://j8wqmjgx5wwf" path="res://assets/meshs/cia_guy.glb" id="1_np4y2"]
+[ext_resource type="Script" path="res://scripts/cia_guy.gd" id="2_0weef"]
+
+[node name="cia_guy" instance=ExtResource("1_np4y2")]
+script = ExtResource("2_0weef")
+
+[node name="Skeleton3D" parent="metarig_001" index="0"]
+bones/1/rotation = Quaternion(-0.0644765, 5.61855e-15, -1.53724e-08, 0.997919)
+bones/2/rotation = Quaternion(-0.0774641, -1.18851e-07, -9.23444e-09, 0.996995)
+bones/4/rotation = Quaternion(0.201738, -8.16141e-15, 4.80981e-08, 0.97944)
+bones/5/rotation = Quaternion(-0.0948578, 1.18672e-07, -3.39238e-08, 0.995491)
+bones/100/rotation = Quaternion(-0.341485, 0.659891, -0.531936, 0.406173)
+bones/123/rotation = Quaternion(0.341484, 0.659891, -0.531936, -0.406172)
+bones/151/rotation = Quaternion(-0.513127, 0.0228426, 0.0232114, 0.857695)
+bones/156/rotation = Quaternion(-0.513127, -0.0228426, -0.0232114, 0.857695)
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

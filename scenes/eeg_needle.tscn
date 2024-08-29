@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bs1qdi224jddl"]
+
+[ext_resource type="PackedScene" uid="uid://c7oyykafkarkj" path="res://assets/meshs/eeg_needle.glb" id="1_oibe4"]
+[ext_resource type="Script" path="res://scripts/eeg_needle.gd" id="2_5df5l"]
+
+[node name="eeg_needle2" instance=ExtResource("1_oibe4")]
+script = ExtResource("2_5df5l")
+
+[node name="eeg_needle" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.591984, -0.674043, -0.142845)
