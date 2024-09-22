@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://b775if30x3m0m"]
+
+[ext_resource type="PackedScene" uid="uid://myytpk8df14m" path="res://assets/meshs/mit.glb" id="1_vljt4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tl2n6"]
+albedo_color = Color(0.858824, 0.227451, 0.211765, 1)
+roughness = 0.2
+
+[node name="mit" instance=ExtResource("1_vljt4")]
+
+[node name="MIT" parent="." index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_tl2n6")

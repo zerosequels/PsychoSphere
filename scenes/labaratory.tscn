@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bvpkr3o841j5j"]
+[gd_scene load_steps=18 format=3 uid="uid://bvpkr3o841j5j"]
 
 [ext_resource type="PackedScene" uid="uid://d1h5185jxjuxq" path="res://scenes/lab_room.tscn" id="1_d24go"]
 [ext_resource type="PackedScene" uid="uid://dw28c3xrv71cj" path="res://scenes/chair.tscn" id="2_ge0e1"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://ca8vew0vfjbow" path="res://scenes/cia_guy.tscn" id="12_6v1jl"]
 [ext_resource type="PackedScene" uid="uid://cwsj26l5jjtyr" path="res://scenes/laboratory_ui.tscn" id="13_xcqr7"]
 [ext_resource type="PackedScene" uid="uid://usk4q7vyt5i0" path="res://scenes/game_title.tscn" id="14_x1j5e"]
+[ext_resource type="PackedScene" uid="uid://b775if30x3m0m" path="res://scenes/mit.tscn" id="15_nyoxw"]
 
 [sub_resource type="Environment" id="Environment_vpsnf"]
 background_mode = 1
@@ -59,7 +60,7 @@ transform = Transform3D(0.816913, 0.498904, -0.289391, 0, 0.501752, 0.865011, 0.
 [node name="doctor" parent="." instance=ExtResource("11_tm5ld")]
 
 [node name="cia_guy" parent="." instance=ExtResource("12_6v1jl")]
-transform = Transform3D(0.901175, 0, 0.433455, 0, 1, 0, -0.433455, 0, 0.901175, -1.31321, 4.76837e-07, -3.17002)
+transform = Transform3D(0.901175, 0, 0.433455, 0, 1, 0, -0.433455, 0, 0.901175, -1.31321, -0.162022, -3.46041)
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="."]
 
@@ -68,3 +69,6 @@ transform = Transform3D(0.901175, 0, 0.433455, 0, 1, 0, -0.433455, 0, 0.901175, 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="laboratory_ui" parent="CanvasLayer" instance=ExtResource("13_xcqr7")]
+
+[node name="mit2" parent="." instance=ExtResource("15_nyoxw")]
+transform = Transform3D(-1.31134e-08, 0, -0.3, 0, 0.3, 0, 0.3, 0, -1.31134e-08, 4.38275, 3.14733, 3.11392)

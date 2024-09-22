@@ -140,10 +140,10 @@ func get_enemy_spawn_data_array_by_level(level:int):
 	
 	#add enemies based on level and modifiers
 	
-	#for x in level + total_number_of_waves:
-	#	load_enemy_spawn_data_by_type(negative_vibes.ANXIETY)
-	#if total_number_of_waves % 5 == 0:
-	#	load_enemy_spawn_data_by_type(negative_vibes.ANGER)
+	for x in level + total_number_of_waves:
+		load_enemy_spawn_data_by_type(negative_vibes.ANXIETY)
+	if total_number_of_waves % 5 == 0:
+		load_enemy_spawn_data_by_type(negative_vibes.ANGER)
 
 	#load_enemy_spawn_data_by_type(negative_vibes.ANXIETY)
 	#load_enemy_spawn_data_by_type(negative_vibes.FEAR)

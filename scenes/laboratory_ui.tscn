@@ -44,6 +44,7 @@ Projection"
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_sma4a")
 theme_override_font_sizes/font_size = 100
+disabled = true
 text = "unlock 
 akashik Intel"
 
@@ -51,6 +52,7 @@ akashik Intel"
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_sma4a")
 theme_override_font_sizes/font_size = 100
+disabled = true
 text = "options
 "
 
@@ -62,6 +64,6 @@ text = "quit
 "
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/play_button" to="." method="_on_play_button_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/upgrade_button" to="." method="_on_play_button_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/options_button" to="." method="_on_play_button_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/quit_button" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/upgrade_button" to="." method="_on_upgrade_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/options_button" to="." method="_on_options_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/quit_button" to="." method="_on_quit_button_pressed"]

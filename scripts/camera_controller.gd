@@ -15,7 +15,7 @@ var zoom_input:float
 var zoom_min:float = 2
 var zoom_max:float = 20
 var zoom_value:float = 5
-var zoom_speed:float = 0.1
+var zoom_speed:float = 0.2
 
 const max_speed = 10
 const accel = 75
@@ -38,10 +38,12 @@ func get_input(delta):
 			camera_velocity += (translation_input * accel * delta)
 			camera_velocity = camera_velocity.limit_length(max_speed)
 			
-		if Input.is_action_pressed("camera_zoom_in"):
+		if Input.is_action_pressed("camera_zoom_in") or Input.is_action_just_released("camera_zoom_in"):
+			print("zoom in")
 			zoom_value -= zoom_speed
 			zoom_value = maxf(zoom_value,zoom_min)
-		if Input.is_action_pressed("camera_zoom_out"):
+		if Input.is_action_pressed("camera_zoom_out") or Input.is_action_just_released("camera_zoom_out"):
+			print("zoom out")
 			zoom_value += zoom_speed
 			zoom_value = minf(zoom_value,zoom_max)
 		if Input.is_action_pressed("E"):

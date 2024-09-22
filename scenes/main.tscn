@@ -78,7 +78,7 @@ curve = ExtResource("3_vux1g")
 
 [node name="north_path_follow" type="PathFollow3D" parent="north_path"]
 unique_name_in_owner = true
-transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, 0, 0, 1)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 1)
 progress = 1.0
 
 [node name="north_enemy_path" type="Path3D" parent="."]
@@ -87,7 +87,7 @@ curve = ExtResource("5_x768b")
 
 [node name="north_enemy_path_follow" type="PathFollow3D" parent="north_enemy_path"]
 unique_name_in_owner = true
-transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, 0.5, 1, 1.5)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.5, 1, 1.5)
 progress = 1.0
 
 [node name="west_path" type="Path3D" parent="."]
