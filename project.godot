@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="MK-ULTRA Tower Defense"
-run/main_scene="res://scenes/labaratory.tscn"
+run/main_scene="res://scenes/laboratory.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 boot_splash/show_image=false
 config/icon="res://icon.svg"

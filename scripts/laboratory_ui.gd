@@ -1,7 +1,10 @@
 extends Control
 
+signal astral_projection_begin
+
 func _on_play_button_pressed():
-	get_tree().change_scene_to_file("res://scenes/demo_screen.tscn")
+	emit_signal("astral_projection_begin")
+	
 
 
 func _on_upgrade_button_pressed():
