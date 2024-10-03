@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://c4gfvouqx0y3m"]
+
+[ext_resource type="AudioStream" uid="uid://dcbfmfpo1k0cl" path="res://assets/sounds/occult_laboratory.wav" id="1_eb4pr"]
+[ext_resource type="Script" path="res://scripts/AudioStreamPlayer.gd" id="2_ma4tb"]
+
+[node name="lab_audio_player" type="AudioStreamPlayer"]
+stream = ExtResource("1_eb4pr")
+volume_db = -5.0
+script = ExtResource("2_ma4tb")
+
+[node name="main_theme_player" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_eb4pr")
+
+[connection signal="finished" from="." to="." method="_on_finished"]
+[connection signal="finished" from="main_theme_player" to="." method="_on_main_theme_player_finished"]

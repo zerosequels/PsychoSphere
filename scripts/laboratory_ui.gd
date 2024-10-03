@@ -1,10 +1,11 @@
 extends Control
 
 signal astral_projection_begin
+@onready var distortion_layer:Sprite2D = $distortion_layer
 
 func _on_play_button_pressed():
 	emit_signal("astral_projection_begin")
-	
+	increase_ui_distortion()
 
 
 func _on_upgrade_button_pressed():
@@ -17,3 +18,7 @@ func _on_options_button_pressed():
 
 func _on_quit_button_pressed():
 	get_tree().quit()
+	
+func increase_ui_distortion():
+	distortion_layer.trigger_distortion()
+

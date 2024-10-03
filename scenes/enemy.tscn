@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://lwl1fbjeq3nj"]
+[gd_scene load_steps=11 format=3 uid="uid://lwl1fbjeq3nj"]
 
 [ext_resource type="PackedScene" uid="uid://c26hur8a4gnw1" path="res://scenes/negative_vibe.tscn" id="1_1xj58"]
 [ext_resource type="Script" path="res://scripts/shake_on_hit.gd" id="1_06jom"]
 [ext_resource type="PackedScene" uid="uid://c21fpkkmc27hy" path="res://scenes/health_bar.tscn" id="1_ri170"]
 [ext_resource type="PackedScene" uid="uid://c57hovrp7ehl6" path="res://scenes/status_display_enemy_ui.tscn" id="4_bgn17"]
+[ext_resource type="AudioStream" uid="uid://bxc81mkrhdcxp" path="res://assets/sounds/enemy_hit.wav" id="5_e3fi0"]
 
 [sub_resource type="GDScript" id="GDScript_55np8"]
 script/source = "extends PathFollow3D
@@ -119,6 +120,7 @@ func apply_cubic_stack(stack_count:int):
 	last_cubic_debuff_decay_time = Time.get_ticks_msec()
 	
 func take_damage(damage:float,multi_hit_proc_chance:float,wiggle_direction:Vector3):
+	$enemy_hit_audio_stream_player.play()
 	$enemy/model_scaler/enemy_model.damage_flash()
 	$enemy.damage_wiggle(wiggle_direction)
 	health = health - calculate_damage(damage)
@@ -243,6 +245,9 @@ texture = SubResource("ViewportTexture_xb8rw")
 [node name="ticker" parent="enemy/damage_number_origin" instance=ExtResource("4_bgn17")]
 transform = Transform3D(0.36, 0, 0, 0, 0.36, 0, 0, 0, 0.36, 0, 0.176771, 0)
 texture = SubResource("ViewportTexture_3eqy1")
+
+[node name="enemy_hit_audio_stream_player" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_e3fi0")
 
 [connection signal="area_entered" from="enemy/enemy_mesh/multi_hit_area" to="." method="_on_multi_hit_area_entered"]
 [connection signal="area_exited" from="enemy/enemy_mesh/multi_hit_area" to="." method="_on_multi_hit_area_exited"]

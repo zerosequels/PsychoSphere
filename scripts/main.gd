@@ -108,6 +108,7 @@ var is_card_hovered:bool = false
 #NORTH INCREASES ON Y AND SOUTH DECREASES ON Y
 
 func _ready():
+	#GlobalAudio.play_main_theme()
 	TowerAndBoonData.increase_currency.connect(_on_currency_increase)
 	TowerAndBoonData.unlock_tower.connect(_on_tower_unlocked)
 	boon_selection_screen.close_menu.connect(_on_boon_selection_screen_closed)
@@ -402,6 +403,7 @@ func instantiate_tower_by_current_type(grid_pos:Vector3i):
 	active_tower_array.append(tower)
 	%chaos_grid.add_child(tower)
 	increment_cost_of_tower_by_type()
+	$on_tower_placed_audio_stream_player.play()
 
 func increment_cost_of_tower_by_type():
 	hand.increment_cost_by_tower_type(current_tower_type)
@@ -578,15 +580,16 @@ func update_game_status(gs:game_state):
 		game_state.BIRTH:
 			print("game state: BIRTH")
 		game_state.DEATH:
-			#print("game state: DEATH")
+
 			is_game_over = true
+			$game_over_stream_player.play()
+			await get_tree().create_timer(7).timeout
 			pause_menu.game_over_pause()
 		game_state.VICTORY:
 			#print("game state: DEATH")
 			is_game_over = true
 			pause_menu.victory_pause()
 		game_state.WAR:
-			print("game state: WAR")
 			LEVEL_COUNTER = LEVEL_COUNTER + 1
 			set_difficulty_gui(LEVEL_COUNTER)
 			WaveData.set_total_number_of_waves(LEVEL_COUNTER)
@@ -608,6 +611,7 @@ func remove_path_trigger_by_trigger_uuid(trigger_uuid):
 	
 
 func _on_path_trigger_activated(trigger_id,trigger_uuid,depth):
+	$path_trigger_selected_audio_stream_player.play()
 	show_path_trigger_choice_menu(trigger_id,trigger_uuid,depth)
 	
 
@@ -662,6 +666,7 @@ func enemy_wave_activation_sequence(trigger_id,trigger_uuid,depth):
 
 func _on_enemy_reached_center(damage, enemy_uuid):
 	#print("center reached")
+	$on_enemy_reached_center_stream_player.play()
 	WaveData.remove_enemy_by_uuid(enemy_uuid)
 	player_health = player_health - damage
 	set_health_gui(player_health)
@@ -671,11 +676,13 @@ func _on_currency_increase(exp):
 	set_awareness_gui(currency_amount)
 
 func _on_enemy_killed(exp,enemy_uuid):
+	$on_enemy_dead_audio_stream_player.play()
 	currency_amount += exp
 	set_awareness_gui(currency_amount)
 	WaveData.remove_enemy_by_uuid(enemy_uuid)
 
 func _on_boon_selection_screen_closed(trigger_id,trigger_uuid,depth):
+	$boon_selected_audio_stream_player.play()
 	restore_game_ui()
 	enemy_wave_activation_sequence(trigger_id,trigger_uuid,depth)
 
@@ -693,10 +700,12 @@ func _on_tower_toggled(tower_type:int, tower_price:int):
 		current_tower_type = -1
 		indicator.visible = false
 		indicator.global_position = Vector3(0,0,0)
+		$on_card_deselected_audio_stream_player.play()
 	else:
 		current_tower_type = tower_type
 		current_tower_price = tower_price
 		indicator.visible = true
+		$on_card_select_audio_stream_player.play()
 func _on_hide_indicator():
 	indicator.visible = false
 	indicator.global_position = Vector3(0,0,0)

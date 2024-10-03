@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bvpkr3o841j5j"]
+[gd_scene load_steps=24 format=3 uid="uid://bvpkr3o841j5j"]
 
 [ext_resource type="Script" path="res://scripts/labaratory.gd" id="1_df1hq"]
 [ext_resource type="PackedScene" uid="uid://d1h5185jxjuxq" path="res://scenes/lab_room.tscn" id="2_jmkot"]
@@ -18,6 +18,85 @@
 [ext_resource type="PackedScene" uid="uid://b775if30x3m0m" path="res://scenes/mit.tscn" id="16_qeqs0"]
 [ext_resource type="AudioStream" uid="uid://ckg5qj8d8do55" path="res://assets/sounds/warning.wav" id="17_4msm2"]
 [ext_resource type="AudioStream" uid="uid://j2d5lokfrcr3" path="res://assets/sounds/_dissolve_02.mp3" id="18_qs8qj"]
+
+[sub_resource type="Animation" id="Animation_dddqy"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera3D:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Camera3D:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Camera3D:position:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(7.1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_ubspk"]
+resource_name = "camera_zoom_in"
+length = 3.5
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera3D:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0.295432, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 3.5)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Camera3D:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0.892213, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 3.5)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Camera3D:position:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(7.1, -0.25, 0, 0.25, 0, 3.82666, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 3.5)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7xyn0"]
+_data = {
+"RESET": SubResource("Animation_dddqy"),
+"camera_zoom_in": SubResource("Animation_ubspk")
+}
 
 [sub_resource type="Environment" id="Environment_vpsnf"]
 background_mode = 1
@@ -50,7 +129,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.598636, 1.4965, 1.91843)
 transform = Transform3D(0.544639, 0.58259, -0.603289, 0, 0.71934, 0.694658, 0.838671, -0.378338, 0.39178, 1.75, 0.13, -0.52)
 
 [node name="Camera3D" type="Camera3D" parent="camera_boom"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.1)
+transform = Transform3D(1, -8.9407e-08, 2.38419e-07, 0, 1, 1.04308e-07, -2.98023e-08, -1.49012e-08, 1, 0, 0, 7.1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="camera_boom"]
+libraries = {
+"": SubResource("AnimationLibrary_7xyn0")
+}
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_vpsnf")

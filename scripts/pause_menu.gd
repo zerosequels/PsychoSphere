@@ -88,4 +88,6 @@ func _on_restart_bttn_pressed():
 
 
 func _on_quit_bttn_pressed():
+	$quit_audio_stream_player.play()
+	await get_tree().create_timer(2.0).timeout
 	quit()

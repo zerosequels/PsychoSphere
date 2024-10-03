@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dsetycerax1g"]
+[gd_scene load_steps=17 format=3 uid="uid://dsetycerax1g"]
 
 [ext_resource type="Script" path="res://scripts/pause_menu.gd" id="1_ftpxy"]
 [ext_resource type="Shader" path="res://data/blurr_canvas.gdshader" id="1_ijklf"]
@@ -7,6 +7,7 @@
 [ext_resource type="FontFile" uid="uid://dbli7jexs0nak" path="res://assets/ui/GelatinTTFCAPS.ttf" id="3_6a0q2"]
 [ext_resource type="Texture2D" uid="uid://bcqrm5veen3i6" path="res://assets/textures/Abstract_Noise_021-512x512.png" id="3_waerq"]
 [ext_resource type="PackedScene" uid="uid://cbkickc83pnb3" path="res://scenes/fade_screen.tscn" id="7_7thqs"]
+[ext_resource type="AudioStream" uid="uid://c0iul1gcvfx5o" path="res://assets/sounds/game_over.wav" id="8_pnd66"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1ek1i"]
 shader = ExtResource("1_ijklf")
@@ -255,6 +256,9 @@ libraries = {
 
 [node name="fade_screen" parent="." instance=ExtResource("7_7thqs")]
 layer = 5
+
+[node name="quit_audio_stream_player" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_pnd66")
 
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/resume_bttn" to="." method="_on_resume_bttn_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/restart_bttn" to="." method="_on_restart_bttn_pressed"]

@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://hrkyrjlkrfii"]
 
-[ext_resource type="Texture2D" uid="uid://ct2hmcawyc8dp" path="res://assets/textures/sleeper_agent.jpg" id="1_p3dv7"]
 [ext_resource type="Script" path="res://scripts/demo_screen.gd" id="1_tn6oe"]
 [ext_resource type="FontFile" uid="uid://dbli7jexs0nak" path="res://assets/ui/GelatinTTFCAPS.ttf" id="2_lt21q"]
+[ext_resource type="Texture2D" uid="uid://b4qbc6tndiuec" path="res://assets/ui/victim.png" id="2_qs3qh"]
 
 [sub_resource type="Gradient" id="Gradient_2vwol"]
 colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
@@ -28,19 +28,10 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture1D_5ca31")
 
-[node name="agent_texture" type="TextureRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 1211.0
-offset_top = -24.0
-offset_right = 29.0
-offset_bottom = 208.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("1_p3dv7")
-expand_mode = 1
+[node name="Victim" type="Sprite2D" parent="."]
+position = Vector2(1554, 459)
+scale = Vector2(1.29907, 1.29907)
+texture = ExtResource("2_qs3qh")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -66,7 +57,7 @@ horizontal_alignment = 1
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_lt21q")
 theme_override_font_sizes/font_size = 75
-text = "demo version 0.01"
+text = "demo version 0.05"
 horizontal_alignment = 1
 
 [node name="Label3" type="Label" parent="MarginContainer/VBoxContainer"]
@@ -106,15 +97,15 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("2_lt21q")
 theme_override_font_sizes/font_size = 75
 text = "Click the floating polyhedrons in order to select a boon
- and start a new enemy wave
+and start a new enemy wave
 "
 
 [node name="Label8" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_lt21q")
 theme_override_font_sizes/font_size = 75
-text = "prevent enemies from reaching the seat of your 
-conciousness by placing towers to exorcise them
+text = "prevent mind goblins from reaching the center of your 
+mental maze
 "
 
 [node name="Button" type="Button" parent="MarginContainer/VBoxContainer"]
