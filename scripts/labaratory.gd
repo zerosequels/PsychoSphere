@@ -20,7 +20,7 @@ func _ready():
 	GlobalAudio.play_lab_theme()
 
 func _on_timer_timeout():
-	#GlobalAudio.stop_lab_theme()
+	
 	get_tree().change_scene_to_file("res://scenes/demo_instructions.tscn")
 
 func _on_astral_projection_begin():

@@ -108,7 +108,8 @@ var is_card_hovered:bool = false
 #NORTH INCREASES ON Y AND SOUTH DECREASES ON Y
 
 func _ready():
-	#GlobalAudio.play_main_theme()
+	GlobalAudio.stop_lab_theme()
+	GlobalAudio.play_main_theme()
 	TowerAndBoonData.increase_currency.connect(_on_currency_increase)
 	TowerAndBoonData.unlock_tower.connect(_on_tower_unlocked)
 	boon_selection_screen.close_menu.connect(_on_boon_selection_screen_closed)
