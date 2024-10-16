@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://ccluvcco0vgft"]
+[gd_scene load_steps=6 format=3 uid="uid://ccluvcco0vgft"]
 
 [ext_resource type="Script" path="res://scripts/tower_emerald_tablet.gd" id="1_jp3ou"]
 [ext_resource type="PackedScene" uid="uid://dtalxoifdvgu8" path="res://scenes/emerald_tablet_controller.tscn" id="3_cwkjo"]
 [ext_resource type="PackedScene" uid="uid://cdr8t75n5pvrb" path="res://scenes/tower_radius_zone.tscn" id="4_2yoy2"]
+[ext_resource type="PackedScene" uid="uid://dehs0ddvo41ed" path="res://scenes/buff_area.tscn" id="5_dolp2"]
 [ext_resource type="PackedScene" uid="uid://bp3mcmd2at4vw" path="res://scenes/static_mouse_detection_body.tscn" id="5_omttu"]
 
 [node name="emerald_tablet_tower" type="Node3D"]
@@ -17,3 +18,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.1, 1)
 
 [node name="emerald_tablet_controller" parent="." instance=ExtResource("3_cwkjo")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1, 1.1, 1)
+
+[node name="buff_area" parent="." instance=ExtResource("5_dolp2")]

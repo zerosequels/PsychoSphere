@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://c6ix4lgb3gx2w"]
+[gd_scene load_steps=9 format=3 uid="uid://c6ix4lgb3gx2w"]
 
 [ext_resource type="Script" path="res://scripts/tower_time_cube.gd" id="1_ccrhd"]
 [ext_resource type="PackedScene" uid="uid://bp3mcmd2at4vw" path="res://scenes/static_mouse_detection_body.tscn" id="1_jy3bc"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bjj030ccw05kw" path="res://scenes/time_cube_controller.tscn" id="3_sqphp"]
 [ext_resource type="ArrayMesh" uid="uid://cqsr7uulrlpe1" path="res://assets/meshs/disc_plane.obj" id="5_24d1q"]
 [ext_resource type="Shader" uid="uid://bfiwtcpfsej8s" path="res://data/tower_time_cube.tres" id="6_4qyb0"]
+[ext_resource type="PackedScene" uid="uid://dehs0ddvo41ed" path="res://scenes/buff_area.tscn" id="7_baf2q"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ujj27"]
 render_priority = 0
@@ -29,3 +30,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 1)
 mesh = ExtResource("5_24d1q")
 surface_material_override/0 = SubResource("ShaderMaterial_ujj27")
+
+[node name="buff_area" parent="." instance=ExtResource("7_baf2q")]

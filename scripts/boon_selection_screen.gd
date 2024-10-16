@@ -47,6 +47,7 @@ func get_boon_to_display():
 func _on_boon_selected(new_boon_type,new_boon_id):
 	match new_boon_type:
 		boon_types.out_of_boons:
+			clear_boon_options()
 			emit_signal("close_menu",path_trigger_id,path_trigger_uuid,path_depth)
 		boon_types.unlock:
 			pass

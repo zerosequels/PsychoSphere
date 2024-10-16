@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://cfxjiublh2y0c"]
+
+[ext_resource type="Texture2D" uid="uid://dj58kvp5sbl25" path="res://assets/ui/Hud_Neon.png" id="1_do8vb"]
+[ext_resource type="FontFile" uid="uid://dbli7jexs0nak" path="res://assets/ui/GelatinTTFCAPS.ttf" id="2_k3rpy"]
+[ext_resource type="Script" path="res://scripts/tool_box.gd" id="2_xuhou"]
+
+[node name="NinePatchRect" type="NinePatchRect"]
+texture_filter = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -129.0
+offset_top = -55.0
+offset_right = 129.0
+offset_bottom = 55.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_do8vb")
+region_rect = Rect2(-0.239628, 282.973, 104.321, 40.8094)
+script = ExtResource("2_xuhou")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -105.0
+offset_top = -44.0
+offset_right = 107.0
+offset_bottom = 42.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_k3rpy")
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3

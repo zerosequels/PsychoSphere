@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://by2gfe0spajgu"]
+[gd_scene load_steps=8 format=3 uid="uid://by2gfe0spajgu"]
 
 [ext_resource type="PackedScene" uid="uid://cbfwcj26tck8l" path="res://scenes/card_setup.tscn" id="1_taneg"]
 [ext_resource type="Shader" path="res://data/card_3d_shader.gdshader" id="2_i78mx"]
 [ext_resource type="Texture2D" uid="uid://24xfni2xg74e" path="res://assets/tilesets/fungusl_card.png" id="3_wtj50"]
+[ext_resource type="Script" path="res://scripts/tooltip.gd" id="4_w3dad"]
+[ext_resource type="PackedScene" uid="uid://cfxjiublh2y0c" path="res://scenes/tool_box.tscn" id="5_7g288"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nieyw"]
 resource_local_to_scene = true
@@ -30,3 +32,9 @@ material = SubResource("ShaderMaterial_nieyw")
 [node name="card_sprite" parent="." index="1"]
 material = SubResource("ShaderMaterial_ycytq")
 texture = ExtResource("3_wtj50")
+
+[node name="Node" type="Node" parent="ui_mouse_detector" index="0"]
+script = ExtResource("4_w3dad")
+visual_res = ExtResource("5_7g288")
+owner_path = NodePath("..")
+tip_text = "enemies killed in range drop double awareness "

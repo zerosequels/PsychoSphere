@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://bo1d6s34p0xot"]
+[gd_scene load_steps=8 format=3 uid="uid://bo1d6s34p0xot"]
 
 [ext_resource type="PackedScene" uid="uid://cbfwcj26tck8l" path="res://scenes/card_setup.tscn" id="1_31qq1"]
 [ext_resource type="Shader" path="res://data/card_3d_shader.gdshader" id="2_alnnx"]
 [ext_resource type="Texture2D" uid="uid://b4i6gpvuqp58c" path="res://assets/tilesets/egg.png" id="3_8qbks"]
+[ext_resource type="Script" path="res://scripts/tooltip.gd" id="4_3bklp"]
+[ext_resource type="PackedScene" uid="uid://cfxjiublh2y0c" path="res://scenes/tool_box.tscn" id="5_lb0ex"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vqyhp"]
 resource_local_to_scene = true
@@ -36,3 +38,9 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 
 [node name="tower_price_label" parent="." index="5"]
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="Node" type="Node" parent="ui_mouse_detector" index="0"]
+script = ExtResource("4_3bklp")
+visual_res = ExtResource("5_lb0ex")
+owner_path = NodePath("..")
+tip_text = "an egg that when fully hatched summons a ricocheting galaxy "

@@ -5,7 +5,7 @@ extends Node3D
 @onready var magnum_opus = $magnum_opus
 
 @onready var projectile = preload("res://scenes/sun_ray_projectile.tscn")
-
+var type_id = 10
 var emerald_tablet_stack_level = 0
 var base_attack_speed_ms = 1000
 var attack_speed_ms = 1000
@@ -22,10 +22,24 @@ var flower_of_life_stack_level = 0
 var current_enemy_target: Node3D
 var has_target:bool = false
 
+var price:int = 0
+
+func set_tower_price(cost:int):
+	price = cost
+
 func _ready():
 	#attack_area.target_new_enemy.connect(_on_target_new_enemy)
 	#attack_area.targets_depleted.connect(_on_targets_depleted)
 	mouse_detector.mouse_detector_hovered.connect(_on_mouse_detector_hovered)
+	mouse_detector.tower_clicked.connect(_on_clicked)
+	$buff_area.delta_emerald_tablet_buff.connect(increment_emerald_tablet_buff)
+
+func _on_clicked():
+	#check if player is in sell mode. 
+	if TowerAndBoonData.get_currently_selected_tower() == 13:
+		TowerAndBoonData.refund_tower_by_price_and_type(price,10)
+		GlobalAudio.tower_removed_sfx()
+		self.queue_free()
 
 func _process(delta):
 	process_attack_opportunity()

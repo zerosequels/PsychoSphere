@@ -4,7 +4,7 @@ extends Node3D
 @onready var mouse_detector = $static_mouse_detection_body
 @onready var annunaki_controller = $annunaki_controller
 @onready var beam = preload("res://scenes/annunaki_targeting_beam.tscn")
-
+var type_id = 12
 var annunaki_tower_base_range = 15
 var emerald_tablet_stack_level = 0
 
@@ -26,10 +26,23 @@ var flower_of_life_stack_level = 0
 var multi_hit_proc_chance = 0
 var base_multi_hit_proc_chance = 0
 
+var price:int = 0
+
+func set_tower_price(cost:int):
+	price = cost
 
 func _ready():
 	mouse_detector.mouse_detector_hovered.connect(_on_mouse_detector_hovered)
-	attack_area.update_base_range(annunaki_tower_base_range)
+	attack_area.update_range(annunaki_tower_base_range)
+	mouse_detector.tower_clicked.connect(_on_clicked)
+	$buff_area.delta_emerald_tablet_buff.connect(increment_emerald_tablet_buff)
+
+func _on_clicked():
+	#check if player is in sell mode. 
+	if TowerAndBoonData.get_currently_selected_tower() == 13:
+		TowerAndBoonData.refund_tower_by_price_and_type(price,type_id)
+		GlobalAudio.tower_removed_sfx()
+		self.queue_free()
 
 func _process(delta):
 	process_meteor_opportunity()

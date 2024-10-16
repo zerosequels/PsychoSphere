@@ -15,6 +15,7 @@ extends Control
 @onready var magnum_opus_card = preload("res://scenes/magnum_opus_card.tscn")
 @onready var cosmic_egg_card = preload("res://scenes/cosmic_egg_card.tscn")
 @onready var annunaki_card = preload("res://scenes/annunaki_card.tscn")
+@onready var sell_card = preload("res://scenes/sell_card.tscn")
 @onready var hand_layer = $CanvasLayer
 var max_hand_size:int = 13
 
@@ -24,6 +25,10 @@ signal tower_toggled(tower_type_enum:int,tower_price:int)
 signal price_update(tower_type_enum:int,tower_price:int)
 signal _is_card_hovered(is_hovered:bool)
 
+func refresh_card_prices():
+	for card in hand_array:
+		card.refresh_price()
+
 func toggle_hide_hand(toggle):
 	if toggle:
 		hand_layer.visible = false
@@ -31,9 +36,12 @@ func toggle_hide_hand(toggle):
 		hand_layer.visible = true
 
 func add_card_by_type(type:int):
-	type = clampi(type,0,12)
+	type = clampi(type,0,13)
+	if type == 13:
+		add_card("Sell Tower",-1,type)
+		return
 	var name = TowerAndBoonData.get_tower_name(type)
-	var price = TowerAndBoonData.get_next_tower_price_and_increment_count(type)
+	var price = TowerAndBoonData.get_tower_base_cost(type)
 	add_card(name,price,type)
 
 func add_card(card_name:String, card_price:int, card_type:int):
@@ -65,6 +73,8 @@ func add_card(card_name:String, card_price:int, card_type:int):
 			new_card = cosmic_egg_card.instantiate()
 		12:
 			new_card = annunaki_card.instantiate()
+		13:
+			new_card = sell_card.instantiate()
 		_:
 			new_card = card_prefab.instantiate()
 
@@ -101,7 +111,11 @@ func increment_cost_by_tower_type(tower_type_enum:int):
 			card.increment_tower_price(tower_type_enum)
 
 func _ready():
+	add_card_by_type(13)
 	add_card_by_type(0)
+	add_card_by_type(2)
+	add_card_by_type(5)
+	
 
 
 

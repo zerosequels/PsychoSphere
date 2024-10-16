@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://0m4rak5l8dmo"]
+[gd_scene load_steps=8 format=3 uid="uid://0m4rak5l8dmo"]
 
 [ext_resource type="PackedScene" uid="uid://cbfwcj26tck8l" path="res://scenes/card_setup.tscn" id="1_2h5me"]
 [ext_resource type="Shader" path="res://data/card_3d_shader.gdshader" id="2_dtp14"]
 [ext_resource type="Texture2D" uid="uid://f6asy7oftnf1" path="res://assets/tilesets/card_forkl.png" id="3_hkmd0"]
+[ext_resource type="Script" path="res://scripts/tooltip.gd" id="4_h0ytj"]
+[ext_resource type="PackedScene" uid="uid://cfxjiublh2y0c" path="res://scenes/tool_box.tscn" id="5_lssmp"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ope5w"]
 resource_local_to_scene = true
@@ -30,3 +32,9 @@ material = SubResource("ShaderMaterial_ope5w")
 [node name="card_sprite" parent="." index="1"]
 material = SubResource("ShaderMaterial_w2qcs")
 texture = ExtResource("3_hkmd0")
+
+[node name="Node" type="Node" parent="ui_mouse_detector" index="0"]
+script = ExtResource("4_h0ytj")
+visual_res = ExtResource("5_lssmp")
+owner_path = NodePath("..")
+tip_text = "increases attack speed of all nearby towers"

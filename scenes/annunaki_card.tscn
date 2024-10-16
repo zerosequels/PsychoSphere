@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://clcb71yhxs67j"]
+[gd_scene load_steps=8 format=3 uid="uid://clcb71yhxs67j"]
 
 [ext_resource type="PackedScene" uid="uid://cbfwcj26tck8l" path="res://scenes/card_setup.tscn" id="1_71mji"]
 [ext_resource type="Shader" path="res://data/card_3d_shader.gdshader" id="2_3qsbi"]
 [ext_resource type="Texture2D" uid="uid://bc24kc6vk5gja" path="res://assets/tilesets/annunaki_card.png" id="3_ow5ej"]
+[ext_resource type="Script" path="res://scripts/tooltip.gd" id="4_w8p3c"]
+[ext_resource type="PackedScene" uid="uid://cfxjiublh2y0c" path="res://scenes/tool_box.tscn" id="5_r5nna"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cb7ju"]
 resource_local_to_scene = true
@@ -30,3 +32,9 @@ material = SubResource("ShaderMaterial_cb7ju")
 [node name="card_sprite" parent="." index="1"]
 material = SubResource("ShaderMaterial_gh2qi")
 texture = ExtResource("3_ow5ej")
+
+[node name="Node" type="Node" parent="ui_mouse_detector" index="0"]
+script = ExtResource("4_w8p3c")
+visual_res = ExtResource("5_r5nna")
+owner_path = NodePath("..")
+tip_text = "Summons a beam of light that tracks and burns a target"

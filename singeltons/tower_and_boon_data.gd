@@ -5,6 +5,9 @@ var range_visibility_mode_toggled = false
 
 signal increase_currency(exp)
 signal unlock_tower(tower_type)
+signal refresh_card_cost()
+
+var currently_selected_tower_type = -1
 
 var unlocked_towers = [
 	tower_types.PYRAMID
@@ -197,18 +200,43 @@ func set_range_visibility_mode(should:bool):
 func increase_awarness(exp:int):
 	emit_signal("increase_currency",exp)
 
+#refactor these two methods to utilize a third cost estimator and then use that to determine price from count
+
+func get_tower_cost_by_count_and_type(count:int,base_cost:int):
+	var cost = base_cost * (1 + count + growth_rate)
+	return int(cost)
+
 func get_next_tower_price_and_increment_count(type:tower_types):
 	var count = tower_type_count[type]
-	var new_cost
-	if count == 0:
-		new_cost = get_tower_base_cost(type)
-	else:
-		var base_cost = get_tower_base_cost(type)
-		new_cost = base_cost * (1 + count + growth_rate)
-	#increment count at end
+	var base_cost = get_tower_base_cost(type)
+	var new_cost = get_tower_cost_by_count_and_type(count,base_cost)
 	count = count + 1
 	tower_type_count[type] = count
 	return new_cost
+
+func get_next_tower_price(tower_type:tower_types):
+	if tower_type == 13:
+		return -1
+	var count = tower_type_count[tower_type]
+	var base_cost = get_tower_base_cost(tower_type)
+	var new_cost = get_tower_cost_by_count_and_type(count,base_cost)
+	return new_cost
+
+func refund_tower_by_type(type:tower_types):
+	var count = tower_type_count[type]
+	count = count - 1
+	var base_cost = get_tower_base_cost(type)
+	var new_cost = get_tower_cost_by_count_and_type(count,base_cost)
+	tower_type_count[type] = count
+	increase_awarness(new_cost)
+
+func refund_tower_by_price(price:int):
+	increase_awarness(price)
+	
+func refund_tower_by_price_and_type(price:int,type:tower_types):
+	increase_awarness(price)
+	tower_type_count[type] = tower_type_count[type] - 1
+	emit_signal("refresh_card_cost")
 
 func get_tower_base_cost(tower_type:tower_types):
 	match tower_type:
@@ -301,5 +329,9 @@ func reset_tower_and_boon_data():
 		tower_types.COSMIC_EGG:0,
 		tower_types.ANNUNAKI_WEAPON:0
 }
-	
 
+func get_currently_selected_tower():
+	return currently_selected_tower_type
+	
+func set_currently_selected_tower(index):
+	currently_selected_tower_type = index

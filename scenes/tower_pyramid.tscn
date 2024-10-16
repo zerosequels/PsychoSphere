@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://ch7fncmv84m5"]
+[gd_scene load_steps=12 format=3 uid="uid://ch7fncmv84m5"]
 
 [ext_resource type="Script" path="res://scripts/tower_pyramid.gd" id="1_76vea"]
 [ext_resource type="ArrayMesh" uid="uid://c2yxi4osv4evl" path="res://assets/meshs/pyramid.obj" id="2_l7eom"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://scripts/turret_rotation.gd" id="4_smus8"]
 [ext_resource type="Script" path="res://scripts/static_mouse_detection_body.gd" id="6_wuqh2"]
 [ext_resource type="PackedScene" uid="uid://cdr8t75n5pvrb" path="res://scenes/tower_radius_zone.tscn" id="7_0blbh"]
+[ext_resource type="PackedScene" uid="uid://dehs0ddvo41ed" path="res://scenes/buff_area.tscn" id="8_ks2vm"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_p1sgs"]
 render_priority = 0
@@ -59,3 +60,5 @@ shape = SubResource("BoxShape3D_iyg3s")
 
 [node name="attack_area" parent="." instance=ExtResource("7_0blbh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.1, 1)
+
+[node name="buff_area" parent="." instance=ExtResource("8_ks2vm")]

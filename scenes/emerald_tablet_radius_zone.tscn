@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://cao1ds8q6gdug"]
+
+[ext_resource type="Script" path="res://scripts/attack_area.gd" id="1_7u0mc"]
+[ext_resource type="Shader" path="res://data/circle_highlight.gdshader" id="2_odsf3"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_glfrk"]
+resource_local_to_scene = true
+height = 1.0
+radius = 5.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_k22qq"]
+resource_local_to_scene = true
+size = Vector2(10, 10)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ckrcl"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("2_odsf3")
+shader_parameter/scan_line_count = 20.0
+shader_parameter/circle_color = Color(5.77569e-07, 0.859141, 0.945599, 1)
+shader_parameter/scroll_speed = 10.0
+shader_parameter/circle_opacity = 1.0
+
+[node name="attack_area" type="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+script = ExtResource("1_7u0mc")
+
+[node name="attack_radius_zone" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
+shape = SubResource("CylinderShape3D_glfrk")
+
+[node name="attack_radius_plane" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+mesh = SubResource("PlaneMesh_k22qq")
+surface_material_override/0 = SubResource("ShaderMaterial_ckrcl")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]

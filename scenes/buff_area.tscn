@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://dehs0ddvo41ed"]
+
+[ext_resource type="Script" path="res://scripts/buff_area.gd" id="1_casep"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_f4k8h"]
+resource_local_to_scene = true
+height = 1.0
+
+[node name="buff_area" type="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -5, 1)
+script = ExtResource("1_casep")
+
+[node name="buff_shape" type="CollisionShape3D" parent="."]
+shape = SubResource("CylinderShape3D_f4k8h")

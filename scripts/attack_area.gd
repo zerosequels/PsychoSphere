@@ -28,6 +28,7 @@ func _ready():
 	should_display_range_indicator = range_vis_mode_enabled
 	toggle_range_visibility_indicator(should_display_range_indicator)
 
+
 func _process(delta):
 	if Input.is_action_just_released("toggle_range_visibility_mode"):
 		range_vis_mode_enabled = TowerAndBoonData.get_is_range_visibility_mode_toggled()
@@ -85,7 +86,7 @@ func remove_enemy_from_array(area):
 func _on_area_entered(area):
 	#check if it's an enemy 
 	if area.get_name() != "enemy_area":
-		if area.get_name() == "attack_area" and is_support:
+		if area.get_name() == "buff_area" and is_support:
 			towers_in_range.append(area)
 			emit_signal("new_tower_entered_radius",area)
 		return
@@ -106,7 +107,7 @@ func select_new_target(enemy):
 
 func _on_area_exited(area):
 	if area.get_name() != "enemy_area":
-		if area.get_name() == "attack_area" and is_support:
+		if area.get_name() == "buff_area" and is_support:
 			if towers_in_range.has(area):
 				towers_in_range.erase(area)
 		return
@@ -136,3 +137,5 @@ func set_range_modifier(emerald_stack:int):
 func iterate_range_increase():
 	tower_range += (tower_range * 0.25)
 
+func set_attack_radius_zone_depth(depth):
+	attack_radius_zone.position.y = depth

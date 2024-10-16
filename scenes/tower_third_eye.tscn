@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://dbpbqevvjsnip"]
+[gd_scene load_steps=6 format=3 uid="uid://dbpbqevvjsnip"]
 
 [ext_resource type="Script" path="res://scripts/tower_third_eye.gd" id="1_gxvu8"]
 [ext_resource type="PackedScene" uid="uid://bncbuu8w28xeu" path="res://scenes/third_eye_controller.tscn" id="3_hf38a"]
 [ext_resource type="PackedScene" uid="uid://cdr8t75n5pvrb" path="res://scenes/tower_radius_zone.tscn" id="4_6m8os"]
+[ext_resource type="PackedScene" uid="uid://dehs0ddvo41ed" path="res://scenes/buff_area.tscn" id="5_bvf0w"]
 [ext_resource type="PackedScene" uid="uid://bp3mcmd2at4vw" path="res://scenes/static_mouse_detection_body.tscn" id="5_rbt6v"]
 
 [node name="third_eye_tower" type="Node3D"]
@@ -17,3 +18,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.1, 1)
 
 [node name="third_eye_controller" parent="." instance=ExtResource("3_hf38a")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.1, 1)
+
+[node name="buff_area" parent="." instance=ExtResource("5_bvf0w")]

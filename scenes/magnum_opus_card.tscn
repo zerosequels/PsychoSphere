@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://bgq1uvhrl7lo0"]
+[gd_scene load_steps=8 format=3 uid="uid://bgq1uvhrl7lo0"]
 
 [ext_resource type="PackedScene" uid="uid://cbfwcj26tck8l" path="res://scenes/card_setup.tscn" id="1_2h5qv"]
 [ext_resource type="Shader" path="res://data/card_3d_shader.gdshader" id="2_x7mye"]
 [ext_resource type="Texture2D" uid="uid://c7if1qwa8vorp" path="res://assets/tilesets/magnum_opus_card.png" id="3_hiaki"]
+[ext_resource type="Script" path="res://scripts/tooltip.gd" id="4_prgss"]
+[ext_resource type="PackedScene" uid="uid://cfxjiublh2y0c" path="res://scenes/tool_box.tscn" id="5_vrfwu"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4c60i"]
 resource_local_to_scene = true
@@ -30,3 +32,9 @@ material = SubResource("ShaderMaterial_4c60i")
 [node name="card_sprite" parent="." index="1"]
 material = SubResource("ShaderMaterial_e6n6t")
 texture = ExtResource("3_hiaki")
+
+[node name="Node" type="Node" parent="ui_mouse_detector" index="0"]
+script = ExtResource("4_prgss")
+visual_res = ExtResource("5_vrfwu")
+owner_path = NodePath("..")
+tip_text = "shoots rays of transmutation imparting damage over time"

@@ -2,13 +2,28 @@ extends Node3D
 
 @onready var attack_area = $attack_area
 @onready var mouse_detector = $static_mouse_detection_body
+var type_id = 8
 
 var emerald_tablet_stack_level = 0
+
+var price:int = 0
+
+func set_tower_price(cost:int):
+	price = cost
 
 func _ready():
 	mouse_detector.mouse_detector_hovered.connect(_on_mouse_detector_hovered)
 	attack_area.set_is_support(true)
 	attack_area.new_tower_entered_radius.connect(_on_tower_entered_radius)
+	mouse_detector.tower_clicked.connect(_on_clicked)
+	$buff_area.delta_emerald_tablet_buff.connect(increment_emerald_tablet_buff)
+
+func _on_clicked():
+	#check if player is in sell mode. 
+	if TowerAndBoonData.get_currently_selected_tower() == 13:
+		TowerAndBoonData.refund_tower_by_price_and_type(price,8)
+		GlobalAudio.tower_removed_sfx()
+		self.queue_free()
 
 func _on_mouse_detector_hovered():
 	attack_area.update_last_hovered()

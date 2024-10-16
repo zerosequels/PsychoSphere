@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://d170dovvjswk2"]
+[gd_scene load_steps=12 format=3 uid="uid://d170dovvjswk2"]
 
 [ext_resource type="Script" path="res://scripts/tower_ankh.gd" id="1_mq6ff"]
 [ext_resource type="ArrayMesh" uid="uid://dks21xsjpssjm" path="res://assets/meshs/four_sided_pointer.obj" id="2_ifoc4"]
@@ -8,6 +8,7 @@
 [ext_resource type="Shader" uid="uid://cu4wdhmqsajob" path="res://data/tower_ankh_effect.tres" id="6_iko6w"]
 [ext_resource type="PackedScene" uid="uid://cdr8t75n5pvrb" path="res://scenes/tower_radius_zone.tscn" id="6_vjqhm"]
 [ext_resource type="PackedScene" uid="uid://bp3mcmd2at4vw" path="res://scenes/static_mouse_detection_body.tscn" id="7_cfwcj"]
+[ext_resource type="PackedScene" uid="uid://dehs0ddvo41ed" path="res://scenes/buff_area.tscn" id="9_7yhje"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_p1sgs"]
 render_priority = 0
@@ -51,3 +52,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.1, 1)
 
 [node name="attack_area" parent="." instance=ExtResource("6_vjqhm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.1, 1)
+
+[node name="buff_area" parent="." instance=ExtResource("9_7yhje")]

@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://2ev6g0uls6ds"]
+[gd_scene load_steps=8 format=3 uid="uid://2ev6g0uls6ds"]
 
 [ext_resource type="PackedScene" uid="uid://cbfwcj26tck8l" path="res://scenes/card_setup.tscn" id="1_hr67q"]
 [ext_resource type="Shader" path="res://data/card_3d_shader.gdshader" id="2_hwo2m"]
 [ext_resource type="Texture2D" uid="uid://dak3cexk4iipx" path="res://assets/tilesets/mani_wheel_card.png" id="3_avgq1"]
+[ext_resource type="Script" path="res://scripts/tooltip.gd" id="4_fwylb"]
+[ext_resource type="PackedScene" uid="uid://cfxjiublh2y0c" path="res://scenes/tool_box.tscn" id="5_okcmg"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_f8rgt"]
 resource_local_to_scene = true
@@ -30,3 +32,9 @@ material = SubResource("ShaderMaterial_f8rgt")
 [node name="card_sprite" parent="." index="1"]
 material = SubResource("ShaderMaterial_tkenp")
 texture = ExtResource("3_avgq1")
+
+[node name="Node" type="Node" parent="ui_mouse_detector" index="0"]
+script = ExtResource("4_fwylb")
+visual_res = ExtResource("5_okcmg")
+owner_path = NodePath("..")
+tip_text = "slows enemies within range"

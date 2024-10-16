@@ -22,8 +22,15 @@ const accel = 75
 const friction = 100
 
 var is_camera_frozen:bool = false
+var camera_is_dragging:bool = false
 
 func get_input(delta):
+	
+	if Input.is_action_just_pressed("middle_mouse"):
+		camera_is_dragging = true
+	if Input.is_action_just_released("middle_mouse"):
+		camera_is_dragging = false
+	
 	if !is_camera_frozen:
 		translation_input.x = int(Input.is_action_pressed("D")) - int(Input.is_action_pressed("A"))
 		translation_input.z = int(Input.is_action_pressed("S")) - int(Input.is_action_pressed("W"))
@@ -39,17 +46,16 @@ func get_input(delta):
 			camera_velocity = camera_velocity.limit_length(max_speed)
 			
 		if Input.is_action_pressed("camera_zoom_in") or Input.is_action_just_released("camera_zoom_in"):
-			print("zoom in")
 			zoom_value -= zoom_speed
 			zoom_value = maxf(zoom_value,zoom_min)
 		if Input.is_action_pressed("camera_zoom_out") or Input.is_action_just_released("camera_zoom_out"):
-			print("zoom out")
 			zoom_value += zoom_speed
 			zoom_value = minf(zoom_value,zoom_max)
 		if Input.is_action_pressed("E"):
 			camera_rotator.rotation_degrees.y += camera_rotation_speed * delta
 		if Input.is_action_pressed("Q"):
 			camera_rotator.rotation_degrees.y -= camera_rotation_speed * delta
+		
 
 		camera_base.position += align_velocity_to_camera(camera_velocity) * delta
 		camera_target.position.y = zoom_value
@@ -59,6 +65,11 @@ func get_input(delta):
 func _physics_process(delta):
 	get_input(delta)
 
+func _input(event):
+	if event is InputEventMouseMotion:
+		#print(event.relative)
+		if camera_is_dragging:
+			camera_rotator.rotation_degrees.y -= (event.relative.x * zoom_value) / 25
 
 func align_velocity_to_camera(velocity:Vector3):
 	return velocity.rotated(Vector3(0,1,0),deg_to_rad(camera_rotator.rotation_degrees.y))

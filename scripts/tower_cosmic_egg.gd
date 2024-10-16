@@ -30,11 +30,25 @@ var egg_delta_threshold = 10.0
 var flower_of_life_stack_level = 0
 var spiral_stack_level = 0
 
+var price:int = 0
+
+func set_tower_price(cost:int):
+	price = cost
+
 func _ready():
 	mouse_detector.mouse_detector_hovered.connect(_on_mouse_detector_hovered)
 	attack_area.target_new_enemy.connect(_on_new_enemy_target)
 	attack_area.targets_depleted.connect(_on_targets_depleted)
 	last_hatch_time = Time.get_ticks_msec()
+	mouse_detector.tower_clicked.connect(_on_clicked)
+	$buff_area.delta_emerald_tablet_buff.connect(increment_emerald_tablet_buff)
+
+func _on_clicked():
+	#check if player is in sell mode. 
+	if TowerAndBoonData.get_currently_selected_tower() == 13:
+		TowerAndBoonData.refund_tower_by_price_and_type(price,11)
+		GlobalAudio.tower_removed_sfx()
+		self.queue_free()
 
 func _on_new_enemy_target(target):
 	if target == null:

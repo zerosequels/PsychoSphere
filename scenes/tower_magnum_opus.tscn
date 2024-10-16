@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://bjn4jwm3eaisq"]
+[gd_scene load_steps=7 format=3 uid="uid://bjn4jwm3eaisq"]
 
 [ext_resource type="Script" path="res://scripts/tower_magnum_opus.gd" id="1_qm3bg"]
 [ext_resource type="PackedScene" uid="uid://bp3mcmd2at4vw" path="res://scenes/static_mouse_detection_body.tscn" id="1_rl1ko"]
 [ext_resource type="PackedScene" uid="uid://cdr8t75n5pvrb" path="res://scenes/tower_radius_zone.tscn" id="2_f7227"]
 [ext_resource type="PackedScene" uid="uid://bsfb15gilvi53" path="res://scenes/magnum_opus_controller.tscn" id="3_r8bu3"]
 [ext_resource type="PackedScene" uid="uid://dg6ehysjpo2dm" path="res://scenes/flask_sub_comp.tscn" id="4_eep3t"]
+[ext_resource type="PackedScene" uid="uid://dehs0ddvo41ed" path="res://scenes/buff_area.tscn" id="6_tqvpp"]
 
 [node name="magnum_opus_tower" type="Node3D"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
@@ -21,3 +22,5 @@ transform = Transform3D(0.3, 0, 0, 0, 0.212132, -0.212132, 0, 0.212132, 0.212132
 
 [node name="flask" parent="." instance=ExtResource("4_eep3t")]
 transform = Transform3D(0.5, 0, 0, 0, 0.4, 0, 0, 0, 0.5, 1, 1.5, 1)
+
+[node name="buff_area" parent="." instance=ExtResource("6_tqvpp")]

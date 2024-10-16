@@ -56,6 +56,11 @@ func set_tower_type(type:int):
 func increment_tower_price(type:int):
 	set_price(TowerAndBoonData.get_next_tower_price_and_increment_count(type))
 	emit_signal("price_updated",tower_type,tower_price)
+	
+func refresh_price():
+	print(tower_type)
+	set_price(TowerAndBoonData.get_next_tower_price(tower_type))
+	emit_signal("price_updated",tower_type,tower_price)
 
 func get_tower_type():
 	return tower_type

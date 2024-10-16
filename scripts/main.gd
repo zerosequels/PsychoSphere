@@ -112,6 +112,7 @@ func _ready():
 	GlobalAudio.play_main_theme()
 	TowerAndBoonData.increase_currency.connect(_on_currency_increase)
 	TowerAndBoonData.unlock_tower.connect(_on_tower_unlocked)
+	TowerAndBoonData.refresh_card_cost.connect(_refresh_card_prices)
 	boon_selection_screen.close_menu.connect(_on_boon_selection_screen_closed)
 	
 	if WaveData.check_is_reset():
@@ -341,7 +342,8 @@ func _on_chaos_cell_clicked(grid_pos:Vector3i):
 			if current_tower_type == -1 or is_card_hovered:
 				return
 			instantiate_tower_by_current_type(grid_pos)
-			
+		else: 
+			print(entity_clicked)
 	else:
 		print("ERROR:Cell not found in grid")
 		#print(grid_pos)
@@ -401,6 +403,8 @@ func instantiate_tower_by_current_type(grid_pos:Vector3i):
 			return
 			
 	tower.transform.origin = Vector3(grid_pos.x,grid_pos.y,grid_pos.z)
+	if tower.has_method("set_tower_price"):
+		tower.set_tower_price(current_tower_price)
 	active_tower_array.append(tower)
 	%chaos_grid.add_child(tower)
 	increment_cost_of_tower_by_type()
@@ -697,6 +701,7 @@ func set_awareness_gui(value:int):
 	gui.set_awareness(value)
 	
 func _on_tower_toggled(tower_type:int, tower_price:int):
+	TowerAndBoonData.set_currently_selected_tower(tower_type)
 	if current_tower_type == tower_type:
 		current_tower_type = -1
 		indicator.visible = false
@@ -714,4 +719,6 @@ func _on_hide_indicator():
 func _on_card_hovered(is_hovered:bool):
 	is_card_hovered = is_hovered
 	
-
+func _refresh_card_prices():
+	print("refresh")
+	hand.refresh_card_prices()

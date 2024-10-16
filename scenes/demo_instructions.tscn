@@ -59,7 +59,7 @@ horizontal_alignment = 1
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_0dgom")
 theme_override_font_sizes/font_size = 75
-text = "demo version 0.05"
+text = "demo version 0.09"
 horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
@@ -107,9 +107,10 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("3_0dgom")
 theme_override_font_sizes/font_size = 75
 text = "WARNING
-This game is still under development. 
-Some features have not been fully implemented.
-
+This video game may 
+potentially trigger seizures
+ for people with photosensitive epilepsy.
+ Player discretion is advised.\" 
  "
 horizontal_alignment = 1
 

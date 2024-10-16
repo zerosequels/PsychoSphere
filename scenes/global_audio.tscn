@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://c4gfvouqx0y3m"]
+[gd_scene load_steps=6 format=3 uid="uid://c4gfvouqx0y3m"]
 
 [ext_resource type="AudioStream" uid="uid://c5t101yesmjv6" path="res://assets/chungis/potionbarrel.wav" id="1_e7c2d"]
 [ext_resource type="Script" path="res://scripts/AudioStreamPlayer.gd" id="2_ma4tb"]
 [ext_resource type="AudioStream" uid="uid://bqpurnjek6fiq" path="res://assets/chungis/Chun_Gis_Enveleopment.wav" id="3_l6qpm"]
+[ext_resource type="AudioStream" uid="uid://c5e7gqo5ngurh" path="res://assets/sounds/Retro5.wav" id="4_6deey"]
+[ext_resource type="AudioStream" uid="uid://dscrkth28yp45" path="res://assets/sounds/Retro4.wav" id="5_xyw2k"]
 
 [node name="lab_audio_player" type="AudioStreamPlayer"]
 stream = ExtResource("1_e7c2d")
@@ -11,6 +13,12 @@ script = ExtResource("2_ma4tb")
 
 [node name="main_theme_player" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_l6qpm")
+
+[node name="tower_placement_player" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_6deey")
+
+[node name="tower_removal_player" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_xyw2k")
 
 [connection signal="finished" from="." to="." method="_on_finished"]
 [connection signal="finished" from="main_theme_player" to="." method="_on_main_theme_player_finished"]

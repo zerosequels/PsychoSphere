@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://djkp4tihixagg"]
+[gd_scene load_steps=8 format=3 uid="uid://djkp4tihixagg"]
 
 [ext_resource type="PackedScene" uid="uid://cbfwcj26tck8l" path="res://scenes/card_setup.tscn" id="1_io8r1"]
 [ext_resource type="Shader" path="res://data/card_3d_shader.gdshader" id="2_wh0gj"]
 [ext_resource type="Texture2D" uid="uid://bnlf00pba70ni" path="res://assets/tilesets/card_ankh.png" id="3_4kfta"]
+[ext_resource type="Script" path="res://scripts/tooltip.gd" id="4_u1qan"]
+[ext_resource type="PackedScene" uid="uid://cfxjiublh2y0c" path="res://scenes/tool_box.tscn" id="5_yi5f3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_n320n"]
 resource_local_to_scene = true
@@ -30,3 +32,9 @@ material = SubResource("ShaderMaterial_n320n")
 [node name="card_sprite" parent="." index="1"]
 material = SubResource("ShaderMaterial_kdimj")
 texture = ExtResource("3_4kfta")
+
+[node name="Node" type="Node" parent="ui_mouse_detector" index="0"]
+script = ExtResource("4_u1qan")
+visual_res = ExtResource("5_yi5f3")
+owner_path = NodePath("..")
+tip_text = "Radiates Damage in an AOE "

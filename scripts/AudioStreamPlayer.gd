@@ -3,9 +3,6 @@ extends AudioStreamPlayer
 var should_loop_lab_theme: bool = true
 var should_loop_main_theme: bool = true
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -37,3 +34,9 @@ func stop_main_theme():
 func _on_main_theme_player_finished():
 	if should_loop_main_theme:
 		play_main_theme()
+		
+func tower_placed_sfx():
+	$tower_placement_player.play()
+	
+func tower_removed_sfx():
+	$tower_removal_player.play()
