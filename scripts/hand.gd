@@ -18,7 +18,7 @@ extends Control
 @onready var sell_card = preload("res://scenes/sell_card.tscn")
 @onready var hand_layer = $CanvasLayer
 var max_hand_size:int = 13
-
+var current_card_type = -1
 var hand_array = []
 
 signal tower_toggled(tower_type_enum:int,tower_price:int)
@@ -100,6 +100,11 @@ func _on_card_selected(tower_type_enum:int,tower_price:int):
 		if card.get_tower_type() != tower_type_enum:
 			card.set_is_selected(false)
 
+func deselect_card():
+	for card in hand_array:
+		card.set_is_selected(false)
+	TowerAndBoonData.set_currently_selected_tower(-1)
+
 func select_card(tower_type_enum:int):
 	for card in hand_array:
 		if card.get_tower_type() == tower_type_enum:
@@ -113,11 +118,3 @@ func increment_cost_by_tower_type(tower_type_enum:int):
 func _ready():
 	add_card_by_type(13)
 	add_card_by_type(0)
-	add_card_by_type(2)
-	add_card_by_type(5)
-	
-
-
-
-
-

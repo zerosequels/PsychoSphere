@@ -25,6 +25,8 @@ var is_fresh_reset = false
 var active_enemy_array = []
 var total_number_of_waves = 0
 
+var trigger_id_dict = {}
+
 #(_health:float,_speed:float,_exp:float,_damage:int,_spawn_time:int):EnemySpawnData constructor
 func load_enemy_spawn_data_by_type(type:negative_vibes):
 	var enemy_spawn_data
@@ -34,7 +36,7 @@ func load_enemy_spawn_data_by_type(type:negative_vibes):
 			enemy_spawn_data.set_health(3)
 			enemy_spawn_data.set_damage(1)
 			enemy_spawn_data.set_exp(1)
-			enemy_spawn_data.set_speed(0.75)
+			enemy_spawn_data.set_speed(1.75)
 			enemy_spawn_data.set_spawn_time(1000)
 			enemy_spawn_data.set_enemy_size_scale(0.5)
 			enemy_spawn_data.set_primary_color(Color.SPRING_GREEN)
@@ -47,7 +49,7 @@ func load_enemy_spawn_data_by_type(type:negative_vibes):
 			enemy_spawn_data.set_health(1)
 			enemy_spawn_data.set_damage(1)
 			enemy_spawn_data.set_exp(2)
-			enemy_spawn_data.set_speed(2)
+			enemy_spawn_data.set_speed(4)
 			enemy_spawn_data.set_spawn_time(1000)
 			enemy_spawn_data.set_enemy_size_scale(0.25)
 			enemy_spawn_data.set_primary_color(Color.YELLOW)
@@ -59,7 +61,7 @@ func load_enemy_spawn_data_by_type(type:negative_vibes):
 			enemy_spawn_data.set_health(10)
 			enemy_spawn_data.set_damage(10)
 			enemy_spawn_data.set_exp(10)
-			enemy_spawn_data.set_speed(0.5)
+			enemy_spawn_data.set_speed(1.5)
 			enemy_spawn_data.set_spawn_time(2000)
 			enemy_spawn_data.set_enemy_size_scale(1)
 			enemy_spawn_data.set_primary_color(Color.CRIMSON)
@@ -71,7 +73,7 @@ func load_enemy_spawn_data_by_type(type:negative_vibes):
 			enemy_spawn_data.set_health(25)
 			enemy_spawn_data.set_damage(10)
 			enemy_spawn_data.set_exp(15)
-			enemy_spawn_data.set_speed(0.25)
+			enemy_spawn_data.set_speed(1.75)
 			enemy_spawn_data.set_spawn_time(2000)
 			enemy_spawn_data.set_enemy_size_scale(2)
 			enemy_spawn_data.set_primary_color(Color.DODGER_BLUE)
@@ -84,7 +86,7 @@ func load_enemy_spawn_data_by_type(type:negative_vibes):
 			enemy_spawn_data.set_health(50)
 			enemy_spawn_data.set_damage(25)
 			enemy_spawn_data.set_exp(10)
-			enemy_spawn_data.set_speed(0.5)
+			enemy_spawn_data.set_speed(3)
 			enemy_spawn_data.set_spawn_time(3000)
 			enemy_spawn_data.set_enemy_size_scale(1)
 			enemy_spawn_data.set_primary_color(Color.CORNSILK)
@@ -96,7 +98,7 @@ func load_enemy_spawn_data_by_type(type:negative_vibes):
 			enemy_spawn_data.set_health(10)
 			enemy_spawn_data.set_damage(10)
 			enemy_spawn_data.set_exp(10)
-			enemy_spawn_data.set_speed(0.75)
+			enemy_spawn_data.set_speed(3.75)
 			enemy_spawn_data.set_spawn_time(1000)
 			enemy_spawn_data.set_enemy_size_scale(0.75)
 			enemy_spawn_data.set_primary_color(Color.FUCHSIA)
@@ -109,7 +111,7 @@ func load_enemy_spawn_data_by_type(type:negative_vibes):
 			enemy_spawn_data.set_health(75)
 			enemy_spawn_data.set_damage(50)
 			enemy_spawn_data.set_exp(100)
-			enemy_spawn_data.set_speed(0.25)
+			enemy_spawn_data.set_speed(2.25)
 			enemy_spawn_data.set_spawn_time(5000)
 			enemy_spawn_data.set_enemy_size_scale(2.5)
 			enemy_spawn_data.set_primary_color(Color.MIDNIGHT_BLUE)
@@ -122,7 +124,7 @@ func load_enemy_spawn_data_by_type(type:negative_vibes):
 			enemy_spawn_data.set_health(5)
 			enemy_spawn_data.set_damage(5)
 			enemy_spawn_data.set_exp(5)
-			enemy_spawn_data.set_speed(3)
+			enemy_spawn_data.set_speed(5)
 			enemy_spawn_data.set_spawn_time(500)
 			enemy_spawn_data.set_enemy_size_scale(0.5)
 			enemy_spawn_data.set_primary_color(Color.STEEL_BLUE)
@@ -154,6 +156,35 @@ func get_enemy_spawn_data_array_by_level(level:int):
 	#load_enemy_spawn_data_by_type(negative_vibes.DESPAIR)
 	#load_enemy_spawn_data_by_type(negative_vibes.SHAME)
 	
+	return enemy_spawn_data_array.duplicate(true)
+
+func add_enemies_to_queue_by_trigger_id(trigger_id):
+	if !trigger_id_dict.has(trigger_id):
+		print("creating trigger_id array for %s." % trigger_id)
+		trigger_id_dict[trigger_id] = [0,0,0]
+	for new_enemy in total_number_of_waves:
+		var enemy_temp_id = randi_range(0,total_number_of_waves)
+		var new_id = enemy_temp_id % 7
+		#temp removal of despair
+		if new_id == 6:
+			new_id = 5
+		var path_enemy_array = trigger_id_dict[trigger_id]
+		path_enemy_array.append(new_id)
+		trigger_id_dict[trigger_id] = path_enemy_array
+		
+		
+
+func get_enemy_spawn_data_array_by_trigger_id(trigger_id):
+	enemy_spawn_data_array.clear()
+	print(trigger_id)
+	#if the trigger_id_dict doesn't have the trigger id create a new enemy spawning array for it
+	if !trigger_id_dict.has(trigger_id):
+		print("creating trigger_id array for %s." % trigger_id)
+		trigger_id_dict[trigger_id] = [0,0,0]
+
+	for enemy_type in trigger_id_dict[trigger_id]:
+		load_enemy_spawn_data_by_type(enemy_type)
+		
 	return enemy_spawn_data_array.duplicate(true)
 
 func reset_game_data():

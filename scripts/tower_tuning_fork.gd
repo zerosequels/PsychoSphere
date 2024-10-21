@@ -12,6 +12,7 @@ func set_tower_price(cost:int):
 	price = cost
 
 func _ready():
+	attack_area.set_attack_radius_zone_depth(-5.0)
 	mouse_detector.mouse_detector_hovered.connect(_on_mouse_detector_hovered)
 	attack_area.set_is_support(true)
 	attack_area.new_tower_entered_radius.connect(_on_tower_entered_radius)
@@ -23,23 +24,24 @@ func _on_clicked():
 	if TowerAndBoonData.get_currently_selected_tower() == 13:
 		TowerAndBoonData.refund_tower_by_price_and_type(price,8)
 		GlobalAudio.tower_removed_sfx()
+		tower_removal_process()
 		self.queue_free()
 
 func _on_mouse_detector_hovered():
 	attack_area.update_last_hovered()
 	
-func _on_tower_entered_radius(tower_area):
-	var tower = tower_area.get_parent()
-	if tower.has_method("increment_tunning_fork_buff"):
-		tower.increment_tunning_fork_buff(1)
 
-func tower_removal_process():
-	for tower in attack_area.get_all_towers_in_range():
-		if tower.has_method("increment_tunning_fork_buff"):
-			tower.increment_tunning_fork_buff(-1)
 			
 func increment_emerald_tablet_buff(delta:int):
 	emerald_tablet_stack_level += delta
 	var new_range = attack_area.set_range_modifier(emerald_tablet_stack_level)
 
 	
+func _on_tower_entered_radius(tower_area):
+	if tower_area.has_method("increment_tunning_fork_buff"):
+		tower_area.increment_tunning_fork_buff()
+
+func tower_removal_process():
+	for tower in attack_area.get_all_towers_in_range():
+		if tower.has_method("deincrement_tunning_fork_buff"):
+			tower.deincrement_tunning_fork_buff()

@@ -1,0 +1,60 @@
+[gd_scene load_steps=6 format=3 uid="uid://bt33xuhlcl143"]
+
+[ext_resource type="Script" path="res://scripts/credits_screen.gd" id="1_1cuvy"]
+[ext_resource type="Texture2D" uid="uid://ct2hmcawyc8dp" path="res://assets/textures/sleeper_agent.jpg" id="1_urj4q"]
+[ext_resource type="FontFile" uid="uid://dbli7jexs0nak" path="res://assets/ui/GelatinTTFCAPS.ttf" id="2_ooexb"]
+
+[sub_resource type="Gradient" id="Gradient_cn1pb"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_gdgnq"]
+gradient = SubResource("Gradient_cn1pb")
+
+[node name="credits_screen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1cuvy")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 2005.0
+offset_bottom = 1116.0
+texture = SubResource("GradientTexture1D_gdgnq")
+
+[node name="SleeperAgent" type="Sprite2D" parent="."]
+position = Vector2(538, 574)
+scale = Vector2(0.603704, 0.603704)
+texture = ExtResource("1_urj4q")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 907.0
+offset_top = 80.0
+offset_right = 2030.0
+offset_bottom = 581.0
+theme_override_fonts/font = ExtResource("2_ooexb")
+theme_override_font_sizes/font_size = 75
+text = "Game Developer: Nick 
+      Nick.of.nevada on instagram
+
+Music Composer: Chungusbrodungus
+      Track 1: Chun Gis Enveleopment
+      Track 2: Potion Barrel
+      follow Chungusbrodungus 
+                on soundcloud"
+
+[node name="credits_button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1230.0
+offset_top = 628.0
+offset_right = 1491.0
+offset_bottom = 716.0
+theme_override_fonts/font = ExtResource("2_ooexb")
+theme_override_font_sizes/font_size = 100
+text = "Back"
+
+[connection signal="button_up" from="credits_button" to="." method="_on_credits_button_button_up"]

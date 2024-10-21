@@ -113,6 +113,7 @@ func _ready():
 	TowerAndBoonData.increase_currency.connect(_on_currency_increase)
 	TowerAndBoonData.unlock_tower.connect(_on_tower_unlocked)
 	TowerAndBoonData.refresh_card_cost.connect(_refresh_card_prices)
+	#TowerAndBoonData.selected_tower_updated.connect(_on_selected_tower_updated)
 	boon_selection_screen.close_menu.connect(_on_boon_selection_screen_closed)
 	
 	if WaveData.check_is_reset():
@@ -133,6 +134,10 @@ func _ready():
 func _process(delta):
 	if Input.is_action_just_released("toggle_range_visibility_mode"):
 		TowerAndBoonData.set_range_visibility_mode(!TowerAndBoonData.get_is_range_visibility_mode_toggled())
+	if Input.is_action_just_released("right_click"):
+		current_tower_type = -1
+		hand.deselect_card()
+	
 	#WAR MODE
 	if (game_status == game_state.WAR):
 		if WaveData.is_active_enemy_array_empty() and !has_enemies_to_spawn:
@@ -339,7 +344,7 @@ func _on_chaos_cell_clicked(grid_pos:Vector3i):
 		
 		#if the cell is FREE then spawn a normal tower in it's place
 		if entity_clicked == grid_entity.FREE:
-			if current_tower_type == -1 or is_card_hovered:
+			if TowerAndBoonData.get_currently_selected_tower() == -1 or is_card_hovered:
 				return
 			instantiate_tower_by_current_type(grid_pos)
 		else: 
@@ -349,7 +354,7 @@ func _on_chaos_cell_clicked(grid_pos:Vector3i):
 		#print(grid_pos)
 
 func _on_chaos_grid_cell_hovered(grid_pos:Vector3i):
-	if current_tower_type != -1:
+	if TowerAndBoonData.get_currently_selected_tower() != -1:
 		if taken_chaos_grid_dict.has(grid_pos):
 			var entity_clicked = taken_chaos_grid_dict[grid_pos]
 			if entity_clicked == grid_entity.FREE:
@@ -371,7 +376,7 @@ func instantiate_tower_by_current_type(grid_pos:Vector3i):
 		#print(current_tower_price)
 		#print(currency_amount)
 		return 
-	match current_tower_type:
+	match TowerAndBoonData.get_currently_selected_tower():
 		0:
 			tower = pyramid_tower_prefab.instantiate()
 		1:
@@ -411,7 +416,7 @@ func instantiate_tower_by_current_type(grid_pos:Vector3i):
 	$on_tower_placed_audio_stream_player.play()
 
 func increment_cost_of_tower_by_type():
-	hand.increment_cost_by_tower_type(current_tower_type)
+	hand.increment_cost_by_tower_type(TowerAndBoonData.get_currently_selected_tower())
 
 
 func toggle_visibility_of_path_triggers():
@@ -616,6 +621,7 @@ func remove_path_trigger_by_trigger_uuid(trigger_uuid):
 	
 
 func _on_path_trigger_activated(trigger_id,trigger_uuid,depth):
+	hand.deselect_card()
 	$path_trigger_selected_audio_stream_player.play()
 	show_path_trigger_choice_menu(trigger_id,trigger_uuid,depth)
 	
@@ -634,7 +640,7 @@ func restore_game_ui():
 	toggle_can_select_of_path_triggers(true)
 	is_making_selection = false
 	hand.toggle_hide_hand(false)
-	if current_tower_type != -1:
+	if TowerAndBoonData.get_currently_selected_tower() != -1:
 		hand.select_card(current_tower_type)
 	gui.visible = true
 	boon_selection_screen.visible = false

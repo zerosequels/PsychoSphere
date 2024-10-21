@@ -241,31 +241,31 @@ func refund_tower_by_price_and_type(price:int,type:tower_types):
 func get_tower_base_cost(tower_type:tower_types):
 	match tower_type:
 		tower_types.ANKH:
-			return 1
+			return 5
 		tower_types.PYRAMID:
 			return 1
 		tower_types.THIRD_EYE:
-			return 1
+			return 15
 		tower_types.SPIRAL:
-			return 1
+			return 5
 		tower_types.FLOWER_OF_LIFE:
-			return 1
+			return 20
 		tower_types.EMERALD_TABLET:
-			return 1
+			return 20
 		tower_types.PRAYER_WHEEL:
-			return 1
+			return 50
 		tower_types.TIME_CUBE:
-			return 1
+			return 50
 		tower_types.TUNING_FORK:
-			return 1
+			return 15
 		tower_types.DEATH_FUNGUS:
-			return 1
+			return 5
 		tower_types.RUBEDO:
-			return 1
+			return 30
 		tower_types.COSMIC_EGG:
-			return 1
+			return 30
 		tower_types.ANNUNAKI_WEAPON:
-			return 1
+			return 50
 
 func get_tower_name(tower_type:tower_types):
 	match tower_type:

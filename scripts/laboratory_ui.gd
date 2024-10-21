@@ -22,3 +22,7 @@ func _on_quit_button_pressed():
 func increase_ui_distortion():
 	distortion_layer.trigger_distortion()
 
+
+
+func _on_credits_button_button_up():
+	get_tree().change_scene_to_file("res://scenes/credits_screen.tscn")

@@ -42,6 +42,9 @@ func _ready():
 	last_hatch_time = Time.get_ticks_msec()
 	mouse_detector.tower_clicked.connect(_on_clicked)
 	$buff_area.delta_emerald_tablet_buff.connect(increment_emerald_tablet_buff)
+	$buff_area.delta_spiral_buff.connect(increment_spiral_buff)
+	$buff_area.delta_flower_of_life_buff.connect(increment_flower_of_life_buff)
+	$buff_area.delta_tuning_buff.connect(increment_tunning_fork_buff)
 
 func _on_clicked():
 	#check if player is in sell mode. 

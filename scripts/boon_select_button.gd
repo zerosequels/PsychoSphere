@@ -6,6 +6,7 @@ signal boon_selected(boon_type,boon_id)
 
 var boon_type
 var boon_id
+var activated = false
 
 func initialize_boon_button(new_boon_type,new_boon_id):
 	boon_type = new_boon_type
@@ -35,5 +36,11 @@ func grow_bttn(end_size:Vector2, duration:float):
 	tween.tween_property(self,'scale',end_size,duration)
 
 
-func _on_pressed():
-	emit_signal("boon_selected",boon_type,boon_id)
+func _on_button_up():
+	if activated:
+		emit_signal("boon_selected",boon_type,boon_id)
+
+
+
+func _on_timer_timeout():
+	activated = true

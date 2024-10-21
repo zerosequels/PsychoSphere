@@ -3,7 +3,7 @@ extends Node3D
 @onready var attack_area = $attack_area
 @onready var mouse_detector = $static_mouse_detection_body
 @onready var aoe_plane = $turret_base/rotator/ankh_controller/aoe_locus/aoe_plane
-@onready var buff_area = $buff_area
+
 
 var type_id = 2
 var last_attack = 0
@@ -31,7 +31,10 @@ func _ready():
 	update_tower_range(tower_range)
 	radiant_damage = base_radiant_damage
 	mouse_detector.tower_clicked.connect(_on_clicked)
-	buff_area.delta_emerald_tablet_buff.connect(increment_emerald_tablet_buff)
+	$buff_area.delta_emerald_tablet_buff.connect(increment_emerald_tablet_buff)
+	$buff_area.delta_spiral_buff.connect(increment_spiral_buff)
+	$buff_area.delta_flower_of_life_buff.connect(increment_flower_of_life_buff)
+	$buff_area.delta_tuning_buff.connect(increment_tunning_fork_buff)
 
 func _on_clicked():
 	#check if player is in sell mode. 

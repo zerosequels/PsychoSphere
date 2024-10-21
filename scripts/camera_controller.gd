@@ -16,10 +16,11 @@ var zoom_min:float = 2
 var zoom_max:float = 20
 var zoom_value:float = 5
 var zoom_speed:float = 0.2
-
+var current_speed = 10
 const max_speed = 10
+const sprint_speed = 20
 const accel = 75
-const friction = 100
+const friction = 25
 
 var is_camera_frozen:bool = false
 var camera_is_dragging:bool = false
@@ -30,6 +31,10 @@ func get_input(delta):
 		camera_is_dragging = true
 	if Input.is_action_just_released("middle_mouse"):
 		camera_is_dragging = false
+	if Input.is_action_just_pressed("shift"):
+		current_speed = sprint_speed
+	if Input.is_action_just_released("shift"):
+		current_speed = max_speed
 	
 	if !is_camera_frozen:
 		translation_input.x = int(Input.is_action_pressed("D")) - int(Input.is_action_pressed("A"))
@@ -43,7 +48,7 @@ func get_input(delta):
 				camera_velocity = Vector3.ZERO
 		else:
 			camera_velocity += (translation_input * accel * delta)
-			camera_velocity = camera_velocity.limit_length(max_speed)
+			camera_velocity = camera_velocity.limit_length(current_speed)
 			
 		if Input.is_action_pressed("camera_zoom_in") or Input.is_action_just_released("camera_zoom_in"):
 			zoom_value -= zoom_speed

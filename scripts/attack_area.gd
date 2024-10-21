@@ -135,7 +135,7 @@ func set_range_modifier(emerald_stack:int):
 	return tower_range
 
 func iterate_range_increase():
-	tower_range += (tower_range * 0.25)
+	tower_range += (tower_range * 0.10)
 
 func set_attack_radius_zone_depth(depth):
 	attack_radius_zone.position.y = depth

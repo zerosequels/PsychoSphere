@@ -27,7 +27,6 @@ func _on_mouse_detector_hovered():
 	attack_area.update_last_hovered()
 
 func _on_tower_entered_radius(tower_area):
-	print(tower_area.name)
 	if tower_area.has_method("increment_emerald_tablet_buff"):
 		tower_area.increment_emerald_tablet_buff()
 

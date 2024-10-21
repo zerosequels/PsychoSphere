@@ -55,7 +55,10 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 2.0
+offset_left = -2.0
+offset_top = -120.0
+offset_right = -4.0
+offset_bottom = -48.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 25
@@ -91,6 +94,13 @@ disabled = true
 text = "options
 "
 
+[node name="credits_button" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_sma4a")
+theme_override_font_sizes/font_size = 100
+text = "credits
+"
+
 [node name="quit_button" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_sma4a")
@@ -101,4 +111,5 @@ text = "quit
 [connection signal="pressed" from="MarginContainer/VBoxContainer/play_button" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/upgrade_button" to="." method="_on_upgrade_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/options_button" to="." method="_on_options_button_pressed"]
+[connection signal="button_up" from="MarginContainer/VBoxContainer/credits_button" to="." method="_on_credits_button_button_up"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/quit_button" to="." method="_on_quit_button_pressed"]

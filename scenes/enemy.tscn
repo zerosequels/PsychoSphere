@@ -111,7 +111,6 @@ func apply_magnum_opus_stack(stack_count:int):
 
 func apply_slow_stack(stack_count:int):
 	ticker.increment_slow(stack_count)
-	
 	set_slow(true)
 	last_slow_debuff_decay_time = Time.get_ticks_msec()
 	

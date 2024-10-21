@@ -29,7 +29,8 @@ func get_next_enemy_data():
 		return enemy_spawn_data_array.pop_front()
 
 func load_enemy_spawn_data():
-	enemy_spawn_data_array = WaveData.get_enemy_spawn_data_array_by_level(depth_counter)
+	enemy_spawn_data_array = WaveData.get_enemy_spawn_data_array_by_trigger_id(trigger_id)
+	#enemy_spawn_data_array = WaveData.get_enemy_spawn_data_array_by_level(depth_counter)
 
 func has_enemies_to_spawn():
 	return !enemy_spawn_data_array.is_empty()
@@ -81,6 +82,9 @@ func activate_trigger():
 	if is_triggerable:
 		#await get_tree().create_timer(0.5)
 		emit_signal("path_trigger_activated",trigger_id,trigger_uuid,depth_counter)
+		add_enemies_to_queue_by_trigger_id()
 		#delete self
 		self.queue_free()
+func add_enemies_to_queue_by_trigger_id():
+	WaveData.add_enemies_to_queue_by_trigger_id(trigger_id)
 	
