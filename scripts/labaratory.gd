@@ -8,7 +8,9 @@ func _process(delta):
 	if game_is_starting:
 		if Input.is_action_just_pressed("click"):
 			get_tree().change_scene_to_file("res://scenes/demo_instructions.tscn")
+
 func _ready():
+	get_tree().paused = false
 	$CanvasLayer/laboratory_ui.astral_projection_begin.connect(_on_astral_projection_begin)
 	play_intro_sound()
 	

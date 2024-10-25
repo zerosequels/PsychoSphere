@@ -11,6 +11,8 @@ func increase_index():
 	
 
 func decrease_index():
+	if index == 0:
+		get_tree().change_scene_to_file("res://scenes/laboratory.tscn")
 	index -= 1
 	index = clamp(index,0,7)
 	update_text()

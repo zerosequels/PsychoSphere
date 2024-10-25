@@ -9,6 +9,7 @@ func _ready():
 	resume_bttn.disabled = true
 	restart_bttn.disabled = true
 	quit_bttn.disabled = true
+	$PanelContainer/MarginContainer/VBoxContainer/start_menu_bttn.disabled = true
 	$AnimationPlayer.play("RESET")
 
 func _process(delta):
@@ -23,12 +24,14 @@ func resume():
 	resume_bttn.disabled = true
 	restart_bttn.disabled = true
 	quit_bttn.disabled = true
+	$PanelContainer/MarginContainer/VBoxContainer/start_menu_bttn.disabled = true
 	game_over_label.visible = false
 	
 func pause():
 	resume_bttn.disabled = false
 	restart_bttn.disabled = false
 	quit_bttn.disabled = false
+	$PanelContainer/MarginContainer/VBoxContainer/start_menu_bttn.disabled = false
 	get_tree().paused = true
 	$AnimationPlayer.play("blur")
 	game_over_label.visible = false
@@ -38,6 +41,7 @@ func game_over_pause():
 	resume_bttn.visible = false
 	restart_bttn.disabled = false
 	quit_bttn.disabled = false
+	$PanelContainer/MarginContainer/VBoxContainer/start_menu_bttn.disabled = false
 	game_over_label.visible = true
 	game_over_label.text = "GAME OVER"
 	get_tree().paused = true
@@ -48,6 +52,7 @@ func victory_pause():
 	resume_bttn.visible = false
 	restart_bttn.disabled = false
 	quit_bttn.disabled = false
+	$PanelContainer/MarginContainer/VBoxContainer/start_menu_bttn.disabled = false
 	game_over_label.visible = true
 	game_over_label.text = "YOU WIN"
 	get_tree().paused = true
@@ -91,3 +96,8 @@ func _on_quit_bttn_pressed():
 	$quit_audio_stream_player.play()
 	await get_tree().create_timer(2.0).timeout
 	quit()
+
+
+func _on_start_menu_bttn_pressed():
+	if get_tree().paused == true:
+		get_tree().change_scene_to_file("res://scenes/laboratory.tscn")

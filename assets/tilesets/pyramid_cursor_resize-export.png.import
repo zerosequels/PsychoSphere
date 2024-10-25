@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://qmp1r16w5xil"
-path="res://.godot/imported/mani_wheel_icon.png-cd403035847def1d6c2b2d21de160754.ctex"
+uid="uid://70kfm8kvx1ad"
+path="res://.godot/imported/pyramid_cursor_resize-export.png-20d81ce030602e0ec51a3c1aaecbdc45.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/tilesets/mani_wheel_icon.png"
-dest_files=["res://.godot/imported/mani_wheel_icon.png-cd403035847def1d6c2b2d21de160754.ctex"]
+source_file="res://assets/tilesets/pyramid_cursor_resize-export.png"
+dest_files=["res://.godot/imported/pyramid_cursor_resize-export.png-20d81ce030602e0ec51a3c1aaecbdc45.ctex"]
 
 [params]
 

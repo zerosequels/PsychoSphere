@@ -153,7 +153,8 @@ func _process(delta):
 	if LEVEL_COUNTER == 101 and !is_game_over:
 		update_game_status(game_state.VICTORY)
 	
-		
+	
+	
 
 func _on_tower_unlocked(tower_type):
 	hand.add_card_by_type(tower_type)

@@ -54,9 +54,13 @@ func _ready():
 	health_bar._initialize_health_bar(health)
 
 func set_height_pos(offset:float):
+	var original_enemy_area_pos = $enemy/enemy_mesh/enemy_area.position
+	var original_enemy_multi_hit_area = $enemy/enemy_mesh/multi_hit_area.position
 	var current_pos = $enemy.position
 	var new_pos = Vector3(current_pos.x,offset,current_pos.z) 
 	$enemy.set_original_position(new_pos)
+	$enemy/enemy_mesh/enemy_area.position = Vector3(0,(-1*offset),0)  
+	$enemy/enemy_mesh/multi_hit_area.position = Vector3(0,(-1*offset),0)  
 
 func update_values_by_enemy_spawn_data(enemy_spawn_data:EnemySpawnData):
 	speed = enemy_spawn_data.speed

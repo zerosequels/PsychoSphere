@@ -7,6 +7,8 @@ extends Node3D
 var camera_speed = 10 
 var camera_rotation_speed = 100.0
 
+var starting_position
+
 var translation_input = Vector3.ZERO
 var camera_velocity = Vector3.ZERO
 
@@ -25,8 +27,16 @@ const friction = 25
 var is_camera_frozen:bool = false
 var camera_is_dragging:bool = false
 
+func _ready():
+	starting_position = camera_base.position
+
+func return_to_center():
+	print("return to center")
+	camera_base.position = starting_position
+
 func get_input(delta):
-	
+	if Input.is_action_just_released("backspace"):
+		return_to_center()
 	if Input.is_action_just_pressed("middle_mouse"):
 		camera_is_dragging = true
 	if Input.is_action_just_released("middle_mouse"):

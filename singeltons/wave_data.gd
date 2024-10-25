@@ -109,7 +109,7 @@ func load_enemy_spawn_data_by_type(type:negative_vibes):
 		negative_vibes.DESPAIR:
 			enemy_spawn_data = EnemySpawnData.new()
 			enemy_spawn_data.set_health(75)
-			enemy_spawn_data.set_damage(50)
+			enemy_spawn_data.set_damage(25)
 			enemy_spawn_data.set_exp(100)
 			enemy_spawn_data.set_speed(2.25)
 			enemy_spawn_data.set_spawn_time(5000)
@@ -165,9 +165,6 @@ func add_enemies_to_queue_by_trigger_id(trigger_id):
 	for new_enemy in total_number_of_waves:
 		var enemy_temp_id = randi_range(0,total_number_of_waves)
 		var new_id = enemy_temp_id % 7
-		#temp removal of despair
-		if new_id == 6:
-			new_id = 5
 		var path_enemy_array = trigger_id_dict[trigger_id]
 		path_enemy_array.append(new_id)
 		trigger_id_dict[trigger_id] = path_enemy_array
@@ -176,7 +173,7 @@ func add_enemies_to_queue_by_trigger_id(trigger_id):
 
 func get_enemy_spawn_data_array_by_trigger_id(trigger_id):
 	enemy_spawn_data_array.clear()
-	print(trigger_id)
+	
 	#if the trigger_id_dict doesn't have the trigger id create a new enemy spawning array for it
 	if !trigger_id_dict.has(trigger_id):
 		print("creating trigger_id array for %s." % trigger_id)

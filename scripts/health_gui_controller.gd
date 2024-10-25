@@ -4,11 +4,15 @@ extends Control
 @onready var difficulty_label = %difficulty_level_value
 @onready var awareness_level = %awareness_value
 
+var is_hovered_by_mouse = false
+
+
+
 func _ready():
 	set_health(100)
 	set_difficulty(0)
 	set_awareness(100)
-	
+
 	
 func set_health(new_value:int):
 	var health_format = "%s"
@@ -26,3 +30,6 @@ func set_difficulty(new_value:int):
 	
 func set_awareness(new_value:int):
 	awareness_level.text = "$$$" + str(new_value)
+
+
+

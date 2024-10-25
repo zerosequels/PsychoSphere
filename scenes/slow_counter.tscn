@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://brvm5x3qxeygo"]
 
 [ext_resource type="Script" path="res://scripts/counter.gd" id="1_dn2yb"]
-[ext_resource type="Texture2D" uid="uid://b3y4638ejj75p" path="res://assets/tilesets/mani_wheel_icon.png" id="2_xhsyy"]
+[ext_resource type="Texture2D" uid="uid://qmp1r16w5xil" path="res://assets/tilesets/mani_wheel_icon.png" id="2_xhsyy"]
 [ext_resource type="FontFile" uid="uid://dbli7jexs0nak" path="res://assets/ui/GelatinTTFCAPS.ttf" id="3_18wry"]
 
 [node name="slow_counter" type="Control"]
