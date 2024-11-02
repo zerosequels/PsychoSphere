@@ -9,6 +9,8 @@ var emerald_tablet_stack_level = 0
 
 var price:int = 0
 
+
+
 func set_tower_price(cost:int):
 	price = cost
 

@@ -32,10 +32,22 @@ var spiral_stack_level = 0
 
 var price:int = 0
 
+var attack_opportunity_timer:Timer 
+
 func set_tower_price(cost:int):
 	price = cost
 
 func _ready():
+	GameMode.update_game_speed.connect(_on_game_speed_updated)
+	var starting_speed = GameMode.get_global_game_speed()
+	attack_opportunity_timer = Timer.new()
+	attack_opportunity_timer.one_shot = false
+	attack_opportunity_timer.autostart = true
+	attack_opportunity_timer.timeout.connect(process_hatch_opportunity)
+	attack_opportunity_timer.paused = false
+	attack_opportunity_timer.wait_time = time_to_hatch_ms * (1/starting_speed)
+	add_child(attack_opportunity_timer)
+	
 	mouse_detector.mouse_detector_hovered.connect(_on_mouse_detector_hovered)
 	attack_area.target_new_enemy.connect(_on_new_enemy_target)
 	attack_area.targets_depleted.connect(_on_targets_depleted)
@@ -45,6 +57,13 @@ func _ready():
 	$buff_area.delta_spiral_buff.connect(increment_spiral_buff)
 	$buff_area.delta_flower_of_life_buff.connect(increment_flower_of_life_buff)
 	$buff_area.delta_tuning_buff.connect(increment_tunning_fork_buff)
+
+func _on_game_speed_updated(game_speed):
+	if game_speed == 0:
+		attack_opportunity_timer.paused = true
+		return
+	attack_opportunity_timer.wait_time = time_to_hatch_ms * (1/game_speed)
+	attack_opportunity_timer.paused = false
 
 func _on_clicked():
 	#check if player is in sell mode. 
@@ -106,12 +125,9 @@ func iterate_multi_hit_increase():
 	
 func _process(delta):
 	if has_target and current_enemy_target != null:
-		process_hatch_opportunity()
-		egg_scale_ratio += delta
+		egg_scale_ratio = 1 -(attack_opportunity_timer.time_left/attack_opportunity_timer.wait_time) 
 		set_egg_scale(egg_scale_ratio)
-		if egg_scale_ratio >= egg_delta_threshold:
-			able_to_hatch = true
-			egg_scale_ratio = 0
+
 
 func set_egg_scale(egg_scale):
 	cosmic_egg_controller.set_egg_scale(egg_scale)
@@ -125,14 +141,14 @@ func currently_able_to_hatch():
 
 
 func process_hatch_opportunity():
-	if currently_able_to_hatch():
+	if has_target and current_enemy_target != null:
 		var galaxy = projectile.instantiate()
 		galaxy.set_target(current_enemy_target)
 		galaxy.set_damage(damage)
 		galaxy.set_multi_hit_proc_chance(multi_hit_proc_chance)
 		galaxy.set_homing_speed(2)
 		emitter.add_child(galaxy)
-		last_hatch_time = Time.get_ticks_msec()
+
 
 func _on_mouse_detector_hovered():
 	attack_area.update_last_hovered()

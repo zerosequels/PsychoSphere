@@ -16,6 +16,8 @@ var time_to_hit_beam = 250
 var last_hit_time_ms = 0
 var laser_ammunition = 25
 
+var speed_mult = 1.0
+
 signal request_new_target()
 signal beam_finished()
 
@@ -31,7 +33,7 @@ func _process(delta):
 	if target != null:
 		var direction_to_target = (target.global_position - global_position).normalized()
 		#look_at(target.global_position, Vector3.UP)
-		var new_position = global_position + direction_to_target * homing_speed * delta
+		var new_position = global_position + direction_to_target * homing_speed * delta * speed_mult
 		var distance_to_target = global_position.distance_to(target.global_position)
 		global_translate(new_position - global_position)
 		if distance_to_target < 0.2:
@@ -40,9 +42,15 @@ func _process(delta):
 				last_hit_time_ms = Time.get_ticks_msec()
 	else:
 		emit_signal("request_new_target")
+		
 
 func damage_enemy_with_laser():
 	laser_ammunition -=1
 	target.get_parent().get_parent().get_parent().take_damage(laser_damage,multi_hit_proc_chance,Vector3(0,0,0))
 
-	
+func _ready():
+	speed_mult = GameMode.global_game_speed
+	GameMode.update_game_speed.connect(_on_game_speed_updated)
+
+func _on_game_speed_updated(game_speed):
+	speed_mult = game_speed

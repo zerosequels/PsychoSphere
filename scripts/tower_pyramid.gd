@@ -21,6 +21,7 @@ func set_tower_price(cost:int):
 
 
 func _ready():
+	
 	attack_area.target_new_enemy.connect($turret_base.set_current_enemy)
 	attack_area.targets_depleted.connect(_on_targets_depleted)
 	mouse_detector.mouse_detector_hovered.connect(_on_mouse_detector_hovered)

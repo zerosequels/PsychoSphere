@@ -8,9 +8,8 @@ var type_id = 12
 var annunaki_tower_base_range = 15
 var emerald_tablet_stack_level = 0
 
-var last_beam_completed = 0
-var base_time_between_beams = 5000
-var time_between_beams = 5000
+var base_time_between_beams = 5
+var time_between_beams = 5
 
 var base_damage = 1
 var damage = 1
@@ -28,10 +27,22 @@ var base_multi_hit_proc_chance = 0
 
 var price:int = 0
 
+var attack_opportunity_timer:Timer 
+
 func set_tower_price(cost:int):
 	price = cost
 
 func _ready():
+	GameMode.update_game_speed.connect(_on_game_speed_updated)
+	var starting_speed = GameMode.get_global_game_speed()
+	attack_opportunity_timer = Timer.new()
+	attack_opportunity_timer.one_shot = false
+	attack_opportunity_timer.autostart = true
+	attack_opportunity_timer.timeout.connect(process_meteor_opportunity)
+	attack_opportunity_timer.paused = false
+	attack_opportunity_timer.wait_time = time_between_beams * (1/starting_speed)
+	add_child(attack_opportunity_timer)
+	
 	mouse_detector.mouse_detector_hovered.connect(_on_mouse_detector_hovered)
 	attack_area.update_range(annunaki_tower_base_range)
 	mouse_detector.tower_clicked.connect(_on_clicked)
@@ -40,6 +51,13 @@ func _ready():
 	$buff_area.delta_flower_of_life_buff.connect(increment_flower_of_life_buff)
 	$buff_area.delta_tuning_buff.connect(increment_tunning_fork_buff)
 
+func _on_game_speed_updated(game_speed):
+	if game_speed == 0:
+		attack_opportunity_timer.paused = true
+		return
+	attack_opportunity_timer.wait_time = time_between_beams * (1/game_speed)
+	attack_opportunity_timer.paused = false
+
 func _on_clicked():
 	#check if player is in sell mode. 
 	if TowerAndBoonData.get_currently_selected_tower() == 13:
@@ -47,8 +65,6 @@ func _on_clicked():
 		GlobalAudio.tower_removed_sfx()
 		self.queue_free()
 
-func _process(delta):
-	process_meteor_opportunity()
 
 func _on_mouse_detector_hovered():
 	attack_area.update_last_hovered()
@@ -60,12 +76,11 @@ func increment_emerald_tablet_buff(delta:int):
 func process_meteor_opportunity():
 	if is_beam_in_progress:
 		return
-	if Time.get_ticks_msec() > (last_beam_completed + time_between_beams):
-		var targets = attack_area.get_all_enemies_in_range()
-		if targets.is_empty():
-			return
-		var target = targets.pick_random()
-		summon_beam(target)
+	var targets = attack_area.get_all_enemies_in_range()
+	if targets.is_empty():
+		return
+	var target = targets.pick_random()
+	summon_beam(target)
 
 func increment_tunning_fork_buff(delta:int):
 	tunning_fork_stack_level += delta
@@ -115,13 +130,13 @@ func summon_beam(target):
 func _on_beam_finished():
 	is_beam_in_progress = false
 	beam_instance.queue_free()
-	last_beam_completed = Time.get_ticks_msec()
+
 
 func _on_request_new_target():
 	if attack_area.get_all_enemies_in_range().is_empty():
 		is_beam_in_progress = false
 		beam_instance.queue_free()
-		last_beam_completed = Time.get_ticks_msec()
+
 	else:
 		var target = attack_area.get_all_enemies_in_range().pick_random()
 		beam_instance.set_target(target)

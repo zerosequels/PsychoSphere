@@ -188,6 +188,7 @@ func reset_game_data():
 	is_fresh_reset = true
 	active_enemy_array.clear()
 	total_number_of_waves = 0
+	trigger_id_dict.clear()
 	
 func check_is_reset():
 	if is_fresh_reset:
@@ -205,4 +206,5 @@ func register_enemy_to_active_enemy_array(enemy):
 func remove_enemy_by_uuid(uuid:int):
 	for x in active_enemy_array:
 		if x.enemy_uuid == uuid:
-			active_enemy_array.erase(x)
+			if active_enemy_array.has(x):
+				active_enemy_array.erase(x)

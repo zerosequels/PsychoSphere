@@ -7,8 +7,8 @@ extends Node3D
 
 var type_id = 2
 var last_attack = 0
-var base_time_to_attack_ms = 2500
-var time_to_attack_ms = 2500
+var base_time_to_attack = 2.5
+var time_to_attack = 2.5
 var base_radiant_damage = 1
 var radiant_damage = 1
 var tower_range = 5
@@ -19,6 +19,8 @@ var base_multi_hit_proc_chance = 0.0
 var multi_hit_proc_chance = 0.0
 var emerald_tablet_stack_level = 0
 
+var attack_opportunity_timer:Timer 
+
 #this tower will attempt to damage all enemies within its range
 
 var price:int = 0
@@ -27,6 +29,16 @@ func set_tower_price(cost:int):
 	price = cost
 
 func _ready():
+	GameMode.update_game_speed.connect(_on_game_speed_updated)
+	var starting_speed = GameMode.get_global_game_speed()
+	attack_opportunity_timer = Timer.new()
+	attack_opportunity_timer.one_shot = false
+	attack_opportunity_timer.autostart = true
+	attack_opportunity_timer.timeout.connect(process_wave_damage_opportunity)
+	attack_opportunity_timer.paused = false
+	attack_opportunity_timer.wait_time = time_to_attack * (1/starting_speed)
+	add_child(attack_opportunity_timer)
+	
 	mouse_detector.mouse_detector_hovered.connect(_on_mouse_detector_hovered)
 	update_tower_range(tower_range)
 	radiant_damage = base_radiant_damage
@@ -36,6 +48,13 @@ func _ready():
 	$buff_area.delta_flower_of_life_buff.connect(increment_flower_of_life_buff)
 	$buff_area.delta_tuning_buff.connect(increment_tunning_fork_buff)
 
+func _on_game_speed_updated(game_speed):
+	if game_speed == 0:
+		attack_opportunity_timer.paused = true
+		return
+	attack_opportunity_timer.wait_time = time_to_attack * (1/game_speed)
+	attack_opportunity_timer.paused = false
+
 func _on_clicked():
 	#check if player is in sell mode. 
 	if TowerAndBoonData.get_currently_selected_tower() == 13:
@@ -43,8 +62,6 @@ func _on_clicked():
 		GlobalAudio.tower_removed_sfx()
 		self.queue_free()
 	
-func _process(delta):
-	process_wave_damage_opportunity()
 
 func update_tower_range(new_range:float):
 	attack_area.update_range(new_range)
@@ -58,21 +75,22 @@ func increment_tunning_fork_buff(delta:int):
 	set_attack_speed_modifier(tunning_fork_stack_level)
 
 func process_wave_damage_opportunity():
-	if Time.get_ticks_msec() > (last_attack + time_to_attack_ms):
-		var targets = attack_area.get_all_enemies_in_range()
-		if targets.is_empty():
-			return
+	var targets = attack_area.get_all_enemies_in_range()
+	if targets.is_empty():
+		return
+	trigger_radiant_wave_damage(targets)
+	print("ankh attack")
+	print(attack_opportunity_timer.wait_time)
 
-		trigger_radiant_wave_damage(targets)
-		last_attack = Time.get_ticks_msec()
 
 func set_attack_speed_modifier(tunning_stack:int):
-	time_to_attack_ms = base_time_to_attack_ms
+	time_to_attack = base_time_to_attack
 	for x in tunning_stack:
 		iterate_attack_speed_reduction()
+	attack_opportunity_timer.wait_time = time_to_attack
 
 func iterate_attack_speed_reduction():
-	time_to_attack_ms -= (time_to_attack_ms * 0.10)
+	time_to_attack -= (time_to_attack * 0.10)
 
 func trigger_radiant_wave_damage(targets):
 	for enemy in targets:

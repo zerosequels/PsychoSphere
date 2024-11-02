@@ -26,17 +26,10 @@ script/source = "extends PathFollow3D
 var enemy_scale_value: float = 1
 var is_slow:bool = false
 
-var time_to_glow_decay_ms = 3000
-var last_decay_time = 0
-
-var time_to_magnum_opus_decay_ms = 2000
-var last_magnum_opus_decay_time = 0
-
-var time_to_cubic_debuff_decay_ms = 450
-var last_cubic_debuff_decay_time = 0
-
-var time_to_slow_decay_ms = 300
-var last_slow_debuff_decay_time = 0
+var glow_decay_timer: Timer
+var magnum_opus_decay_timer: Timer
+var cubic_decay_timer: Timer
+var slow_decay_timer: Timer
 
 signal reached_the_center(damage:int, enemy_uuid:int)
 signal enemy_killed(exp:int, enemy_uuid:int)
@@ -50,8 +43,74 @@ var highlight_color
 var height_offset
 
 func _ready():
+	GameMode.update_game_speed.connect(_on_refresh_decay_timers)
+	var starting_speed = GameMode.get_global_game_speed()
+	glow_decay_timer = Timer.new()
+	glow_decay_timer.one_shot = false
+	glow_decay_timer.autostart = true
+	glow_decay_timer.timeout.connect(process_glowing_decay_opportunity)
+	refresh_decay_timer(starting_speed)
+	add_child(glow_decay_timer)
+	
+	magnum_opus_decay_timer = Timer.new()
+	magnum_opus_decay_timer.one_shot = false
+	magnum_opus_decay_timer.autostart = true
+	magnum_opus_decay_timer.timeout.connect(process_magnum_opus_decay_opportunity)
+	refresh_magnum_opus_timer(starting_speed)
+	add_child(magnum_opus_decay_timer)
+	
+	cubic_decay_timer = Timer.new()
+	cubic_decay_timer.one_shot = false
+	cubic_decay_timer.autostart = true
+	cubic_decay_timer.timeout.connect(process_cubic_decay_opportunity)
+	refresh_cubic_timer(starting_speed)
+	add_child(cubic_decay_timer)
+	
+	slow_decay_timer = Timer.new()
+	slow_decay_timer.timeout.connect(process_slow_decay_opportunity)
+	refresh_slow_timer(starting_speed)
+	add_child(slow_decay_timer)
+	
 	progress_ratio = 1.0
 	health_bar._initialize_health_bar(health)
+
+func _on_refresh_decay_timers(game_speed):
+	refresh_decay_timer(game_speed)
+	refresh_magnum_opus_timer(game_speed)
+	refresh_cubic_timer(game_speed)
+	refresh_slow_timer(game_speed)
+
+func refresh_decay_timer(game_speed):
+
+	if game_speed == 0.0:
+		glow_decay_timer.paused = true
+		return
+	glow_decay_timer.paused = false
+	glow_decay_timer.wait_time = 3.5 * (1/game_speed)
+
+func refresh_magnum_opus_timer(game_speed):
+
+	if game_speed == 0.0:
+		magnum_opus_decay_timer.paused = true
+		return
+	magnum_opus_decay_timer.paused = false
+	magnum_opus_decay_timer.wait_time = 2.0 * (1/game_speed)
+
+func refresh_cubic_timer(game_speed):
+	
+	if game_speed == 0.0:
+		cubic_decay_timer.paused = true
+		return
+	cubic_decay_timer.paused = false
+	cubic_decay_timer.wait_time = 0.5 * (1/game_speed)
+
+func refresh_slow_timer(game_speed):
+
+	if game_speed == 0.0:
+		slow_decay_timer.paused = true
+		return
+	slow_decay_timer.paused = false
+	slow_decay_timer.wait_time = 0.2 * (1/game_speed)
 
 func set_height_pos(offset:float):
 	var original_enemy_area_pos = $enemy/enemy_mesh/enemy_area.position
@@ -116,11 +175,11 @@ func apply_magnum_opus_stack(stack_count:int):
 func apply_slow_stack(stack_count:int):
 	ticker.increment_slow(stack_count)
 	set_slow(true)
-	last_slow_debuff_decay_time = Time.get_ticks_msec()
+	slow_decay_timer.start()
 	
 func apply_cubic_stack(stack_count:int):
 	ticker.increment_cubic(stack_count)
-	last_cubic_debuff_decay_time = Time.get_ticks_msec()
+	cubic_decay_timer.start()
 	
 func take_damage(damage:float,multi_hit_proc_chance:float,wiggle_direction:Vector3):
 	$enemy_hit_audio_stream_player.play()
@@ -152,13 +211,8 @@ func calculate_damage(damage:float):
 	return calculated_damage
 
 func _process(delta):
-	#process glowing status decay opportunity
-	process_glowing_decay_opportunity()
-	process_cubic_decay_opportunity()
-	process_slow_decay_opportunity()
-	process_magnum_opus_decay_opportunity()
 
-	progress = progress - (speed/slowness) * delta
+	progress = (progress - ((speed/slowness) * delta) * GameMode.get_global_game_speed())
 	if health <= 0:
 		emit_signal(\"enemy_killed\", exp_on_kill,enemy_uuid)
 		self.queue_free()
@@ -167,27 +221,23 @@ func _process(delta):
 		self.queue_free()
 
 func process_glowing_decay_opportunity():
-	if Time.get_ticks_msec() > (last_decay_time + time_to_glow_decay_ms):
-		apply_glowing_stack(-1)
-		last_decay_time = Time.get_ticks_msec()
+	apply_glowing_stack(-1)
+	glow_decay_timer.start()
 	
 func process_magnum_opus_decay_opportunity():
-	if Time.get_ticks_msec() > (last_magnum_opus_decay_time + time_to_magnum_opus_decay_ms):
-		if ticker.get_magnum_opus_count() > 0:
-			apply_magnum_opus_stack(-1)
-			take_damage(ticker.get_magnum_opus_count(),0.0,Vector3(0,0,0))
-		last_magnum_opus_decay_time = Time.get_ticks_msec()
+	if ticker.get_magnum_opus_count() > 0:
+		apply_magnum_opus_stack(-1)
+		take_damage(ticker.get_magnum_opus_count(),0.0,Vector3(0,0,0))
+		
 
 func process_cubic_decay_opportunity():
-	if Time.get_ticks_msec() > (last_cubic_debuff_decay_time + time_to_cubic_debuff_decay_ms):
-		apply_cubic_stack(-1)
-		last_cubic_debuff_decay_time = Time.get_ticks_msec()
+	apply_cubic_stack(-1)
+
 
 func process_slow_decay_opportunity():
-	if Time.get_ticks_msec() > (last_slow_debuff_decay_time + time_to_slow_decay_ms):
-		apply_slow_stack(-1)
-		set_slow(false)
-		last_slow_debuff_decay_time = Time.get_ticks_msec()
+	apply_slow_stack(-1)
+	set_slow(false)
+
 
 func _on_multi_hit_area_entered(area):
 	if area.get_name() == \"enemy_area\":

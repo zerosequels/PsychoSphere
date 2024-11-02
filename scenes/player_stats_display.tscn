@@ -89,7 +89,12 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 
-[node name="difficulty_label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="difficulty_label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -101,7 +106,7 @@ text = "PINEAL GLAND DECALCIFICATION: "
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="difficulty_level_value" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="difficulty_level_value" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
@@ -114,13 +119,15 @@ text = "0%"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
 size_flags_vertical = 3
-alignment = 1
 
-[node name="awareness_level" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="awareness_level" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
+layout_direction = 2
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
@@ -131,9 +138,10 @@ text = "Awareness LV: "
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="awareness_value" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="awareness_value" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)

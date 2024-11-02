@@ -633,6 +633,7 @@ func show_path_trigger_choice_menu(trigger_id,trigger_uuid,depth):
 	is_making_selection = true
 	hand.toggle_hide_hand(true)
 	gui.visible = false
+	$CanvasLayer/player_gui.visible = false
 	boon_selection_screen.load_new_boons_from_data(trigger_id,trigger_uuid,depth)
 	boon_selection_screen.visible = true
 
@@ -644,6 +645,7 @@ func restore_game_ui():
 	if TowerAndBoonData.get_currently_selected_tower() != -1:
 		hand.select_card(current_tower_type)
 	gui.visible = true
+	$CanvasLayer/player_gui.visible = true
 	boon_selection_screen.visible = false
 
 func enemy_wave_activation_sequence(trigger_id,trigger_uuid,depth):

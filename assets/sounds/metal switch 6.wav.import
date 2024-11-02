@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dd1fdwp2ev762"
+path="res://.godot/imported/metal switch 6.wav-0b6096f3faf2785b0e17298d49f80a56.sample"
+
+[deps]
+
+source_file="res://assets/sounds/metal switch 6.wav"
+dest_files=["res://.godot/imported/metal switch 6.wav-0b6096f3faf2785b0e17298d49f80a56.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

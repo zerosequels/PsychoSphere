@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dn2ll0nj3140h"
+path="res://.godot/imported/tiny hit 4.wav-545ea226ffd9815e5fed2fedf971a24e.sample"
+
+[deps]
+
+source_file="res://assets/sounds/tiny hit 4.wav"
+dest_files=["res://.godot/imported/tiny hit 4.wav-545ea226ffd9815e5fed2fedf971a24e.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

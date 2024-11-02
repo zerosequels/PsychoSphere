@@ -40,3 +40,6 @@ func tower_placed_sfx():
 	
 func tower_removed_sfx():
 	$tower_removal_player.play()
+	
+func speed_change_sfx():
+	$speed_change_player.play()

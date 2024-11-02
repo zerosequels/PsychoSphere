@@ -6,7 +6,7 @@ var damage = 0
 var multi_hit_proc_chance = 0.0
 
 var ricochet_number = 5
-
+var speed_mult = 1
 
 func set_homing_speed(new_speed):
 	homing_speed = new_speed
@@ -28,7 +28,7 @@ func _process(delta):
 	if target != null:
 		var direction_to_target = (target.global_position - global_position).normalized()
 		look_at(target.global_position, Vector3.UP)
-		var new_position = global_position + direction_to_target * homing_speed * delta
+		var new_position = global_position + direction_to_target * homing_speed * delta * speed_mult
 		var distance_to_target = global_position.distance_to(target.global_position)
 		global_translate(new_position - global_position)
 		if distance_to_target < 0.2:
@@ -41,3 +41,10 @@ func _process(delta):
 				set_target(new_target)
 	else:
 		queue_free()
+
+func _ready():
+	speed_mult = GameMode.global_game_speed
+	GameMode.update_game_speed.connect(_on_game_speed_updated)
+
+func _on_game_speed_updated(game_speed):
+	speed_mult = game_speed
