@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://dve84i161uymk"]
+[gd_scene load_steps=6 format=3 uid="uid://dve84i161uymk"]
 
 [ext_resource type="Shader" path="res://data/spacial_plexus_2.gdshader" id="1_vigyd"]
+[ext_resource type="Script" path="res://scripts/path_cell.gd" id="2_gxofo"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_44m1p"]
 size = Vector2(1, 1)
@@ -23,6 +24,7 @@ size = Vector3(1, 0.2, 1)
 [node name="path_cell" type="MeshInstance3D"]
 mesh = SubResource("PlaneMesh_44m1p")
 surface_material_override/0 = SubResource("ShaderMaterial_upo16")
+script = ExtResource("2_gxofo")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 

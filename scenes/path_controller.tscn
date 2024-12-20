@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://cs8gay306ec7f"]
+
+[ext_resource type="Script" path="res://scripts/path_controller.gd" id="1_axkpp"]
+[ext_resource type="MeshLibrary" uid="uid://dfpi2igxswusg" path="res://data/chunk_meshlib.tres" id="2_p6oao"]
+
+[node name="path_controller" type="Node3D"]
+script = ExtResource("1_axkpp")
+
+[node name="path_grid" type="GridMap" parent="."]
+mesh_library = ExtResource("2_p6oao")
+cell_size = Vector3(1, 1, 1)
+
+[node name="chaos_grid" type="GridMap" parent="."]
+mesh_library = ExtResource("2_p6oao")
+cell_size = Vector3(1, 1, 1)

@@ -22,6 +22,8 @@ func set_boon_description(new_boon_description):
 func set_boon_texture_by_boon_type(boon_type):
 	$MarginContainer/VBoxContainer/boon_texture.texture = TowerAndBoonData.get_tower_unlock_texture_by_tower_type(boon_type)
 
+func set_boon_texture_under_construction():
+	$MarginContainer/VBoxContainer/boon_texture.texture = load("res://assets/textures/under_construction.png")
 func _on_mouse_entered():
 	pass
 	#grow_bttn(grow_size,0.1)

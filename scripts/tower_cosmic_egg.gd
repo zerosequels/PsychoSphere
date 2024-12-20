@@ -3,11 +3,11 @@ extends Node3D
 @onready var attack_area = $attack_area
 @onready var mouse_detector = $static_mouse_detection_body
 @onready var cosmic_egg_controller = $cosmic_egg_controller
-@onready var projectile = preload("res://scenes/galaxy_projectile.tscn")
+@onready var projectile = preload("res://scenes/cosmic_egg_projectile.tscn")
 @onready var emitter = $emitter
 
 var should_hatch:bool = true
-var time_to_hatch_ms = 10000
+var time_to_hatch_ms = 2
 var last_hatch_time = 0
 var egg_scale_ratio = 1.0
 
@@ -45,6 +45,7 @@ func _ready():
 	attack_opportunity_timer.autostart = true
 	attack_opportunity_timer.timeout.connect(process_hatch_opportunity)
 	attack_opportunity_timer.paused = false
+	
 	attack_opportunity_timer.wait_time = time_to_hatch_ms * (1/starting_speed)
 	add_child(attack_opportunity_timer)
 	
@@ -125,8 +126,10 @@ func iterate_multi_hit_increase():
 	
 func _process(delta):
 	if has_target and current_enemy_target != null:
-		egg_scale_ratio = 1 -(attack_opportunity_timer.time_left/attack_opportunity_timer.wait_time) 
+		egg_scale_ratio = attack_opportunity_timer.wait_time / (attack_opportunity_timer.wait_time - attack_opportunity_timer.time_left) 
 		set_egg_scale(egg_scale_ratio)
+	else:
+		set_egg_scale(1)
 
 
 func set_egg_scale(egg_scale):
@@ -143,6 +146,7 @@ func currently_able_to_hatch():
 func process_hatch_opportunity():
 	if has_target and current_enemy_target != null:
 		var galaxy = projectile.instantiate()
+		galaxy.set_ricochet_number(3)
 		galaxy.set_target(current_enemy_target)
 		galaxy.set_damage(damage)
 		galaxy.set_multi_hit_proc_chance(multi_hit_proc_chance)

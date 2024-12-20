@@ -1,13 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://cfcbgrulfopym"]
+[gd_scene load_steps=6 format=3 uid="uid://cfcbgrulfopym"]
 
 [ext_resource type="Shader" path="res://data/spacial_plexus_2.gdshader" id="1_uvo5g"]
+[ext_resource type="Script" path="res://scripts/chaos_cell.gd" id="2_5nc6q"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_weals"]
 render_priority = 0
 shader = ExtResource("1_uvo5g")
-shader_parameter/resolution = Vector2(800, 400)
+shader_parameter/resolution = Vector2(600, 400)
 shader_parameter/line_color = Color(0.694118, 0.388235, 0.886275, 1)
-shader_parameter/octaves = 30
+shader_parameter/octaves = 20
 shader_parameter/zoom_factor = 10.0
 shader_parameter/zoom_coef = 1.1
 shader_parameter/brightness = 10.0
@@ -23,6 +24,7 @@ size = Vector3(1, 0.1, 1)
 
 [node name="chaos_cell" type="MeshInstance3D"]
 mesh = SubResource("BoxMesh_awb7v")
+script = ExtResource("2_5nc6q")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 

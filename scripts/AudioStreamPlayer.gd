@@ -4,17 +4,12 @@ var should_loop_lab_theme: bool = true
 var should_loop_main_theme: bool = true
 
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
 	
 func play_lab_theme():
 	should_loop_lab_theme = true
 	play()
 	
 func stop_lab_theme():
-	
 	should_loop_lab_theme = false
 	stop()
 	
@@ -43,3 +38,12 @@ func tower_removed_sfx():
 	
 func speed_change_sfx():
 	$speed_change_player.play()
+	
+func play_enemy_hit():
+	$enemy_hit_audio_stream_player.play()
+
+func play_enemy_crit_hit():
+	$enemy_crit_hit_audio_stream_player.play()
+
+func play_quit():
+	$quit_audio_stream_player.play()

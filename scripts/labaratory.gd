@@ -7,7 +7,7 @@ var game_is_starting:bool = false
 func _process(delta):
 	if game_is_starting:
 		if Input.is_action_just_pressed("click"):
-			get_tree().change_scene_to_file("res://scenes/demo_instructions.tscn")
+			get_tree().change_scene_to_file("res://scenes/tutorial_instructions.tscn")
 
 func _ready():
 	get_tree().paused = false
@@ -26,11 +26,11 @@ func _ready():
 	GlobalAudio.play_lab_theme()
 
 func _on_timer_timeout():
-	get_tree().change_scene_to_file("res://scenes/demo_instructions.tscn")
+	get_tree().change_scene_to_file("res://scenes/tutorial_instructions.tscn")
 
 func _on_astral_projection_begin():
 	if game_is_starting:
-		get_tree().change_scene_to_file("res://scenes/demo_instructions.tscn")
+		get_tree().change_scene_to_file("res://scenes/tutorial_instructions.tscn")
 	play_astral_projection_sound()
 	timer.start()
 	anim_player.play("camera_zoom_in")

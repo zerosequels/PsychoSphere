@@ -21,8 +21,10 @@ script = ExtResource("1_1cuvy")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 0
-offset_right = 2005.0
-offset_bottom = 1116.0
+offset_left = -16.0
+offset_top = -3.0
+offset_right = 1989.0
+offset_bottom = 1113.0
 texture = SubResource("GradientTexture1D_gdgnq")
 
 [node name="SleeperAgent" type="Sprite2D" parent="."]
@@ -30,22 +32,78 @@ position = Vector2(538, 574)
 scale = Vector2(0.603704, 0.603704)
 texture = ExtResource("1_urj4q")
 
-[node name="Label" type="Label" parent="."]
+[node name="gamedevlabel" type="Label" parent="."]
 layout_mode = 0
-offset_left = 907.0
-offset_top = 80.0
-offset_right = 2030.0
-offset_bottom = 581.0
+offset_left = 928.0
+offset_top = 55.0
+offset_right = 1880.0
+offset_bottom = 118.0
 theme_override_fonts/font = ExtResource("2_ooexb")
 theme_override_font_sizes/font_size = 75
-text = "Game Developer: Nick 
-      Nick.of.nevada on instagram
+text = "Game Developer: Zero Sequels
+"
 
-Music Composer: Chungusbrodungus
-      Track 1: Chun Gis Enveleopment
-      Track 2: Potion Barrel
-      follow Chungusbrodungus 
-                on soundcloud"
+[node name="LinkButton" type="LinkButton" parent="."]
+layout_mode = 0
+offset_left = 963.0
+offset_top = 136.0
+offset_right = 1764.0
+offset_bottom = 233.0
+theme_override_fonts/font = ExtResource("2_ooexb")
+theme_override_font_sizes/font_size = 80
+text = "tiktok"
+underline = 1
+uri = "https://www.tiktok.com/@zero.sequels"
+
+[node name="LinkButton4" type="LinkButton" parent="."]
+layout_mode = 0
+offset_left = 960.0
+offset_top = 210.0
+offset_right = 1761.0
+offset_bottom = 307.0
+theme_override_fonts/font = ExtResource("2_ooexb")
+theme_override_font_sizes/font_size = 80
+text = "youtube"
+underline = 1
+uri = "https://www.youtube.com/@zerosequels"
+
+[node name="brodylabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 895.0
+offset_top = 345.0
+offset_right = 1781.0
+offset_bottom = 468.0
+theme_override_fonts/font = ExtResource("2_ooexb")
+theme_override_font_sizes/font_size = 75
+text = "Music Composer: Chungusbrodungus
+
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LinkButton2" type="LinkButton" parent="."]
+layout_mode = 0
+offset_left = 977.0
+offset_top = 421.0
+offset_right = 1807.0
+offset_bottom = 518.0
+theme_override_fonts/font = ExtResource("2_ooexb")
+theme_override_font_sizes/font_size = 80
+text = "Track 1: Chun Gis Enveleopment"
+underline = 1
+uri = "https://soundcloud.com/chungisbrodungis/chun-gis-enveleopment"
+
+[node name="LinkButton3" type="LinkButton" parent="."]
+layout_mode = 0
+offset_left = 983.0
+offset_top = 502.0
+offset_right = 1813.0
+offset_bottom = 599.0
+theme_override_fonts/font = ExtResource("2_ooexb")
+theme_override_font_sizes/font_size = 80
+text = "Track 2: potion barrel"
+underline = 1
+uri = "https://soundcloud.com/chungisbrodungis/potion-barrel"
 
 [node name="credits_button" type="Button" parent="."]
 layout_mode = 0

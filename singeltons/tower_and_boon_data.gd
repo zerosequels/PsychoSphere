@@ -57,6 +57,14 @@ enum tower_types {
 	ANNUNAKI_WEAPON
 }
 
+enum boost_types {
+	notice,
+	insight,
+	paradigm,
+	vision,
+	gnosis
+}
+
 var tower_type_count = {	
 	tower_types.PYRAMID:0,
 	tower_types.THIRD_EYE:0,
@@ -87,14 +95,22 @@ var boon_type_array = [
 	boon_types.out_of_boons
 ]
 
+var boost_type_array = [
+	0,1,2,3,4
+]
+
 func get_boon_type():
 	if locked_towers.is_empty():
-		return boon_types.out_of_boons
+		return boon_types.boost
 	return boon_types.tower
 
 func get_random_tower_to_unlock():
 	var tower_to_unlock = locked_towers.pick_random()
 	return tower_to_unlock
+
+func get_random_boost():
+	var boost = boost_type_array.pick_random()
+	return boost
 
 func unlock_tower_by_tower_type(tower_type):
 	locked_towers.erase(tower_type)
@@ -129,6 +145,37 @@ func get_tower_unlock_description_by_tower_type(tower_type):
 			return "an egg that will grow until it hatches, birthing a galaxy that will richochete from enemy to enemy on hit"
 		tower_types.ANNUNAKI_WEAPON:
 			return "spawns a beam of light that tracks enemies and burns them over time"
+
+func get_boost_description_by_boost_type(boost_type):
+	match boost_type:
+		boost_types.notice:
+			return "[+$$$25]
+			You've noticed a pattern "
+		boost_types.insight:
+			return "[+$$$50]
+			You've connected the dots "
+		boost_types.paradigm:
+			return "[+$$$75]
+			You've opened a new eye through which to see "
+		boost_types.vision:
+			return "[+$$$100]
+			Source? It was revealed to me in a dream "
+		boost_types.gnosis:
+			return "[+$$$150]
+			The ultimate final truth is within your grasp "
+
+func get_boost_name_by_boost_type(boost_type):
+	match boost_type:
+		boost_types.notice:
+			return "notice"
+		boost_types.insight:
+			return "insight"
+		boost_types.paradigm:
+			return "paradigm"
+		boost_types.vision:
+			return "vision"
+		boost_types.gnosis:
+			return "gnosis"
 
 func get_tower_unlock_texture_by_tower_type(tower_type):
 	match tower_type:
@@ -222,6 +269,19 @@ func get_next_tower_price(tower_type:tower_types):
 	var new_cost = get_tower_cost_by_count_and_type(count,base_cost)
 	return new_cost
 
+func increase_awareness_by_boost_type(new_boon_id):
+	match new_boon_id:
+		boost_types.notice:
+			increase_awarness(25)
+		boost_types.insight:
+			increase_awarness(50)
+		boost_types.paradigm:
+			increase_awarness(75)
+		boost_types.vision:
+			increase_awarness(100)
+		boost_types.gnosis:
+			increase_awarness(150)
+
 func refund_tower_by_type(type:tower_types):
 	var count = tower_type_count[type]
 	count = count - 1
@@ -241,31 +301,31 @@ func refund_tower_by_price_and_type(price:int,type:tower_types):
 func get_tower_base_cost(tower_type:tower_types):
 	match tower_type:
 		tower_types.ANKH:
-			return 5
+			return 1
 		tower_types.PYRAMID:
 			return 1
 		tower_types.THIRD_EYE:
-			return 15
-		tower_types.SPIRAL:
 			return 5
+		tower_types.SPIRAL:
+			return 1
 		tower_types.FLOWER_OF_LIFE:
-			return 20
+			return 1
 		tower_types.EMERALD_TABLET:
-			return 20
+			return 1
 		tower_types.PRAYER_WHEEL:
-			return 50
+			return 5
 		tower_types.TIME_CUBE:
-			return 50
+			return 10
 		tower_types.TUNING_FORK:
-			return 15
+			return 1
 		tower_types.DEATH_FUNGUS:
 			return 5
 		tower_types.RUBEDO:
-			return 30
+			return 5
 		tower_types.COSMIC_EGG:
-			return 30
+			return 5
 		tower_types.ANNUNAKI_WEAPON:
-			return 50
+			return 5
 
 func get_tower_name(tower_type:tower_types):
 	match tower_type:

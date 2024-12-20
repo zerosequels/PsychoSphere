@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://lavex083ekyf"]
+[gd_scene load_steps=3 format=3 uid="uid://ns66qqpcvc5d"]
 
 [ext_resource type="Script" path="res://scripts/galaxy_projectile.gd" id="1_oafvw"]
 [ext_resource type="PackedScene" uid="uid://4glnwqf8aifk" path="res://scenes/galaxy.tscn" id="2_7etxd"]

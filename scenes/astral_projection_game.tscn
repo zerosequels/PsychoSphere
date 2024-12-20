@@ -1,0 +1,43 @@
+[gd_scene load_steps=9 format=3 uid="uid://bisk1f8j4qocw"]
+
+[ext_resource type="Script" path="res://scripts/astral_projection_game.gd" id="1_km1w3"]
+[ext_resource type="Shader" path="res://data/plexus.gdshader" id="2_eavv2"]
+[ext_resource type="PackedScene" uid="uid://cuy5um8ffugo8" path="res://scenes/plexus.tscn" id="3_qptlh"]
+[ext_resource type="PackedScene" uid="uid://cs8gay306ec7f" path="res://scenes/path_controller.tscn" id="4_bd3k6"]
+[ext_resource type="PackedScene" uid="uid://dyig1h2oqvgy7" path="res://scenes/phantom_camera_controller.tscn" id="5_k0tpn"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tdblo"]
+shader = ExtResource("2_eavv2")
+shader_parameter/resolution = Vector2(600, 400)
+shader_parameter/line_color = Color(0.1, 0.4, 0.2, 1)
+shader_parameter/octaves = 20
+shader_parameter/zoom_factor = 10.0
+shader_parameter/zoom_coef = 1.1
+shader_parameter/brightness = 10.0
+shader_parameter/rotation_angle = 0.5
+shader_parameter/alpha_threshold = 0.0
+
+[sub_resource type="Sky" id="Sky_qypv0"]
+sky_material = SubResource("ShaderMaterial_tdblo")
+
+[sub_resource type="Environment" id="Environment_f55ts"]
+background_mode = 3
+sky = SubResource("Sky_qypv0")
+
+[node name="astral_projection_game_mode" type="Node3D"]
+script = ExtResource("1_km1w3")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_f55ts")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="Plexus" parent="ParallaxBackground" instance=ExtResource("3_qptlh")]
+
+[node name="path_controller" parent="." instance=ExtResource("4_bd3k6")]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.0740388, 0.997255, 0, -0.997255, 0.0740388, 0, 28.1727, 0)
+
+[node name="phantom_camera_controller" parent="." instance=ExtResource("5_k0tpn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, 4.5)

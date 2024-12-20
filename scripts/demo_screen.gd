@@ -26,26 +26,41 @@ func hide_text():
 	$MarginContainer2/four.visible = false
 	$MarginContainer2/five.visible = false
 	$MarginContainer2/six.visible = false
+	$MarginContainer2/return_of_the_zero.visible = false
+	$Victim.visible = false
+	$trigger.visible = false
+	$spiral.visible = false
 
 func update_text():
 	hide_text()
 	match index:
 		0:
 			$MarginContainer2/zero.visible = true
+			$Victim.visible = true
 		1:
 			$MarginContainer2/zero_and_one_half.visible = true
+			$Victim.visible = true
 		2:
-			$MarginContainer2/one.visible = true
+			$MarginContainer2/return_of_the_zero.visible = true
+			$Victim.visible = true
 		3:
-			$MarginContainer2/two.visible = true
+			$MarginContainer2/one.visible = true
+			$Victim.visible = true
 		4:
-			$MarginContainer2/three.visible = true
+			$MarginContainer2/two.visible = true
+			$trigger.visible = true
 		5:
-			$MarginContainer2/four.visible = true
+			$MarginContainer2/three.visible = true
+			$spiral.visible = true
 		6:
-			$MarginContainer2/five.visible = true
+			$MarginContainer2/four.visible = true
+			$Victim.visible = true
 		7:
+			$MarginContainer2/five.visible = true
+			$Victim.visible = true
+		8:
 			$MarginContainer2/six.visible = true
+			$Victim.visible = true
 
 
 func _on_back_button_pressed():

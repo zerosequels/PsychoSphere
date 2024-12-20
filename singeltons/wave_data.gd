@@ -19,6 +19,17 @@ enum negative_vibes {
 	SHAME
 }
 
+var max_enemy_limit = 25
+
+var early_game = 25
+
+var early_enemies = [0,1,2]
+var mid_enemies = [3,4,5]
+var late_enemies = [6,7]
+
+var mid_game = 50
+var late_game = 75
+
 var enemy_spawn_data_array = []
 var is_fresh_reset = false
 
@@ -46,10 +57,10 @@ func load_enemy_spawn_data_by_type(type:negative_vibes):
 			#print("anxiety")
 		negative_vibes.FEAR:
 			enemy_spawn_data = EnemySpawnData.new()
-			enemy_spawn_data.set_health(1)
+			enemy_spawn_data.set_health(5)
 			enemy_spawn_data.set_damage(1)
 			enemy_spawn_data.set_exp(2)
-			enemy_spawn_data.set_speed(4)
+			enemy_spawn_data.set_speed(5)
 			enemy_spawn_data.set_spawn_time(1000)
 			enemy_spawn_data.set_enemy_size_scale(0.25)
 			enemy_spawn_data.set_primary_color(Color.YELLOW)
@@ -58,8 +69,8 @@ func load_enemy_spawn_data_by_type(type:negative_vibes):
 			#print("fear")
 		negative_vibes.ANGER:
 			enemy_spawn_data = EnemySpawnData.new()
-			enemy_spawn_data.set_health(10)
-			enemy_spawn_data.set_damage(10)
+			enemy_spawn_data.set_health(5)
+			enemy_spawn_data.set_damage(5)
 			enemy_spawn_data.set_exp(10)
 			enemy_spawn_data.set_speed(1.5)
 			enemy_spawn_data.set_spawn_time(2000)
@@ -70,10 +81,10 @@ func load_enemy_spawn_data_by_type(type:negative_vibes):
 			#print("anger")
 		negative_vibes.SADNESS:
 			enemy_spawn_data = EnemySpawnData.new()
-			enemy_spawn_data.set_health(25)
-			enemy_spawn_data.set_damage(10)
+			enemy_spawn_data.set_health(8)
+			enemy_spawn_data.set_damage(5)
 			enemy_spawn_data.set_exp(15)
-			enemy_spawn_data.set_speed(1.75)
+			enemy_spawn_data.set_speed(1.5)
 			enemy_spawn_data.set_spawn_time(2000)
 			enemy_spawn_data.set_enemy_size_scale(2)
 			enemy_spawn_data.set_primary_color(Color.DODGER_BLUE)
@@ -83,8 +94,8 @@ func load_enemy_spawn_data_by_type(type:negative_vibes):
 			#print("sadness")
 		negative_vibes.CONTEMPT:
 			enemy_spawn_data = EnemySpawnData.new()
-			enemy_spawn_data.set_health(50)
-			enemy_spawn_data.set_damage(25)
+			enemy_spawn_data.set_health(10)
+			enemy_spawn_data.set_damage(15)
 			enemy_spawn_data.set_exp(10)
 			enemy_spawn_data.set_speed(3)
 			enemy_spawn_data.set_spawn_time(3000)
@@ -108,10 +119,10 @@ func load_enemy_spawn_data_by_type(type:negative_vibes):
 			#print("envy")
 		negative_vibes.DESPAIR:
 			enemy_spawn_data = EnemySpawnData.new()
-			enemy_spawn_data.set_health(75)
-			enemy_spawn_data.set_damage(25)
+			enemy_spawn_data.set_health(10)
+			enemy_spawn_data.set_damage(10)
 			enemy_spawn_data.set_exp(100)
-			enemy_spawn_data.set_speed(2.25)
+			enemy_spawn_data.set_speed(1.5)
 			enemy_spawn_data.set_spawn_time(5000)
 			enemy_spawn_data.set_enemy_size_scale(2.5)
 			enemy_spawn_data.set_primary_color(Color.MIDNIGHT_BLUE)
@@ -136,6 +147,7 @@ func load_enemy_spawn_data_by_type(type:negative_vibes):
 func set_total_number_of_waves(_total_number):
 	total_number_of_waves = _total_number
 
+#this method is depreciated
 func get_enemy_spawn_data_array_by_level(level:int):
 	#clear the array of enemy info
 	enemy_spawn_data_array.clear()
@@ -162,12 +174,27 @@ func add_enemies_to_queue_by_trigger_id(trigger_id):
 	if !trigger_id_dict.has(trigger_id):
 		print("creating trigger_id array for %s." % trigger_id)
 		trigger_id_dict[trigger_id] = [0,0,0]
-	for new_enemy in total_number_of_waves:
-		var enemy_temp_id = randi_range(0,total_number_of_waves)
-		var new_id = enemy_temp_id % 7
-		var path_enemy_array = trigger_id_dict[trigger_id]
-		path_enemy_array.append(new_id)
-		trigger_id_dict[trigger_id] = path_enemy_array
+	var path_enemy_array = trigger_id_dict[trigger_id]
+	#if less than max enemies then add from bucket
+	if path_enemy_array.size() < max_enemy_limit:
+		path_enemy_array.append(early_enemies.pick_random())
+	else:
+		var enemy_to_upgrade
+		var index = randi_range(0,path_enemy_array.size() - 1)
+		enemy_to_upgrade = path_enemy_array.pop_at(index)
+		var chance_to_upgrade = randi_range(0,1)
+		if chance_to_upgrade == 1:
+			#if is early enemy -> convert to mid game enemy 
+			if early_enemies.has(enemy_to_upgrade):
+				enemy_to_upgrade = mid_enemies.pick_random()
+			#if mid -> convert to late game enemy
+			elif mid_enemies.has(enemy_to_upgrade):
+				enemy_to_upgrade = late_enemies.pick_random()
+		path_enemy_array.insert(index,enemy_to_upgrade)
+	
+
+		
+	trigger_id_dict[trigger_id] = path_enemy_array
 		
 		
 
@@ -189,6 +216,7 @@ func reset_game_data():
 	active_enemy_array.clear()
 	total_number_of_waves = 0
 	trigger_id_dict.clear()
+	GameMode.reset_global_game_speed()
 	
 func check_is_reset():
 	if is_fresh_reset:

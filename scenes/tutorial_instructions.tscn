@@ -1,0 +1,246 @@
+[gd_scene load_steps=8 format=3 uid="uid://bischl11y4wbf"]
+
+[ext_resource type="Script" path="res://scripts/demo_screen.gd" id="1_kbd4b"]
+[ext_resource type="Texture2D" uid="uid://b4qbc6tndiuec" path="res://assets/ui/victim.png" id="2_58sbq"]
+[ext_resource type="Texture2D" uid="uid://cleiea88p0alp" path="res://assets/ui/trigger.png" id="2_p1v3p"]
+[ext_resource type="FontFile" uid="uid://dbli7jexs0nak" path="res://assets/ui/GelatinTTFCAPS.ttf" id="3_in6l6"]
+[ext_resource type="Texture2D" uid="uid://dfind2v85isve" path="res://assets/ui/spiral.png" id="3_u1d7w"]
+
+[sub_resource type="Gradient" id="Gradient_2vwol"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_5ca31"]
+gradient = SubResource("Gradient_2vwol")
+
+[node name="tutorial_screen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_kbd4b")
+
+[node name="black_background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture1D_5ca31")
+
+[node name="trigger" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(1613, 524)
+scale = Vector2(1.04415, 1.04415)
+texture = ExtResource("2_p1v3p")
+region_enabled = true
+region_rect = Rect2(1401, 778, 505, 508)
+
+[node name="spiral" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(1593, 535)
+scale = Vector2(0.298844, 0.298844)
+texture = ExtResource("3_u1d7w")
+region_enabled = true
+region_rect = Rect2(91, 41, 1980, 2029)
+
+[node name="Victim" type="Sprite2D" parent="."]
+position = Vector2(1554, 459)
+scale = Vector2(1.29907, 1.29907)
+texture = ExtResource("2_58sbq")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 7.0
+offset_bottom = -868.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_in6l6")
+theme_override_font_sizes/font_size = 150
+text = "MK ULTRA Psychic DEFENSE"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_in6l6")
+theme_override_font_sizes/font_size = 75
+text = "Early access version 0.4"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -182.0
+offset_bottom = -55.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 15
+
+[node name="back_button" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("3_in6l6")
+theme_override_font_sizes/font_size = 150
+text = "Back
+"
+
+[node name="next_button" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("3_in6l6")
+theme_override_font_sizes/font_size = 150
+text = "NEXT
+"
+
+[node name="MarginContainer2" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.219
+anchor_right = 1.0
+anchor_bottom = 0.826
+offset_top = 7.47998
+offset_right = -523.0
+offset_bottom = -47.08
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_right = 50
+
+[node name="zero" type="Label" parent="MarginContainer2"]
+visible = false
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_in6l6")
+theme_override_font_sizes/font_size = 75
+text = "! ! ! WARNING ! ! !
+This video game may 
+potentially trigger seizures
+ for people with photosensitive epilepsy.
+ Player discretion is advised.\" 
+ "
+horizontal_alignment = 1
+
+[node name="zero_and_one_half" type="LinkButton" parent="MarginContainer2"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("3_in6l6")
+theme_override_font_sizes/font_size = 75
+text = "Click here for the early access roadmap"
+underline = 1
+uri = "https://discord.gg/4jqxFAgJ"
+
+[node name="return_of_the_zero" type="Label" parent="MarginContainer2"]
+visible = false
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_in6l6")
+theme_override_font_sizes/font_size = 75
+text = "use wasd to move
+
+q and e to rotate the camera
+
+Use cards to select tower type
+
+Scroll wheel to zoom in and out
+
+r to toggle radius visibility
+"
+horizontal_alignment = 1
+
+[node name="one" type="Label" parent="MarginContainer2"]
+visible = false
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_in6l6")
+theme_override_font_sizes/font_size = 75
+text = "You are Ted Kaczynski.
+ What you thought 
+was a college debate club 
+has turned out to be a
+ clandestine government experiment
+
+"
+horizontal_alignment = 1
+
+[node name="two" type="Label" parent="MarginContainer2"]
+visible = false
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_in6l6")
+theme_override_font_sizes/font_size = 75
+text = "Various top secret drugs have managed to
+ temporarily awaken your latent psychic powers. 
+Allowing your mind to accend to the astral plane
+
+However your awakening has drawn the attention of 
+the machine elves
+"
+horizontal_alignment = 1
+
+[node name="three" type="Label" parent="MarginContainer2"]
+visible = false
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_in6l6")
+theme_override_font_sizes/font_size = 75
+text = "You must expand your conciousness by clicking 
+the multi color polyhedrons.
+
+Doing so will unlock a new tower type 
+and begin the enemy wave. "
+horizontal_alignment = 1
+
+[node name="four" type="Label" parent="MarginContainer2"]
+visible = false
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_in6l6")
+theme_override_font_sizes/font_size = 75
+text = "Use your towers to prevent 
+the mind goblins from reaching the center of
+your mental maze and attacking your kundalini
+energy spiral
+
+"
+horizontal_alignment = 1
+
+[node name="five" type="Label" parent="MarginContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_in6l6")
+theme_override_font_sizes/font_size = 75
+text = "If your Hemi-sync percentage falls to 
+zero percent you will be forced to return to
+the illusion of physical reality
+
+Defeating a wave of mind goblins will help to 
+decalcify your pineal
+ gland
+"
+horizontal_alignment = 1
+
+[node name="six" type="Label" parent="MarginContainer2"]
+visible = false
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_in6l6")
+theme_override_font_sizes/font_size = 75
+text = "Defeat machine elves to raise your Awareness
+
+Awareness can be used to place more towers
+
+Fortify your mental Maze and the 
+Akashik records will open to you and 
+your cia masters"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="HBoxContainer/back_button" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/next_button" to="." method="_on_next_button_pressed"]

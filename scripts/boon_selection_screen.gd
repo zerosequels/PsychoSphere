@@ -38,7 +38,8 @@ func get_boon_to_display():
 		boon_types.unlock:
 			pass
 		boon_types.boost:
-			pass
+			var boost_id = TowerAndBoonData.get_random_boost()
+			create_boost_option_button(TowerAndBoonData.get_boost_name_by_boost_type(boost_id),TowerAndBoonData.get_boost_description_by_boost_type(boost_id),boon_type,boost_id)
 		boon_types.tower:
 			var tower_boon_id = TowerAndBoonData.get_random_tower_to_unlock()
 			create_boon_option_button(TowerAndBoonData.get_tower_unlock_name_by_tower_type(tower_boon_id),TowerAndBoonData.get_tower_unlock_description_by_tower_type(tower_boon_id),boon_type,tower_boon_id)
@@ -52,7 +53,9 @@ func _on_boon_selected(new_boon_type,new_boon_id):
 		boon_types.unlock:
 			pass
 		boon_types.boost:
-			pass
+			TowerAndBoonData.increase_awareness_by_boost_type(new_boon_id)
+			clear_boon_options()
+			emit_signal("close_menu",path_trigger_id,path_trigger_uuid,path_depth)
 		boon_types.tower:
 			TowerAndBoonData.unlock_tower_by_tower_type(new_boon_id)
 			clear_boon_options()
@@ -76,6 +79,16 @@ func create_boon_option_button(boon_name:String, boon_description:String,type,bo
 	var btn = boon_button_prefab.instantiate()
 	btn.set_boon_name(boon_name)
 	btn.set_boon_texture_by_boon_type(boon_id)
+	btn.set_boon_description(boon_description)
+	btn.initialize_boon_button(type,boon_id)
+	btn.boon_selected.connect(_on_boon_selected)
+	h_box.add_child(btn)
+	option_array.append(btn)
+
+func create_boost_option_button(boon_name:String, boon_description:String,type,boon_id):
+	var btn = boon_button_prefab.instantiate()
+	btn.set_boon_name(boon_name)
+	btn.set_boon_texture_under_construction()
 	btn.set_boon_description(boon_description)
 	btn.initialize_boon_button(type,boon_id)
 	btn.boon_selected.connect(_on_boon_selected)

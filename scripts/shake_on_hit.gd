@@ -9,17 +9,20 @@ func set_original_position(pos:Vector3):
 	position = pos
 	original_position = pos
 	
-func damage_wiggle(wiggle_direction:Vector3):
-	
-	
+func damage_wiggle(wiggle_direction:Vector3,is_crit:bool):
+
 	if is_wiggling:
 		return
 	else:
 		tween = get_tree().create_tween()
 		is_wiggling = true
 		tween.set_loops(1)
-		tween.tween_property(self, "position",wiggle_direction, 0.1).set_trans(Tween.TRANS_SPRING)
-		tween.tween_property(self, "position",original_position, 0.1).set_trans(Tween.TRANS_SPRING)
+		if is_crit:
+			tween.tween_property(self, "position",wiggle_direction, 0.3).set_trans(Tween.TRANS_SPRING)
+			tween.tween_property(self, "position",original_position, 0.3).set_trans(Tween.TRANS_SPRING)
+		else:
+			tween.tween_property(self, "position",wiggle_direction, 0.1).set_trans(Tween.TRANS_SPRING)
+			tween.tween_property(self, "position",original_position, 0.1).set_trans(Tween.TRANS_SPRING)
 		tween.tween_callback(_on_stop_wiggling)
 		tween.play()
 	

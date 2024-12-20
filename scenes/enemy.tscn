@@ -1,10 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://lwl1fbjeq3nj"]
+[gd_scene load_steps=10 format=3 uid="uid://lwl1fbjeq3nj"]
 
 [ext_resource type="PackedScene" uid="uid://c26hur8a4gnw1" path="res://scenes/negative_vibe.tscn" id="1_1xj58"]
 [ext_resource type="Script" path="res://scripts/shake_on_hit.gd" id="1_06jom"]
 [ext_resource type="PackedScene" uid="uid://c21fpkkmc27hy" path="res://scenes/health_bar.tscn" id="1_ri170"]
 [ext_resource type="PackedScene" uid="uid://c57hovrp7ehl6" path="res://scenes/status_display_enemy_ui.tscn" id="4_bgn17"]
-[ext_resource type="AudioStream" uid="uid://bxc81mkrhdcxp" path="res://assets/sounds/enemy_hit.wav" id="5_e3fi0"]
 
 [sub_resource type="GDScript" id="GDScript_55np8"]
 script/source = "extends PathFollow3D
@@ -22,6 +21,11 @@ script/source = "extends PathFollow3D
 @onready var health_bar = $enemy/damage_number_origin/health_bar
 @onready var ticker = $enemy/damage_number_origin/ticker
 @onready var projectile = preload(\"res://scenes/projectile.tscn\")
+
+var base_crit_rate = 0.05
+var crit_increase_per_stack = 0.05
+
+var is_criting = false
 
 var enemy_scale_value: float = 1
 var is_slow:bool = false
@@ -86,7 +90,7 @@ func refresh_decay_timer(game_speed):
 		glow_decay_timer.paused = true
 		return
 	glow_decay_timer.paused = false
-	glow_decay_timer.wait_time = 3.5 * (1/game_speed)
+	glow_decay_timer.wait_time = 10.0 * (1/game_speed)
 
 func refresh_magnum_opus_timer(game_speed):
 
@@ -180,12 +184,24 @@ func apply_slow_stack(stack_count:int):
 func apply_cubic_stack(stack_count:int):
 	ticker.increment_cubic(stack_count)
 	cubic_decay_timer.start()
-	
+
+func calculate_crit_chance(stacks):
+	var chance = min(1.0, base_crit_rate + (stacks * crit_increase_per_stack))
+	return chance 
+
 func take_damage(damage:float,multi_hit_proc_chance:float,wiggle_direction:Vector3):
-	$enemy_hit_audio_stream_player.play()
-	$enemy/model_scaler/enemy_model.damage_flash()
-	$enemy.damage_wiggle(wiggle_direction)
 	health = health - calculate_damage(damage)
+	if is_criting:
+		print(\"crit hit\")
+		GlobalAudio.play_enemy_hit()
+		$enemy/model_scaler/enemy_model.damage_flash()
+		$enemy.damage_wiggle(wiggle_direction,true)
+		is_criting = false
+	else:
+		GlobalAudio.play_enemy_hit()
+		$enemy/model_scaler/enemy_model.damage_flash()
+		$enemy.damage_wiggle(wiggle_direction,false)
+	
 	health_bar.set_value(health)
 	if process_multi_hit(multi_hit_proc_chance) and !multi_hit_targets.is_empty():
 		var bullet = projectile.instantiate()
@@ -205,7 +221,14 @@ func process_multi_hit(chance:float):
 		return false
 	
 func calculate_damage(damage:float):
-	var calculated_damage = damage * (1.00+ (ticker.get_glowing_count() * 0.20))
+	var calculated_damage
+	var crit_chance = calculate_crit_chance(ticker.get_glowing_count())
+	var random_chace = randf_range(0.0,1.0)
+	if random_chace < crit_chance:
+		calculated_damage = damage * 2.5
+		is_criting = true
+	else:
+		calculated_damage = damage
 	if ticker.get_cubic_count() > 0:
 		calculated_damage *= 4
 	return calculated_damage
@@ -298,9 +321,6 @@ texture = SubResource("ViewportTexture_xb8rw")
 [node name="ticker" parent="enemy/damage_number_origin" instance=ExtResource("4_bgn17")]
 transform = Transform3D(0.36, 0, 0, 0, 0.36, 0, 0, 0, 0.36, 0, 0.176771, 0)
 texture = SubResource("ViewportTexture_3eqy1")
-
-[node name="enemy_hit_audio_stream_player" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("5_e3fi0")
 
 [connection signal="area_entered" from="enemy/enemy_mesh/multi_hit_area" to="." method="_on_multi_hit_area_entered"]
 [connection signal="area_exited" from="enemy/enemy_mesh/multi_hit_area" to="." method="_on_multi_hit_area_exited"]

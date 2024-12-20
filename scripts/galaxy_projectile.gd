@@ -5,8 +5,15 @@ var homing_speed:float = 10
 var damage = 0
 var multi_hit_proc_chance = 0.0
 
-var ricochet_number = 5
+var ricochet_number = 3
 var speed_mult = 1
+
+@onready var projectile = preload("res://scenes/cosmic_egg_projectile.tscn")
+
+func set_ricochet_number(r_num):
+	ricochet_number = r_num
+	var new_scale = ricochet_number * 0.1
+	scale = Vector3(new_scale,new_scale,new_scale)
 
 func set_homing_speed(new_speed):
 	homing_speed = new_speed
@@ -37,8 +44,17 @@ func _process(delta):
 				queue_free()
 			else:
 				var new_target = target.get_parent().get_parent().get_parent().get_multi_hit_target()
-				ricochet_number -= 1
+				set_ricochet_number(ricochet_number - 1)
 				set_target(new_target)
+				
+				var galaxy = projectile.instantiate()
+				var second_target = target.get_parent().get_parent().get_parent().get_multi_hit_target()
+				galaxy.set_ricochet_number(ricochet_number)
+				galaxy.set_target(second_target)
+				galaxy.set_damage(damage)
+				galaxy.set_multi_hit_proc_chance(multi_hit_proc_chance)
+				galaxy.set_homing_speed(2)
+				get_parent().add_child(galaxy)
 	else:
 		queue_free()
 

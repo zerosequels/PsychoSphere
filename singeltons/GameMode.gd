@@ -3,6 +3,7 @@ extends Node
 signal update_game_speed(game_speed)
 
 var global_game_speed = 1.0
+var default_game_speed = 1.0
 
 func set_global_game_speed(new_speed):
 	global_game_speed = new_speed
@@ -11,3 +12,6 @@ func set_global_game_speed(new_speed):
 
 func get_global_game_speed():
 	return global_game_speed
+
+func reset_global_game_speed():
+	set_global_game_speed(default_game_speed)

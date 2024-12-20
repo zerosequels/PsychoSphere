@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="MK-ULTRA Tower Defense"
+config/name="MK-ULTRA Psychic Defense"
 run/main_scene="res://scenes/laboratory.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 boot_splash/show_image=false
@@ -20,8 +20,10 @@ config/icon="res://icon.svg"
 
 WaveData="*res://singeltons/wave_data.gd"
 TowerAndBoonData="*res://singeltons/tower_and_boon_data.gd"
-GlobalAudio="*res://scenes/global_audio.tscn"
-GameMode="*res://scripts/GameMode.gd"
+GlobalAudio="*res://singeltons/global_audio.tscn"
+GameMode="*res://singeltons/GameMode.gd"
+ChunkUtils="*res://singeltons/chunk_utils.gd"
+PlayerData="*res://singeltons/player_data.gd"
 
 [display]
 

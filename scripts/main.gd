@@ -119,6 +119,7 @@ func _ready():
 	if WaveData.check_is_reset():
 		%PauseMenu.fade_out_menu()
 		is_game_over = false
+		hand.deselect_card()
 	hand.tower_toggled.connect(_on_tower_toggled)
 	hand.price_update.connect(_on_price_update)
 	hand._is_card_hovered.connect(_on_card_hovered)
@@ -129,6 +130,7 @@ func _ready():
 	camera_controller.chaos_grid_cell_clicked.connect(_on_chaos_cell_clicked)
 	camera_controller.chaos_grid_cell_hovered.connect(_on_chaos_grid_cell_hovered)
 	camera_controller.hide_indicator.connect(_on_hide_indicator)
+	
 	initialize_core_pathing()
 
 func _process(delta):
@@ -152,9 +154,7 @@ func _process(delta):
 		update_game_status(game_state.DEATH)
 	if LEVEL_COUNTER == 101 and !is_game_over:
 		update_game_status(game_state.VICTORY)
-	
-	
-	
+
 
 func _on_tower_unlocked(tower_type):
 	hand.add_card_by_type(tower_type)
@@ -206,7 +206,7 @@ func process_enemy_spawn_opportunity():
 func initialize_core_pathing():
 	#core cube
 	path_grid.set_cell_item(Vector3i(0,0,0),0,0)
-	path_grid.map_to_local(Vector3i(0,0,0))
+	#path_grid.map_to_local(Vector3i(0,0,0))
 	#cardinal cubes
 	#east
 	path_grid.set_cell_item(Vector3i(1,0,0),0,0)
