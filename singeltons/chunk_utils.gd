@@ -578,3 +578,26 @@ func increment_y_offset(y_offset):
 			cursor = Vector3i(cursor.x,cursor.y,cursor.z - 1)
 			points_to_add.append(Vector3i(cursor))
 	return points_to_add
+	
+func generate_procedural_path_points(offset:Vector2i):
+	var points: Array[Vector3i]
+	var chunk_length = 8
+	var chunk_height = 8
+	var x = 0 + offset.x
+	var y = int(chunk_height/2) + offset.y
+	
+	while x < chunk_length:
+		if !points.has(Vector3i(x,0,y)):
+			points.append(Vector3i(x,0,y))
+		var choice:int = randi_range(0,2)
+		if choice == 0 or x % 2 == 0 or x == chunk_length-1:
+			x += 1
+		elif choice == 1 and y < chunk_height-2 and not points.has(Vector3i(x,0,y+1)):
+			y += 1
+		elif choice == 2 and y > 1 and not points.has(Vector3i(x,0,y-1)):
+			y -= 1
+	print(points)
+	return points.duplicate(true)
+		
+	
+	

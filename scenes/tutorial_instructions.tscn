@@ -142,7 +142,7 @@ theme_override_fonts/font = ExtResource("3_in6l6")
 theme_override_font_sizes/font_size = 75
 text = "Click here for the early access roadmap"
 underline = 1
-uri = "https://discord.gg/4jqxFAgJ"
+uri = "https://discord.gg/ppUuA6QVKD"
 
 [node name="return_of_the_zero" type="Label" parent="MarginContainer2"]
 visible = false

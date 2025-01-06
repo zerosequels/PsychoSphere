@@ -287,7 +287,59 @@ func create_chunk_with_linear_path(chunk_id:Vector2i,path_type:path_id,path_out_
 	#add point to an array and then in order add them to the correct path
 	var points = [extension_point,intersect_point,exit_point]
 	add_points_to_path(points,path_type)
+
+func create_chunk_with_procedural_path(chunk_id:Vector2i,path_type:path_id,path_out_dir:direction):
+
+	var exit_offset = randi_range(-3,3)
+
 	
+	#grab extension point based on path_id
+	var extension_point = get_extension_point_by_path_id(path_type)
+	
+	#define exit point based on path_out_dir
+	var exit_point: Vector3i
+	var new_extension_point: Vector3i
+	var next_chunk_id: Vector2i
+	match path_out_dir:
+		direction.NORTHWARD:
+			exit_point = chunk_to_grid_coord(Vector2i((chunk_size/2) + exit_offset,chunk_size-1),chunk_id)
+			new_extension_point = Vector3i(exit_point.x,exit_point.y+1,exit_point.z)
+			next_chunk_id = Vector2i(chunk_id.x,chunk_id.y + 1)
+		direction.SOUTHWARD:
+			exit_point = chunk_to_grid_coord(Vector2i((chunk_size/2) + exit_offset,0),chunk_id)
+			new_extension_point = Vector3i(exit_point.x,exit_point.y - 1,exit_point.z)
+			next_chunk_id = Vector2i(chunk_id.x,chunk_id.y - 1)
+		direction.EASTWARD:
+			exit_point = chunk_to_grid_coord(Vector2i(chunk_size-1,(chunk_size/2) + exit_offset),chunk_id)
+			new_extension_point = Vector3i(exit_point.x +1,exit_point.y,exit_point.z)
+			next_chunk_id = Vector2i(chunk_id.x + 1,chunk_id.y)
+		direction.WESTWARD:
+			exit_point = chunk_to_grid_coord(Vector2i(0,(chunk_size/2) + exit_offset),chunk_id)
+			new_extension_point = Vector3i(exit_point.x -1,exit_point.y,exit_point.z)
+			next_chunk_id = Vector2i(chunk_id.x -1,chunk_id.y)
+	#update the next extension point value by the path type
+	
+	update_extension_point_by_path(path_type,new_extension_point,next_chunk_id, path_out_dir)
+
+	#find the intersection of these two points 
+	var intersect_point:Vector3 = chunk_to_grid_coord(Vector2i((chunk_size/2)+randi_range(-3,-3),(chunk_size/2)+randi_range(-3,3)),chunk_id)
+	var intersect_point_2:Vector3 = chunk_to_grid_coord(Vector2i((chunk_size/2)+randi_range(-2,2),(chunk_size/2)+randi_range(-2,2)),chunk_id)
+	var intersect_point_3:Vector3 = chunk_to_grid_coord(Vector2i((chunk_size/2)+randi_range(-3,3),(chunk_size/2)+randi_range(-3,3)),chunk_id)
+
+	#add point to an array and then in order add them to the correct path
+	var points = [extension_point]
+	points.append(intersect_point)
+	if does_event_happen(30.0):
+		points.append(intersect_point_2)
+		if does_event_happen(30.0):
+			points.append(intersect_point_3)
+	points.append(exit_point)
+	add_points_to_path(points,path_type)
+	
+func does_event_happen(percent_chance:float):
+	return randf() < (percent_chance/100.0)
+	
+
 func update_extension_point_by_path(path_type:path_id, extension_point:Vector3i, next_chunk_id:Vector2i, path_out_dir:direction):
 
 	var path_trigger
@@ -453,7 +505,7 @@ func create_chunk(chunk_id:Vector2i,path_type:path_id):
 	chunk_id_dict[chunk_id] = chunk_out_dir
 	# determine the type of chunk generation from a list of sub types
 	#TODO add more than just linear chunk pathing 
-	create_chunk_with_linear_path(chunk_id,path_type,chunk_out_dir)
+	create_chunk_with_procedural_path(chunk_id,path_type,chunk_out_dir)
 	
 	#create the undertile
 	create_undertile(chunk_id)
@@ -589,7 +641,8 @@ func update_game_status(gs:game_state):
 	
 	match gs:
 		game_state.BIRTH:
-			print("game state: BIRTH")
+			pass
+			#print("game state: BIRTH")
 		game_state.DEATH:
 
 			is_game_over = true
@@ -607,7 +660,7 @@ func update_game_status(gs:game_state):
 			#print("Level:%s"%LEVEL_COUNTER)
 		game_state.PEACE:
 			toggle_visibility_of_path_triggers()
-			print("game state: PEACE")
+			#print("game state: PEACE")
 
 func clear_path_trigger_array_of_previously_cleared():
 	for x in path_trigger_array:
@@ -721,6 +774,7 @@ func _on_tower_toggled(tower_type:int, tower_price:int):
 		current_tower_price = tower_price
 		indicator.visible = true
 		$on_card_select_audio_stream_player.play()
+	
 func _on_hide_indicator():
 	indicator.visible = false
 	indicator.global_position = Vector3(0,0,0)
@@ -729,5 +783,5 @@ func _on_card_hovered(is_hovered:bool):
 	is_card_hovered = is_hovered
 	
 func _refresh_card_prices():
-	print("refresh")
+	#print("refresh")
 	hand.refresh_card_prices()

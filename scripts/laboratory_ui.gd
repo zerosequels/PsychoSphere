@@ -7,7 +7,12 @@ signal astral_projection_begin
 @onready var music_volume = $MarginContainer/options/music_volume_slider/MarginContainer/music_volume_slider
 @onready var sfx_volume = $MarginContainer/options/sfx_volume_slider/MarginContainer/sfx_volume_slider
 
-
+func _process(delta):
+	if Input.is_action_just_released("reset_display_shortcut"):
+		$MarginContainer/options/shader_resolution_dropdown2/MarginContainer/OptionButton.select(2)
+		$MarginContainer/options/resolution_dropdown/MarginContainer/OptionButton.select(2)
+		_on_resolution_button_item_selected(2)
+		_on_shader_option_item_selected(2)
 
 func _on_play_button_pressed():
 	emit_signal("astral_projection_begin")
@@ -67,11 +72,6 @@ func _on_volume_slider_drag_ended(value_changed):
 	PlayerData.music_volume_value = music_volume.value
 	PlayerData.sfx_volume_value = sfx_volume.value
 	PlayerData.save_to_config()
-
-
-
-
-
 
 func _on_resolution_button_item_selected(index):
 	match index:
