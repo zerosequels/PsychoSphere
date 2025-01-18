@@ -1,0 +1,20 @@
+[gd_scene load_steps=6 format=3 uid="uid://5enwybm6hn5i"]
+
+[ext_resource type="PackedScene" uid="uid://bcb0xwxhqxxtu" path="res://assets/characters/iceberg.glb" id="1_6v4v5"]
+[ext_resource type="Shader" path="res://data/iceberg_menu.gdshader" id="2_h7mvk"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_4nu3m"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_6tsml"]
+noise = SubResource("FastNoiseLite_4nu3m")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wa3g1"]
+render_priority = 0
+shader = ExtResource("2_h7mvk")
+shader_parameter/distortion_size = 0.515
+shader_parameter/glass = SubResource("NoiseTexture2D_6tsml")
+
+[node name="iceberg" instance=ExtResource("1_6v4v5")]
+
+[node name="Cube" parent="." index="0"]
+material_override = SubResource("ShaderMaterial_wa3g1")

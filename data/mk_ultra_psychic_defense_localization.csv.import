@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://c8sbkv73yn4t2"
+
+[deps]
+
+files=["res://data/mk_ultra_psychic_defense_localization.de.translation", "res://data/mk_ultra_psychic_defense_localization.en.translation", "res://data/mk_ultra_psychic_defense_localization.es.translation", "res://data/mk_ultra_psychic_defense_localization.fr.translation", "res://data/mk_ultra_psychic_defense_localization.it.translation", "res://data/mk_ultra_psychic_defense_localization.ja.translation", "res://data/mk_ultra_psychic_defense_localization.ko.translation", "res://data/mk_ultra_psychic_defense_localization.pt.translation", "res://data/mk_ultra_psychic_defense_localization.ru.translation", "res://data/mk_ultra_psychic_defense_localization.tr.translation", "res://data/mk_ultra_psychic_defense_localization.zh.translation"]
+
+source_file="res://data/mk_ultra_psychic_defense_localization.csv"
+dest_files=["res://data/mk_ultra_psychic_defense_localization.de.translation", "res://data/mk_ultra_psychic_defense_localization.en.translation", "res://data/mk_ultra_psychic_defense_localization.es.translation", "res://data/mk_ultra_psychic_defense_localization.fr.translation", "res://data/mk_ultra_psychic_defense_localization.it.translation", "res://data/mk_ultra_psychic_defense_localization.ja.translation", "res://data/mk_ultra_psychic_defense_localization.ko.translation", "res://data/mk_ultra_psychic_defense_localization.pt.translation", "res://data/mk_ultra_psychic_defense_localization.ru.translation", "res://data/mk_ultra_psychic_defense_localization.tr.translation", "res://data/mk_ultra_psychic_defense_localization.zh.translation"]
+
+[params]
+
+compress=true
+delimiter=0

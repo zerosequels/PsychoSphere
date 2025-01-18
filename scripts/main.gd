@@ -68,13 +68,20 @@ var east_extension_point: Vector3
 var west_extension_point: Vector3
 
 #The chunk id of the next chunk to be created
-var north_next_chunk_id : Vector2i
-var south_next_chunk_id : Vector2i
-var east_next_chunk_id : Vector2i
-var west_next_chunk_id : Vector2i
+var north_next_chunk_id : Vector2i = Vector2i(0,1)
+var south_next_chunk_id : Vector2i = Vector2i(0,-1)
+var east_next_chunk_id : Vector2i = Vector2i(1,0)
+var west_next_chunk_id : Vector2i = Vector2i(-1,0)
 
 #array to hold references to all the active towers on the map
 var active_tower_array = []
+
+var next_chunk_id_dict 
+var extension_point_dict 
+var enemy_path_dict 
+var enemy_path_follow_dict 
+var path_dict 
+var path_follow_dict 
 
 #var active_portal
 
@@ -85,6 +92,8 @@ enum direction {ORIGIN,NORTHWARD, SOUTHWARD, EASTWARD, WESTWARD, NO_CHUNK_AVAILA
 enum path_id {NORTH,SOUTH,EAST,WEST}
 enum game_state {BIRTH, DEATH, PEACE, WAR, VICTORY}
 enum grid_entity {FREE,PATH,BASIC_TOWER}
+
+var next_available_path_id = 0
 
 var game_status = game_state.BIRTH
 var chunk_id_dict = {Vector2i(0,0): direction.ORIGIN}
@@ -130,7 +139,7 @@ func _ready():
 	camera_controller.chaos_grid_cell_clicked.connect(_on_chaos_cell_clicked)
 	camera_controller.chaos_grid_cell_hovered.connect(_on_chaos_grid_cell_hovered)
 	camera_controller.hide_indicator.connect(_on_hide_indicator)
-	
+	initialize_dict()
 	initialize_core_pathing()
 
 func _process(delta):
@@ -155,6 +164,19 @@ func _process(delta):
 	if LEVEL_COUNTER == 101 and !is_game_over:
 		update_game_status(game_state.VICTORY)
 
+func initialize_dict():
+	next_chunk_id_dict = {0:north_next_chunk_id,1:south_next_chunk_id,2:east_next_chunk_id,3:west_next_chunk_id}
+	extension_point_dict = {0:north_extension_point,1:south_extension_point,2:east_extension_point,3:west_extension_point}
+	enemy_path_dict = {0:north_enemy_path,1:south_enemy_path,2:east_enemy_path,3:west_enemy_path}
+	enemy_path_follow_dict = {0:north_enemy_path_follow,1:south_enemy_path_follow,2:east_enemy_path_follow,3:west_enemy_path_follow}
+	path_dict = {0:north_path,1:south_path,2:east_path,3:west_path}
+	path_follow_dict = {0:north_path_follow,1:south_path_follow,2:east_path_follow,3:west_path_follow}
+
+
+func get_next_available_path_id():
+	var next_id = next_available_path_id
+	next_available_path_id += 1
+	return next_id
 
 func _on_tower_unlocked(tower_type):
 	hand.add_card_by_type(tower_type)
@@ -171,6 +193,7 @@ func _on_price_update(type,price):
 	
 
 func spawn_enemies():
+	print("spawning enemies")
 	for x in path_trigger_array:
 		x.load_enemy_spawn_data()
 	has_enemies_to_spawn = true
@@ -191,7 +214,7 @@ func process_enemy_spawn_opportunity():
 		#print(enemy_spawn_data.time_to_spawn_ms)
 		spawn_time = enemy_spawn_data.time_to_spawn_ms
 	else:
-		#print("no enemies left to spawn, at this opportunity")
+		print("no enemies left to spawn, at this opportunity")
 		has_enemies_to_spawn = false
 		return
 	
@@ -212,48 +235,58 @@ func initialize_core_pathing():
 	path_grid.set_cell_item(Vector3i(1,0,0),0,0)
 	occupy_chaos_grid(Vector3i(1,under_tile_layer,0),grid_entity.PATH)
 	extend_path(east_path,east_enemy_path,Vector3(chunk_size/2,0,0))
-	east_extension_point = Vector3i((chunk_size/2)+1,0,0)
-	east_next_chunk_id = Vector2i(1,0)
-	create_path_trigger(east_next_chunk_id,"east",direction.EASTWARD,0)
+	
+	#east_extension_point = Vector3i((chunk_size/2)+1,0,0)
+	extension_point_dict[2] = Vector3i((chunk_size/2)+1,0,0)
+	#east_next_chunk_id = Vector2i(1,0)
+	next_chunk_id_dict[2] = Vector2i(1,0)
+	create_path_trigger(next_chunk_id_dict[2],2,direction.EASTWARD,0)
 	#north
 	path_grid.set_cell_item(Vector3i(0,0,1),0,0)
 	occupy_chaos_grid(Vector3i(0,under_tile_layer,1),grid_entity.PATH)
 	extend_path(north_path,north_enemy_path,Vector3(0,0,chunk_size/2))
-	north_extension_point = Vector3i(0,0,(chunk_size/2)+1)
-	north_next_chunk_id = Vector2i(0,1)
-	create_path_trigger(north_next_chunk_id,"north",direction.NORTHWARD,0)
+	#north_extension_point = Vector3i(0,0,(chunk_size/2)+1)
+	extension_point_dict[0] = Vector3i(0,0,(chunk_size/2)+1)
+	#north_next_chunk_id = Vector2i(0,1)
+	next_chunk_id_dict[0] = Vector2i(0,1)
+	create_path_trigger(next_chunk_id_dict[0],0,direction.NORTHWARD,0)
 	#west
 	path_grid.set_cell_item(Vector3i(-1,0,0),0,0)
 	occupy_chaos_grid(Vector3i(-1,under_tile_layer,0),grid_entity.PATH)
 	extend_path(west_path,west_enemy_path,Vector3(-chunk_size/2,0,0))
-	west_extension_point = Vector3i((-chunk_size/2)-1,0,0)
-	west_next_chunk_id = Vector2i(-1,0)
-	create_path_trigger(west_next_chunk_id,"west",direction.WESTWARD,0)
+	#west_extension_point = Vector3i((-chunk_size/2)-1,0,0)
+	extension_point_dict[3] = Vector3i((-chunk_size/2)-1,0,0)
+	#west_next_chunk_id = Vector2i(-1,0)
+	next_chunk_id_dict[3] = Vector2i(-1,0)
+	create_path_trigger(next_chunk_id_dict[3],3,direction.WESTWARD,0)
 	#south
 	path_grid.set_cell_item(Vector3i(0,0,-1),0,0)
 	occupy_chaos_grid(Vector3i(0,under_tile_layer,-1),grid_entity.PATH)
 	extend_path(south_path,south_enemy_path,Vector3(0,0,-chunk_size/2))
-	south_extension_point = Vector3i(0,0,(-chunk_size/2)-1)
-	south_next_chunk_id = Vector2i(0,-1)
-	create_path_trigger(south_next_chunk_id,"south",direction.SOUTHWARD,0)
+	#south_extension_point = Vector3i(0,0,(-chunk_size/2)-1)
+	extension_point_dict[1] = Vector3i(0,0,(-chunk_size/2)-1)
+	#south_next_chunk_id = Vector2i(0,-1)
+	next_chunk_id_dict[1] = Vector2i(0,-1)
+	create_path_trigger(next_chunk_id_dict[1],1,direction.SOUTHWARD,0)
 	#create undertile
 	create_undertile(Vector2i(0,0))
 
 
-func get_extension_point_by_path_id(path_type:path_id):
-	match path_type:
-		path_id.NORTH:
-			return north_extension_point
-		path_id.SOUTH:
-			return south_extension_point
-		path_id.EAST:
-			return east_extension_point
-		path_id.WEST:
-			return west_extension_point
+func get_extension_point_by_path_id(path_type):
+	return extension_point_dict[path_type]
+	#match path_type:
+		#path_id.NORTH:
+			#return north_extension_point
+		#path_id.SOUTH:
+			#return south_extension_point
+		#path_id.EAST:
+			#return east_extension_point
+		#path_id.WEST:
+			#return west_extension_point
 
 
 
-func create_chunk_with_linear_path(chunk_id:Vector2i,path_type:path_id,path_out_dir:direction):
+func create_chunk_with_linear_path(chunk_id:Vector2i,path_type,path_out_dir:direction):
 	
 	#grab extension point based on path_id
 	var extension_point = get_extension_point_by_path_id(path_type)
@@ -288,8 +321,8 @@ func create_chunk_with_linear_path(chunk_id:Vector2i,path_type:path_id,path_out_
 	var points = [extension_point,intersect_point,exit_point]
 	add_points_to_path(points,path_type)
 
-func create_chunk_with_procedural_path(chunk_id:Vector2i,path_type:path_id,path_out_dir:direction):
-
+func create_chunk_with_procedural_path(chunk_id:Vector2i,path_type,path_out_dir:direction):
+	print("creating procedural chunk")
 	var exit_offset = randi_range(-3,3)
 
 	
@@ -340,33 +373,38 @@ func does_event_happen(percent_chance:float):
 	return randf() < (percent_chance/100.0)
 	
 
-func update_extension_point_by_path(path_type:path_id, extension_point:Vector3i, next_chunk_id:Vector2i, path_out_dir:direction):
+func update_extension_point_by_path(path_type, extension_point:Vector3i, next_chunk_id:Vector2i, path_out_dir:direction):
+	print("updating extension point by path")
+	extension_point_dict[path_type] = extension_point
+	next_chunk_id_dict[path_type] = next_chunk_id
+	create_path_trigger(next_chunk_id, path_type ,path_out_dir, activated_trigger_depth + 1)
+	#match path_type:
+		#path_id.NORTH:
+			#north_extension_point = extension_point
+			#north_next_chunk_id = next_chunk_id
+			#create_path_trigger(north_next_chunk_id, "north",path_out_dir, activated_trigger_depth + 1)
+#
+		#path_id.SOUTH:
+			#south_extension_point = extension_point
+			#south_next_chunk_id = next_chunk_id
+			#create_path_trigger(south_next_chunk_id, "south",path_out_dir, activated_trigger_depth + 1)
+#
+		#path_id.EAST:
+			#east_extension_point = extension_point
+			#east_next_chunk_id = next_chunk_id
+			#create_path_trigger(east_next_chunk_id,"east",path_out_dir, activated_trigger_depth + 1)
+#
+		#path_id.WEST:
+			#west_extension_point = extension_point
+			#west_next_chunk_id = next_chunk_id
+			#create_path_trigger(west_next_chunk_id,"west",path_out_dir, activated_trigger_depth + 1)
 
+
+func create_path_trigger(chunk_id:Vector2i, trigger_id,path_out_dir:direction,trigger_depth:int):
 	var path_trigger
-	match path_type:
-		path_id.NORTH:
-			north_extension_point = extension_point
-			north_next_chunk_id = next_chunk_id
-			create_path_trigger(north_next_chunk_id, "north",path_out_dir, activated_trigger_depth + 1)
-
-		path_id.SOUTH:
-			south_extension_point = extension_point
-			south_next_chunk_id = next_chunk_id
-			create_path_trigger(south_next_chunk_id, "south",path_out_dir, activated_trigger_depth + 1)
-
-		path_id.EAST:
-			east_extension_point = extension_point
-			east_next_chunk_id = next_chunk_id
-			create_path_trigger(east_next_chunk_id,"east",path_out_dir, activated_trigger_depth + 1)
-
-		path_id.WEST:
-			west_extension_point = extension_point
-			west_next_chunk_id = next_chunk_id
-			create_path_trigger(west_next_chunk_id,"west",path_out_dir, activated_trigger_depth + 1)
-
-
-func create_path_trigger(chunk_id:Vector2i, trigger_id:String,path_out_dir:direction,trigger_depth:int):
-	var path_trigger
+	print(trigger_id)
+	print("creating path trigger to chunk id")
+	print(chunk_id)
 	
 	path_trigger = expand_path_trigger_prefab.instantiate()
 	path_trigger.parent_path = get_path_follow_by_trigger_id(trigger_id)
@@ -379,15 +417,16 @@ func create_path_trigger(chunk_id:Vector2i, trigger_id:String,path_out_dir:direc
 	add_child(path_trigger)
 
 func get_path_follow_by_trigger_id(trigger_id):
-	match trigger_id:
-		"north":
-			return north_enemy_path
-		"south":
-			return south_enemy_path
-		"east":
-			return east_enemy_path
-		"west":
-			return west_enemy_path
+	return enemy_path_dict[trigger_id]
+	#match trigger_id:
+		#"north":
+			#return north_enemy_path
+		#"south":
+			#return south_enemy_path
+		#"east":
+			#return east_enemy_path
+		#"west":
+			#return west_enemy_path
 
 func _on_chaos_cell_clicked(grid_pos:Vector3i):
 	if taken_chaos_grid_dict.has(grid_pos):
@@ -489,8 +528,14 @@ func toggle_can_select_of_path_triggers(toggle:bool):
 #which will cause a null pointer crash on this method	
 
 func create_chunk(chunk_id:Vector2i,path_type:path_id):
+	print("creating chunk at id")
+	print(chunk_id)
+	print(chunk_id_dict)
 	#check if current chunk is available
 	if chunk_id_dict.has(chunk_id):
+		print("aborting chunk creation, chunk id already exists")
+		print(chunk_id)
+		print(chunk_id_dict)
 		return
 	
 	#decide if the new chunk's exit point will be north, south, east, or west
@@ -499,6 +544,7 @@ func create_chunk(chunk_id:Vector2i,path_type:path_id):
 
 	#Handle if there is no path available
 	if chunk_out_dir == direction.NO_CHUNK_AVAILABLE:
+		print("aborting chunk creation, NO CHUNK AVAILABLE")
 		return
 	
 	#update the array of taken chunk ids
@@ -512,32 +558,38 @@ func create_chunk(chunk_id:Vector2i,path_type:path_id):
 
 #TODO: change this to check against the array of triggers.
 func check_cursor_against_triggers(cursor:Vector2i):
-	if cursor == north_next_chunk_id or cursor == south_next_chunk_id or cursor == west_next_chunk_id or cursor == east_next_chunk_id:
-		return true
-	else:
-		return false
+	return next_chunk_id_dict.values().has(cursor)
+	#if cursor == north_next_chunk_id or cursor == south_next_chunk_id or cursor == west_next_chunk_id or cursor == east_next_chunk_id:
+		#return true
+	#else:
+		#return false
 
 func get_available_chunk_dir(chunk_id:Vector2i):
 	var options = []
 	var cursor:Vector2i
+	print("adding options with cursor")
 	#check north
 	cursor = Vector2i(chunk_id.x,chunk_id.y + 1)
 	if !chunk_id_dict.has(cursor) and !check_cursor_against_triggers(cursor):
+		print(cursor)
 		options.append(direction.NORTHWARD)
 	#check south
 	cursor = Vector2i(chunk_id.x,chunk_id.y - 1)
 	if !chunk_id_dict.has(cursor) and !check_cursor_against_triggers(cursor):
+		print(cursor)
 		options.append(direction.SOUTHWARD)
 	#check east
 	cursor = Vector2i(chunk_id.x + 1,chunk_id.y)
 	if !chunk_id_dict.has(cursor) and !check_cursor_against_triggers(cursor):
+		print(cursor)
 		options.append(direction.EASTWARD)
 	#check west
 	cursor = Vector2i(chunk_id.x - 1,chunk_id.y)
 	if !chunk_id_dict.has(cursor) and !check_cursor_against_triggers(cursor):
+		print(cursor)
 		options.append(direction.WESTWARD)
 	#decide randomly from available options
-	
+	print(chunk_id_dict)
 	if options.size() == 0:
 		print("No chunk available ERROR")
 		return direction.NO_CHUNK_AVAILABLE
@@ -601,28 +653,28 @@ func occupy_chaos_grid(cursor_position:Vector3i,ge:grid_entity):
 	taken_chaos_grid_dict[cursor_position] = ge
 
 
-func add_points_to_path(points_to_add:Array, path_type:path_id):
-	var path
-	var path_follow
-	var enemy_path
+func add_points_to_path(points_to_add:Array, path_type):
+	var path = path_dict[path_type]
+	var path_follow = path_follow_dict[path_type]
+	var enemy_path = enemy_path_dict[path_type]
 	
-	match path_type:
-		path_id.NORTH:
-			path = north_path
-			path_follow = north_path_follow
-			enemy_path = north_enemy_path
-		path_id.SOUTH:
-			path = south_path
-			path_follow = south_path_follow
-			enemy_path = south_enemy_path
-		path_id.EAST:
-			path = east_path
-			path_follow = east_path_follow
-			enemy_path = east_enemy_path
-		path_id.WEST:
-			path = west_path
-			path_follow = west_path_follow
-			enemy_path = west_enemy_path
+	#match path_type:
+		#path_id.NORTH:
+			#path = north_path
+			#path_follow = north_path_follow
+			#enemy_path = north_enemy_path
+		#path_id.SOUTH:
+			#path = south_path
+			#path_follow = south_path_follow
+			#enemy_path = south_enemy_path
+		#path_id.EAST:
+			#path = east_path
+			#path_follow = east_path_follow
+			#enemy_path = east_enemy_path
+		#path_id.WEST:
+			#path = west_path
+			#path_follow = west_path_follow
+			#enemy_path = west_enemy_path
 	for point in points_to_add:
 		extend_path(path,enemy_path,point)
 		
@@ -687,6 +739,7 @@ func show_path_trigger_choice_menu(trigger_id,trigger_uuid,depth):
 	hand.toggle_hide_hand(true)
 	gui.visible = false
 	$CanvasLayer/player_gui.visible = false
+	$speed_box_layer/speed_box.visible = false
 	boon_selection_screen.load_new_boons_from_data(trigger_id,trigger_uuid,depth)
 	boon_selection_screen.visible = true
 
@@ -699,32 +752,46 @@ func restore_game_ui():
 		hand.select_card(current_tower_type)
 	gui.visible = true
 	$CanvasLayer/player_gui.visible = true
+	$speed_box_layer/speed_box.visible = true
 	boon_selection_screen.visible = false
 
 func enemy_wave_activation_sequence(trigger_id,trigger_uuid,depth):
+	print("enemy wave activation ")
 	activated_trigger_depth = depth 
 	update_game_status(game_state.WAR)
-	match trigger_id:
-		"north":
-			create_chunk(north_next_chunk_id,path_id.NORTH)
+	print("attempting to create chunk")
+	create_chunk(next_chunk_id_dict[trigger_id],trigger_id)
+	#print(trigger_id)
+	#print(next_chunk_id_dict)
+	#print(enemy_path_dict)
+	#print(enemy_path_follow_dict)
+	#print(path_follow_dict)
+	#print(path_dict)
 
-			copy_adjusted_path(north_path,north_enemy_path)
-			#print("north")
-		"south":
-			create_chunk(south_next_chunk_id,path_id.SOUTH)
-
-			copy_adjusted_path(south_path,south_enemy_path)
-			#print("south")
-		"east":
-			create_chunk(east_next_chunk_id,path_id.EAST)
-
-			copy_adjusted_path(east_path,east_enemy_path)
-			#print("east")
-		"west":
-			create_chunk(west_next_chunk_id,path_id.WEST)
-
-			copy_adjusted_path(west_path,west_enemy_path)
-			#print("west")
+	print("attempting to copy path")
+	copy_adjusted_path(path_dict[trigger_id],enemy_path_dict[trigger_id])
+	
+	#match trigger_id:
+		#"north":
+			#create_chunk(north_next_chunk_id,path_id.NORTH)
+#
+			#copy_adjusted_path(north_path,north_enemy_path)
+			##print("north")
+		#"south":
+			#create_chunk(south_next_chunk_id,path_id.SOUTH)
+#
+			#copy_adjusted_path(south_path,south_enemy_path)
+			##print("south")
+		#"east":
+			#create_chunk(east_next_chunk_id,path_id.EAST)
+#
+			#copy_adjusted_path(east_path,east_enemy_path)
+			##print("east")
+		#"west":
+			#create_chunk(west_next_chunk_id,path_id.WEST)
+#
+			#copy_adjusted_path(west_path,west_enemy_path)
+			##print("west")
 	#remove_path_trigger_by_trigger_uuid(trigger_uuid)
 	clear_path_trigger_array_of_previously_cleared()
 	toggle_visibility_of_path_triggers()
@@ -749,6 +816,8 @@ func _on_enemy_killed(exp,enemy_uuid):
 	WaveData.remove_enemy_by_uuid(enemy_uuid)
 
 func _on_boon_selection_screen_closed(trigger_id,trigger_uuid,depth):
+	print("activating trigger id")
+	print(trigger_id)
 	$boon_selected_audio_stream_player.play()
 	restore_game_ui()
 	enemy_wave_activation_sequence(trigger_id,trigger_uuid,depth)

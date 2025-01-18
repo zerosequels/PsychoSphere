@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://c4ikb5xq8bwws"
+
+[deps]
+
+files=["res://data/conspiracy_memos.de.translation", "res://data/conspiracy_memos.en.translation", "res://data/conspiracy_memos.es.translation", "res://data/conspiracy_memos.fr.translation", "res://data/conspiracy_memos.it.translation", "res://data/conspiracy_memos.ja.translation", "res://data/conspiracy_memos.ko.translation", "res://data/conspiracy_memos.pt.translation", "res://data/conspiracy_memos.ru.translation", "res://data/conspiracy_memos.tr.translation", "res://data/conspiracy_memos.zh.translation"]
+
+source_file="res://data/conspiracy_memos.csv"
+dest_files=["res://data/conspiracy_memos.de.translation", "res://data/conspiracy_memos.en.translation", "res://data/conspiracy_memos.es.translation", "res://data/conspiracy_memos.fr.translation", "res://data/conspiracy_memos.it.translation", "res://data/conspiracy_memos.ja.translation", "res://data/conspiracy_memos.ko.translation", "res://data/conspiracy_memos.pt.translation", "res://data/conspiracy_memos.ru.translation", "res://data/conspiracy_memos.tr.translation", "res://data/conspiracy_memos.zh.translation"]
+
+[params]
+
+compress=true
+delimiter=0

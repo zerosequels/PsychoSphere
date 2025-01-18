@@ -98,7 +98,7 @@ Projection"
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_sma4a")
 theme_override_font_sizes/font_size = 100
-disabled = true
+theme_override_styles/normal = SubResource("StyleBoxFlat_rr3mt")
 text = "unlock 
 akashik Intel"
 

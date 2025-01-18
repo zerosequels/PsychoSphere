@@ -161,10 +161,6 @@ unique_name_in_owner = true
 z_as_relative = false
 mouse_filter = 2
 
-[node name="speed_box_layer" type="CanvasLayer" parent="."]
-
-[node name="speed_box" parent="speed_box_layer" instance=ExtResource("21_aif4f")]
-
 [node name="CanvasLayer2" type="CanvasLayer" parent="."]
 
 [node name="PauseMenu" parent="CanvasLayer2" instance=ExtResource("17_w0eh3")]
@@ -173,6 +169,10 @@ unique_name_in_owner = true
 [node name="card_hand" parent="." instance=ExtResource("18_dl0mc")]
 unique_name_in_owner = true
 mouse_filter = 2
+
+[node name="speed_box_layer" type="CanvasLayer" parent="."]
+
+[node name="speed_box" parent="speed_box_layer" instance=ExtResource("21_aif4f")]
 
 [node name="CanvasLayer3" type="CanvasLayer" parent="."]
 

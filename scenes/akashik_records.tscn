@@ -1,0 +1,62 @@
+[gd_scene load_steps=9 format=3 uid="uid://c64yltfbyco5l"]
+
+[ext_resource type="Script" path="res://scripts/akashik_records.gd" id="1_yivy8"]
+[ext_resource type="Shader" path="res://data/akashik_records_sky_shader.gdshader" id="2_oonpk"]
+[ext_resource type="PackedScene" uid="uid://b5e7n35rv0a7p" path="res://scenes/akashik_record_ui.tscn" id="3_tohrk"]
+[ext_resource type="PackedScene" uid="uid://5enwybm6hn5i" path="res://scenes/iceberg_menu.tscn" id="4_01rea"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wmhdh"]
+shader = ExtResource("2_oonpk")
+shader_parameter/skyColor = Color(0, 0.670588, 0.956863, 1)
+shader_parameter/horizonColor = Color(0, 0, 0.52549, 1)
+shader_parameter/auroraColor1 = Color(0.1, 0.8, 0.4, 1)
+shader_parameter/auroraColor2 = Color(0.1, 0.2, 0.8, 1)
+shader_parameter/time = 168.455
+shader_parameter/noise_scale = 10.0
+shader_parameter/aurora_speed = 0.1
+shader_parameter/aurora_intensity = 1.5
+shader_parameter/aurora_scale = 1.0
+shader_parameter/star_intensity = 0.8
+shader_parameter/star_speed = 0.02
+
+[sub_resource type="Sky" id="Sky_yoiv3"]
+sky_material = SubResource("ShaderMaterial_wmhdh")
+
+[sub_resource type="Environment" id="Environment_vcov7"]
+background_mode = 2
+sky = SubResource("Sky_yoiv3")
+ambient_light_source = 3
+reflected_light_source = 2
+
+[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_j6glk"]
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_yivy8")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.775, 5, 6.61)
+fov = 30.1
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_vcov7")
+camera_attributes = SubResource("CameraAttributesPhysical_j6glk")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.596967, 0.802266, 0, -0.802266, 0.596967, 0, 7.98245, 0)
+
+[node name="ui" parent="." instance=ExtResource("3_tohrk")]
+max_horizontal_ratio = 0.369
+buttons_per_tier = 3
+tier_1_vertical_offset = -1100.0
+tier_2_vertical_offset = -500.0
+tier_3_vertical_offset = 1800.0
+tier_4_vertical_offset = 2600.0
+tier_5_vertical_offset = 4200.0
+tier_6_vertical_offset = 5500.0
+tier_7_vertical_offset = 6400.0
+tier_8_vertical_offset = 7100.0
+tier_9_vertical_offset = 7600.0
+tier_10_vertical_offset = 8100.0
+
+[node name="iceberg2" parent="." instance=ExtResource("4_01rea")]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 3, 0, 0, -9.597)

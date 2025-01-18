@@ -12,8 +12,6 @@ var starting_position
 var translation_input = Vector3.ZERO
 var camera_velocity = Vector3.ZERO
 
-var zoom_input:float
-
 var zoom_min:float = 2
 var zoom_max:float = 20
 var zoom_value:float = 5

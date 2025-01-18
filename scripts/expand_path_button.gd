@@ -1,6 +1,6 @@
 extends Node3D
 
-@export var trigger_id: String = "bababooey"
+@export var trigger_id = -1
 @export var trigger_uuid = ResourceUID.create_id()
 @export var depth_counter:int = 0
 @onready var button = $expand_path_mesh
@@ -16,7 +16,7 @@ var main
 var can_be_selected:bool = true
 signal enemy_spawned(enemy)
 
-signal path_trigger_activated(trigger_id:String, trigger_uuid:int,depth:int)
+signal path_trigger_activated(trigger_id:int, trigger_uuid:int,depth:int)
 
 func _ready():
 	main = get_parent()
@@ -73,7 +73,7 @@ func spawn_enemy_as_child_of_path_follow(enemy_data:EnemySpawnData):
 	enemy.update_model_color()
 	emit_signal("enemy_spawned",enemy)
 
-func set_trigger_id(new_trigger_id:String):
+func set_trigger_id(new_trigger_id):
 	trigger_id = new_trigger_id
 
 func activate_trigger():
