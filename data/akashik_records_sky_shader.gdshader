@@ -54,24 +54,22 @@ float fbm(vec2 p) {
 
 // Star field function with movement
 float stars(vec2 uv, float t) {
-    // Add movement to the stars
-    vec2 moving_uv = uv + vec2(t * star_speed * 0.2, t * star_speed * 0.1);
+    // Add movement to the stars with wrapping
+    float wrapped_time = mod(t * star_speed, 100.0); // Wrap time every 100 units
+    vec2 moving_uv = uv + vec2(wrapped_time * 0.2, wrapped_time * 0.1);
+    
+    // Wrap the moving UV coordinates to create infinite tiling
+    moving_uv = mod(moving_uv, 1.0);
     
     vec2 grid = fract(moving_uv * 1000.0);
     float star_val = star_hash(floor(moving_uv * 1000.0));
     
-    // Twinkle effect
-    //float twinkle = sin(t * 3.0 + star_val * 10.0) * 0.5 + 0.5;
-    //twinkle *= sin(t * 2.0 + star_val * 5.0) * 0.5 + 0.5;  // Additional twinkle layer
-    
     // Star shape and glow
-    float star = step(0.97, star_val);// * twinkle;
+    float star = step(0.97, star_val);
     float glow = (1.0 - length(grid - 0.5) * 2.0);
     glow = pow(glow, 3.0);  // Sharper glow falloff
     star *= glow;
     
-    // Add pulsing glow
-    //float pulse = sin(t * 2.0 + star_val * 20.0) * 0.5 + 0.5;
     star *= 1.0;
     
     return star * star_intensity;

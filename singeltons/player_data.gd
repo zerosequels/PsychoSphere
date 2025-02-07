@@ -13,6 +13,7 @@ var background_shader_octave = 20
 #viewport resolution
 var viewport_resolution_x = 1920
 var viewport_resolution_y = 1080
+var akashic_insight = 0
 
 var resolution_index = 2
 var shader_option_index = 2
@@ -27,7 +28,8 @@ var save_dict = {
 		"viewport_resolution_x": viewport_resolution_x,
 		"viewport_resolution_y": viewport_resolution_y,
 		"resolution_index ": resolution_index,
-		"shader_option_index": shader_option_index
+		"shader_option_index": shader_option_index,
+		"akashic_insight": akashic_insight
 		}
 
 func populate_missing_values():
@@ -51,6 +53,8 @@ func populate_missing_values():
 		save_dict["resolution_index"] = 2
 	if !save_dict.has("shader_option_index"):
 		save_dict["shader_option_index"] = 2
+	if !save_dict.has("akashic_insight"):
+		save_dict["akashic_insight"] = 0
 
 func create_new_save_file():
 	var save_game = FileAccess.open("user://savegame.save", FileAccess.WRITE)
@@ -69,7 +73,8 @@ func save_to_config():
 		"viewport_resolution_x": viewport_resolution_x,
 		"viewport_resolution_y": viewport_resolution_y,
 		"resolution_index": resolution_index,
-		"shader_option_index": shader_option_index
+		"shader_option_index": shader_option_index,
+		"akashic_insight": akashic_insight
 		}
 	var save_game = FileAccess.open("user://savegame.save", FileAccess.WRITE)
 	var json_string = JSON.stringify(save_dict)
@@ -107,6 +112,7 @@ func _ready():
 	
 	resolution_index = save_dict["resolution_index"]
 	shader_option_index = save_dict["shader_option_index"]
+	akashic_insight = save_dict["akashic_insight"]
 	
 	load_audio_config()
 	update_resolution(viewport_resolution_x,viewport_resolution_y)
@@ -121,6 +127,16 @@ func update_resolution(x,y):
 	viewport_resolution_y = y
 	save_to_config()
 	DisplayServer.window_set_size(Vector2i(x,y))
-	
+
+func increment_akashic_insight():
+	akashic_insight += 1
+	save_to_config()
+
+func deincrement_akashic_insight():
+	akashic_insight = max(0, akashic_insight - 1)
+	save_to_config()
+
+func has_akashic_insight_to_spend():
+	return akashic_insight > 0
 	
 
