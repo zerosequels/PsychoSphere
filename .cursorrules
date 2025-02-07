@@ -1,0 +1,57 @@
+# .cursorrules for Godot 4.2 Project
+
+## Project Identification
+- **Rule**: Identify the project as a Godot 4.2 project.
+  - **Action**: Set project type to `godot`.
+  - **Version**: Specify `4.2`.
+
+## Language Specification
+- **Rule**: Use GDScript as the primary scripting language.
+  - **Action**: Set language to `gdscript`.
+
+## Syntax and Features
+- **Rule**: Ensure compatibility with GDScript syntax.
+  - **Action**: Disallow features not supported by GDScript, such as:
+    - Classes and inheritance not supported by GDScript.
+    - Use of types and structures not available in GDScript.
+    - Avoid using multi-threading constructs not supported by GDScript.
+
+## Code Style
+- **Rule**: Follow GDScript coding conventions.
+  - **Action**: Enforce indentation with spaces (4 spaces per level).
+  - **Action**: Use snake_case for variable and function names.
+  - **Action**: Use PascalCase for class names.
+
+## Project Structure
+- **Rule**: Maintain Godot's project structure.
+  - **Action**: Ensure all scripts are within the `res://` directory.
+  - **Action**: Use `.gd` file extension for GDScript files.
+
+## Best Practices
+- **Rule**: Encourage best practices for GDScript.
+  - **Action**: Use `@export` for exposing variables to the editor.
+  - **Action**: Use `@onready` for initializing nodes.
+  - **Action**: Use signals for communication between nodes.
+
+## Error Handling
+- **Rule**: Handle errors in a GDScript-friendly manner.
+  - **Action**: Use `assert` and `print` for debugging.
+  - **Action**: Avoid using try-catch blocks as they are not supported.
+
+## Performance
+- **Rule**: Optimize for GDScript performance.
+  - **Action**: Minimize use of `yield` and heavy computations in `_process`.
+  - **Action**: Use `@tool` only when necessary for editor scripts.
+
+## Documentation
+- **Rule**: Document code using GDScript comments.
+  - **Action**: Use `#` for single-line comments.
+  - **Action**: Use triple quotes `"""` for multi-line comments.
+
+## Version Control
+- **Rule**: Ensure compatibility with version control systems.
+  - **Action**: Ignore `.import` and `.godot` directories in `.gitignore`.
+
+## Additional Tools
+- **Rule**: Use Godot's built-in tools for project management.
+  - **Action**: Utilize the Godot editor for scene management and script editing.

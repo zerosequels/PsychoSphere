@@ -6,6 +6,7 @@ var range_visibility_mode_toggled = false
 signal increase_currency(exp)
 signal unlock_tower(tower_type)
 signal refresh_card_cost()
+signal memo_content_loaded
 
 var currently_selected_tower_type = -1
 
@@ -64,6 +65,219 @@ enum boost_types {
 	vision,
 	gnosis
 }
+
+const tier_1_keys = [
+	"big pharma",
+	"atlantis",
+	"mandela effect",
+	"new world order",
+	"orbs",
+	"nibiru",
+	"antarctica",
+	"operation northwoods",
+	"psyops",
+	"majestic twelve"
+]
+
+const tier_2_keys = [
+	"lucid dreaming",
+	"flourid effect",
+	"mk ultra",
+	"pineal gland",
+	"agartha",
+	"HAARP",
+	"astral projection",
+	"sucubii",
+	"eastern esotericism",
+	"nephilim",
+	"the missing cosmonauts",
+	"dyatlov pass",
+	"tulpas",
+	"operation blue beam",
+	"occult knowledge",
+	"magicka",
+	"space is fake",
+	"divination",
+	"pantheism",
+	"archdemons/angels",
+	"philosopher's stone",
+	"my red is not your red",
+	"vampires",
+	"aura",
+	"bohemian grove",
+	"lost civilizations",
+	"paranormal beings",
+	"gangstalking",
+	"experiments on humans",
+	"6th extinction",
+	"pseudosciences",
+	"saturn's rings",
+	"polar shift",
+	"large hadron collider",
+	"oumuamua",
+	"fish rain",
+	"elite politician body doubles",
+	"butterfly effect",
+	"ningens",
+	"oil pit squid",
+	"lemuria and mount shasta",
+	"crystal skulls"
+]
+
+const tier_3_keys = [
+	"singularity",
+	"quantum suicide and immortality",
+	"pleroma",
+	"archons",
+	"sacred geometry",
+	"DMT beings",
+	"thule",
+	"toxoplasmosis effect on the human brain",
+	"titanic was sunk to create the federal reserve",
+	"smithsonian suppresses evidence of giants",
+	"tartaria",
+	"panspermia",
+	"grey goo",
+	"fullcanelli"
+]
+
+const tier_4_keys = [
+	"dogon tribe",
+	"lord pakal's time machine",
+	"pesticides and the american food supply",
+	"vimana",
+	"washington dc street plan designed by freen masons",
+	"grand unified conspiracy theory",
+	"baltic sea anomaly",
+	"Nimrod control system",
+	"global depopulation",
+	"holotropic breathworks",
+	"hermeticism",
+	"negative-entropy",
+	"nexus 7",
+	"geometrodynamics",
+	"cave dweller holocaust",
+	"dolphin intelligence",
+	"himalayan zombies (rolang)",
+	"deep philosophies/ hermenuetics",
+	"mirl cults",
+	"toronto protocol",
+	"presentism",
+	"bootes void",
+	"plant intelligence",
+	"last thursdayism",
+	"acosmism",
+	"abiogenic oil",
+	"secret societies today",
+	"prison planet",
+	"malta catacombs",
+	"patomskiy crater",
+	"animism",
+	"montanism",
+	"operation paper clip"
+]
+
+const tier_5_keys = [
+	"magic of the state",
+	"sycamore knoll underwater alien base",
+	"reactionless drive",
+	"enneagram",
+	"protodite",
+	"accoustic attacks",
+	"panopticon",
+	"prana release",
+	"corporate kill list",
+	"interdimensional bigfoot",
+	"ghost condensate",
+	"organic black helicopters",
+	"breatharianism",
+	"psychotropic warfare",
+	"All of human history is fake",
+	"object oriented ontology",
+	"accelerationism",
+	"omphalos",
+	"quantum entanglement",
+	"kundalini energy",
+	"brain in a jar",
+	"symbiogenesis",
+	"antikythera mechanism",
+	"anatta",
+	"polywater",
+	"human genome projects true purpose"
+]
+
+const tier_6_keys = [
+	#"bogandoff twins are powerful psychic archangle superhumans who will usher in an age of genetic engineering",
+	"dead internet theory",
+	"quantum computers are trapped demonic entities",
+	"subjective reality",
+	"spiritual microeconomy",
+	"the american government fought the iraq war to secure the tomb of gilgamesh",
+	"synchronicity",
+	"dream hacking",
+	"S EN",
+	"captivity suburbs",
+	"kali yuga describes an inevitable cycle of moral decay and corruption leading to heroic destruction and a restoriation of morality that all societies eventually go through",
+	"torsion fields",
+	"morphic field",
+	"genepool financialization",
+	"The universe is a hologram"
+]
+
+const tier_7_keys = [
+	"hypersigils",
+	"amazon rainforrest was built by an ancient society",
+	"akashic records",
+	"classical metaphysics",
+	"annunaki created humans to mine gold",
+	"soy products are weaponized aginst the public to make them have less testosterone and therefore more agreeable to government control",
+	"bicameralism of the human brain, ancient people could hear the voices of gods",
+	"The true purpose of the great pyramind",
+	"moon built by aliens",
+	"field conciousness",
+	"humanity shares a flood myth",
+	"non-space"
+]
+
+const tier_8_keys = [
+	"timecube",
+	"wetiko",
+	"the nephelim looked like clowns",
+	"deep soy, xeno estrogens",
+	"eating food makes you age",
+	"wars are started on purpose for the sake of profit",
+	"microchips found in fossils"
+]
+
+const tier_9_keys = [
+	"retrocausality",
+	"ancient egypt was advanced and the sphinx was eroded by water ina great flood",
+	"phlogiston theory resurfacing",
+	"nano-ufos and giga-ufos",
+	"regenerative death consumption",
+	"thoth was an alchemist and a high preist in ancient atlantis",
+	"secret human potential"
+]
+
+const tier_10_keys = [
+	"oikeiosis",
+	"fractialization",
+	"god's ego death",
+	"all conspiracies are true",
+	"gods last wish was for humans to have free will",
+	"There is no conspiracy",
+	"The final understanding"
+]
+
+var memo_content = {}
+
+func _ready():
+	var json_text = FileAccess.get_file_as_string("res://data/memo_content.json")
+	var parsed = JSON.parse_string(json_text)
+	if parsed == null:
+		return
+	memo_content = parsed
+	emit_signal("memo_content_loaded")
 
 var tower_type_count = {	
 	tower_types.PYRAMID:0,
@@ -395,3 +609,6 @@ func get_currently_selected_tower():
 	
 func set_currently_selected_tower(index):
 	currently_selected_tower_type = index
+
+func get_memo_content():
+	return memo_content
