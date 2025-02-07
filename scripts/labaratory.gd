@@ -12,7 +12,8 @@ func _process(delta):
 func _ready():
 	get_tree().paused = false
 	$CanvasLayer/laboratory_ui.astral_projection_begin.connect(_on_astral_projection_begin)
-	play_intro_sound()
+	if GameMode.get_is_first_ready():
+		play_intro_sound()
 	
 	timer = Timer.new()
 	timer.wait_time = 3.5
@@ -22,8 +23,10 @@ func _ready():
 	add_child(timer)
 	
 	anim_player = $camera_boom/AnimationPlayer
+	if GameMode.just_started == true:
+		GlobalAudio.play_lab_theme()
 	
-	GlobalAudio.play_lab_theme()
+	GameMode.just_started = false
 
 func _on_timer_timeout():
 	get_tree().change_scene_to_file("res://scenes/tutorial_instructions.tscn")
@@ -37,7 +40,11 @@ func _on_astral_projection_begin():
 	game_is_starting = true
 
 func play_intro_sound():
-	$AudioStreamPlayer.play()
+	$CanvasLayer2/distortion_layer.trigger_distortion()
+	if GameMode.just_started == true:
+		$AudioStreamPlayer.play()
+	
+	
 	
 func play_astral_projection_sound():
 	$AudioStreamPlayer2.play()

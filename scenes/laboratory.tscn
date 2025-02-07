@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://bvpkr3o841j5j"]
+[gd_scene load_steps=32 format=3 uid="uid://bvpkr3o841j5j"]
 
 [ext_resource type="Script" path="res://scripts/labaratory.gd" id="1_df1hq"]
 [ext_resource type="PackedScene" uid="uid://d1h5185jxjuxq" path="res://scenes/lab_room.tscn" id="2_jmkot"]
@@ -14,7 +14,10 @@
 [ext_resource type="PackedScene" uid="uid://d5vwqqpbeqij" path="res://scenes/doctor.tscn" id="12_fu448"]
 [ext_resource type="PackedScene" uid="uid://ca8vew0vfjbow" path="res://scenes/cia_guy.tscn" id="13_jren4"]
 [ext_resource type="PackedScene" uid="uid://usk4q7vyt5i0" path="res://scenes/game_title.tscn" id="14_foj2m"]
+[ext_resource type="Shader" path="res://data/lsd_trip_shader.gdshader" id="14_oge0v"]
+[ext_resource type="Texture2D" uid="uid://be8qdyffwiv1" path="res://assets/textures/Texture_512x512_33.png" id="15_22adn"]
 [ext_resource type="PackedScene" uid="uid://cwsj26l5jjtyr" path="res://scenes/laboratory_ui.tscn" id="15_224y6"]
+[ext_resource type="Script" path="res://scripts/distortion_layer.gd" id="16_6kfk5"]
 [ext_resource type="PackedScene" uid="uid://b775if30x3m0m" path="res://scenes/mit.tscn" id="16_qeqs0"]
 [ext_resource type="AudioStream" uid="uid://ckg5qj8d8do55" path="res://assets/sounds/warning.wav" id="17_4msm2"]
 [ext_resource type="AudioStream" uid="uid://j2d5lokfrcr3" path="res://assets/sounds/_dissolve_02.mp3" id="18_qs8qj"]
@@ -103,6 +106,31 @@ background_mode = 1
 
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_ws6ef"]
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_evf8h"]
+frequency = 0.0004
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ay623"]
+seamless = true
+noise = SubResource("FastNoiseLite_evf8h")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_n8a15"]
+frequency = 0.0026
+fractal_octaves = 9
+fractal_gain = 0.355
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_54qc8"]
+seamless = true
+seamless_blend_skirt = 0.558
+noise = SubResource("FastNoiseLite_n8a15")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_km3m7"]
+shader = ExtResource("14_oge0v")
+shader_parameter/scroll = Vector2(0.28, 0.05)
+shader_parameter/scroll2 = Vector2(-0.05, -0.05)
+shader_parameter/distortion_strength = 4.75e-08
+shader_parameter/noise = SubResource("NoiseTexture2D_ay623")
+shader_parameter/noise2 = SubResource("NoiseTexture2D_54qc8")
+
 [node name="laboratory" type="Node3D"]
 script = ExtResource("1_df1hq")
 
@@ -152,15 +180,22 @@ transform = Transform3D(0.901175, 0, 0.433455, 0, 1, 0, -0.433455, 0, 0.901175, 
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="."]
 
+[node name="distortion_layer" type="Sprite2D" parent="CanvasLayer2"]
+material = SubResource("ShaderMaterial_km3m7")
+position = Vector2(967.75, 542)
+scale = Vector2(3.82324, 2.2207)
+texture = ExtResource("15_22adn")
+script = ExtResource("16_6kfk5")
+
 [node name="game-title" parent="CanvasLayer2" instance=ExtResource("14_foj2m")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="laboratory_ui" parent="CanvasLayer" instance=ExtResource("15_224y6")]
 offset_left = 1303.0
-offset_top = 395.0
+offset_top = 288.0
 offset_right = -25.0
-offset_bottom = 33.0
+offset_bottom = -12.0
 
 [node name="mit2" parent="." instance=ExtResource("16_qeqs0")]
 transform = Transform3D(-1.31134e-08, 0, -0.3, 0, 0.3, 0, 0.3, 0, -1.31134e-08, 4.38275, 3.14733, 3.11392)

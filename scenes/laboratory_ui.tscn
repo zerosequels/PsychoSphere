@@ -9,7 +9,7 @@
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_t1emw"]
 frequency = 0.0004
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ay623"]
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_gscbu"]
 seamless = true
 noise = SubResource("FastNoiseLite_t1emw")
 
@@ -18,7 +18,7 @@ frequency = 0.0026
 fractal_octaves = 9
 fractal_gain = 0.355
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_54qc8"]
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_8150i"]
 seamless = true
 seamless_blend_skirt = 0.558
 noise = SubResource("FastNoiseLite_clfg1")
@@ -28,8 +28,8 @@ shader = ExtResource("2_jlkbk")
 shader_parameter/scroll = Vector2(0.28, 0.05)
 shader_parameter/scroll2 = Vector2(-0.05, -0.05)
 shader_parameter/distortion_strength = 4.75e-08
-shader_parameter/noise = SubResource("NoiseTexture2D_ay623")
-shader_parameter/noise2 = SubResource("NoiseTexture2D_54qc8")
+shader_parameter/noise = SubResource("NoiseTexture2D_gscbu")
+shader_parameter/noise2 = SubResource("NoiseTexture2D_8150i")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tck06"]
 bg_color = Color(0, 0, 0, 0.745098)
@@ -52,15 +52,16 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 1286.0
-offset_top = 362.0
+offset_top = 28.0
 offset_right = -42.0
+offset_bottom = -41.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_q6itj")
 
 [node name="distortion_layer" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_1y0p2")
-position = Vector2(-349.5, 186.5)
+position = Vector2(-329, 507)
 scale = Vector2(3.80664, 2.2207)
 texture = ExtResource("3_dlio3")
 script = ExtResource("4_rykn0")
@@ -70,16 +71,10 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -2.0
-offset_top = -120.0
-offset_right = -4.0
-offset_bottom = -48.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 25
-theme_override_constants/margin_top = 25
-theme_override_constants/margin_right = 25
-theme_override_constants/margin_bottom = 25
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_right = 15
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
@@ -129,7 +124,6 @@ text = "quit
 [node name="options" type="VBoxContainer" parent="MarginContainer"]
 visible = false
 layout_mode = 2
-theme_override_constants/separation = 15
 
 [node name="volume" type="Control" parent="MarginContainer/options"]
 layout_mode = 2
@@ -308,11 +302,11 @@ layout_mode = 2
 max_value = 1.0
 step = 0.001
 
-[node name="resolution" type="Control" parent="MarginContainer/options"]
+[node name="language" type="Control" parent="MarginContainer/options"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ColorRect" type="ColorRect" parent="MarginContainer/options/resolution"]
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/options/language"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -321,7 +315,93 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.745098)
 
-[node name="volume_label" type="Label" parent="MarginContainer/options/resolution"]
+[node name="language_label" type="Label" parent="MarginContainer/options/language"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_sma4a")
+theme_override_font_sizes/font_size = 65
+text = "Language
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="language_dropdown" type="Control" parent="MarginContainer/options"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/options/language_dropdown"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.745098)
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/options/language_dropdown"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_right = 15
+
+[node name="OptionButton" type="OptionButton" parent="MarginContainer/options/language_dropdown/MarginContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_sma4a")
+theme_override_font_sizes/font_size = 50
+alignment = 1
+item_count = 11
+selected = 0
+fit_to_longest_item = false
+popup/item_0/text = "English[en]"
+popup/item_0/id = 0
+popup/item_1/text = "中文[zh]"
+popup/item_1/id = 1
+popup/item_2/text = "Deutsch[de]"
+popup/item_2/id = 2
+popup/item_3/text = "français[fr]"
+popup/item_3/id = 3
+popup/item_4/text = "italiano[it]"
+popup/item_4/id = 4
+popup/item_5/text = "日本語[ja]"
+popup/item_5/id = 5
+popup/item_6/text = "한국어[ko]"
+popup/item_6/id = 6
+popup/item_7/text = "português[pt]"
+popup/item_7/id = 7
+popup/item_8/text = "русский[ru]"
+popup/item_8/id = 8
+popup/item_9/text = "español[es] "
+popup/item_9/id = 9
+popup/item_10/text = "Turkish [tr]"
+popup/item_10/id = 10
+
+[node name="resolution2" type="Control" parent="MarginContainer/options"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/options/resolution2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.745098)
+
+[node name="volume_label" type="Label" parent="MarginContainer/options/resolution2"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -468,6 +548,7 @@ text = "back
 [connection signal="value_changed" from="MarginContainer/options/music_volume_slider/MarginContainer/music_volume_slider" to="." method="_on_music_volume_slider_value_changed"]
 [connection signal="drag_ended" from="MarginContainer/options/sfx_volume_slider/MarginContainer/sfx_volume_slider" to="." method="_on_volume_slider_drag_ended"]
 [connection signal="value_changed" from="MarginContainer/options/sfx_volume_slider/MarginContainer/sfx_volume_slider" to="." method="_on_sfx_volume_slider_value_changed"]
+[connection signal="item_selected" from="MarginContainer/options/language_dropdown/MarginContainer/OptionButton" to="." method="_on_language_option_button_item_selected"]
 [connection signal="item_selected" from="MarginContainer/options/resolution_dropdown/MarginContainer/OptionButton" to="." method="_on_resolution_button_item_selected"]
 [connection signal="item_selected" from="MarginContainer/options/shader_resolution_dropdown2/MarginContainer/OptionButton" to="." method="_on_shader_option_item_selected"]
 [connection signal="pressed" from="MarginContainer/options/back_button" to="." method="_on_back_button_pressed"]

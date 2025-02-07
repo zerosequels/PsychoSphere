@@ -61,18 +61,18 @@ float stars(vec2 uv, float t) {
     float star_val = star_hash(floor(moving_uv * 1000.0));
     
     // Twinkle effect
-    float twinkle = sin(t * 3.0 + star_val * 10.0) * 0.5 + 0.5;
-    twinkle *= sin(t * 2.0 + star_val * 5.0) * 0.5 + 0.5;  // Additional twinkle layer
+    //float twinkle = sin(t * 3.0 + star_val * 10.0) * 0.5 + 0.5;
+    //twinkle *= sin(t * 2.0 + star_val * 5.0) * 0.5 + 0.5;  // Additional twinkle layer
     
     // Star shape and glow
-    float star = step(0.97, star_val) * twinkle;
+    float star = step(0.97, star_val);// * twinkle;
     float glow = (1.0 - length(grid - 0.5) * 2.0);
     glow = pow(glow, 3.0);  // Sharper glow falloff
     star *= glow;
     
     // Add pulsing glow
-    float pulse = sin(t * 2.0 + star_val * 20.0) * 0.5 + 0.5;
-    star *= 1.0 + pulse * 0.5;
+    //float pulse = sin(t * 2.0 + star_val * 20.0) * 0.5 + 0.5;
+    star *= 1.0;
     
     return star * star_intensity;
 }

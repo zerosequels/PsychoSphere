@@ -26,15 +26,22 @@ func _ready():
 	var level_label_text = level_label_format % level
 	$MarginContainer/level_label.text = level_label_text
 
+func set_description(description):
+	$MarginContainer/HBoxContainer/VBoxContainer/description_label.text = description
+
+func override_image(texture_path):
+	$MarginContainer/HBoxContainer/TextureRect.texture = load(texture_path)
+
+func override_name(override_name):
+	$MarginContainer/HBoxContainer/VBoxContainer/title_label.text = override_name
 
 func update_button_by_key(key:String):
 	print("updating button")
 	print(key)
 	
 	power_up_name = key
-	$MarginContainer/HBoxContainer/VBoxContainer/title_label.text = power_up_name
-	var memo_format = "[center]%s[/center]" % key.to_upper().replace(' ', '_')
-	$MarginContainer/HBoxContainer/VBoxContainer/description_label.text = memo_format
+
+
 
 func _on_pressed():
 	emit_signal("show_memo", power_up_name)

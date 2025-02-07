@@ -19,7 +19,8 @@ func _on_play_button_pressed():
 	increase_ui_distortion()
 
 func _on_upgrade_button_pressed():
-	pass # Replace with function body.
+	get_tree().change_scene_to_file("res://scenes/akashik_records.tscn")
+	
 func _on_options_button_pressed():
 	master_volume.value = PlayerData.master_volume_value
 	music_volume.value = PlayerData.music_volume_value
@@ -113,3 +114,42 @@ func _on_shader_option_item_selected(index):
 			PlayerData.background_shader_octave = 30
 	PlayerData.shader_option_index = index
 	PlayerData.save_to_config()
+
+
+func _on_language_option_button_item_selected(index):
+	match index:
+		0:
+			TranslationServer.set_locale("en")
+			print("en")
+		1:
+			TranslationServer.set_locale("zh")
+			print("zh")
+		2:
+			TranslationServer.set_locale("de")
+			print("de")
+		3:
+			TranslationServer.set_locale("fr")
+			print("fr")
+		4:
+			TranslationServer.set_locale("it")
+			print("it")
+		5:
+			TranslationServer.set_locale("ja")
+			print("ja")
+		6:
+			TranslationServer.set_locale("ko")
+			print("ko")
+		7:
+			TranslationServer.set_locale("pt")
+			print("pt")
+		8:
+			TranslationServer.set_locale("ru")
+			print("ru")
+		9:
+			TranslationServer.set_locale("es")
+			print("es")
+		10:
+			TranslationServer.set_locale("tr")
+			print("tr")
+
+			

@@ -25,7 +25,6 @@ func stop_main_theme():
 	should_loop_main_theme = false
 	$main_theme_player.stop()
 
-
 func _on_main_theme_player_finished():
 	if should_loop_main_theme:
 		play_main_theme()
