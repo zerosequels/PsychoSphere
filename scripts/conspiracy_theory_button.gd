@@ -35,12 +35,28 @@ func override_image(texture_path):
 func override_name(override_name):
 	$MarginContainer/HBoxContainer/VBoxContainer/title_label.text = override_name
 
+func override_availability(is_available):
+	if is_available == 0:
+		disabled = true
+	else:
+		disabled = false
+	
+
 func update_button_by_key(key:String):
 	print("updating button")
 	print(key)
 	
 	power_up_name = key
+	override_name(TowerAndBoonData.memo_content[key].name_override)
+	set_description(TowerAndBoonData.memo_content[key].text)
+	override_image(TowerAndBoonData.memo_content[key].image)
+	override_level(TowerAndBoonData.memo_content[key].level)
+	#button_instance.override_availability(TowerAndBoonData.memo_content[key].is_available)
+	
 
+func override_level(new_level):
+	var level_format = "%s/3"
+	$MarginContainer/level_label.text = level_format % new_level
 
 
 func _on_pressed():

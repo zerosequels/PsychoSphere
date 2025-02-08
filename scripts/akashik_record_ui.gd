@@ -28,6 +28,7 @@ var memo_text: RichTextLabel
 var memo_title: Label
 var back_button: Button
 var current_ui_offset = 0.0
+var current_key: String = ""  # Store the current memo key
 
 var _base_positions = {}  # Store base positions of buttons
 
@@ -127,14 +128,34 @@ func setup_ui():
 	memo_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	text_container.add_child(memo_text)
 	
+	var button_hbox = HBoxContainer.new()
+	button_hbox.add_theme_constant_override("separation", 20)
+	button_hbox.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	vbox.add_child(button_hbox)
+	
 	back_button = Button.new()
 	back_button.custom_minimum_size = Vector2(200, 50)
-	back_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	back_button.add_theme_font_override("font", custom_font)
 	back_button.add_theme_font_size_override("font_size", 30)
 	back_button.text = "BACK"
 	back_button.pressed.connect(_on_back_button_pressed)
-	vbox.add_child(back_button)
+	button_hbox.add_child(back_button)
+	
+	var decrease_gnosis_button = Button.new()
+	decrease_gnosis_button.custom_minimum_size = Vector2(200, 50)
+	decrease_gnosis_button.add_theme_font_override("font", custom_font)
+	decrease_gnosis_button.add_theme_font_size_override("font_size", 30)
+	decrease_gnosis_button.text = "DECREASE GNOSIS"
+	decrease_gnosis_button.pressed.connect(_on_decrease_gnosis_pressed)
+	button_hbox.add_child(decrease_gnosis_button)
+	
+	var increase_gnosis_button = Button.new()
+	increase_gnosis_button.custom_minimum_size = Vector2(200, 50)
+	increase_gnosis_button.add_theme_font_override("font", custom_font)
+	increase_gnosis_button.add_theme_font_size_override("font_size", 30)
+	increase_gnosis_button.text = "INCREASE GNOSIS"
+	increase_gnosis_button.pressed.connect(_on_increase_gnosis_pressed)
+	button_hbox.add_child(increase_gnosis_button)
 
 func update_tier_2_vertical_offset(new_offset):
 	tier_2_vertical_offset = new_offset
@@ -234,10 +255,7 @@ func create_button(key: String, tier_number: int, viewport_size: Vector2, screen
 	# Update the button with its key
 	if button_instance.has_method("update_button_by_key"):
 		button_instance.update_button_by_key(key)
-		button_instance.override_name(memo_content[key].name_override)
-		button_instance.set_description(memo_content[key].text)
-		button_instance.override_image(memo_content[key].image)
-	
+
 	# Scale the button
 	button_instance.scale = Vector2(button_scale, button_scale)
 	var button_width = button_instance.size.x * button_scale
@@ -412,6 +430,7 @@ func generate_buttons():
 func _on_button_show_memo(key: String):
 	if memo_content.has(key):
 		var content = memo_content[key]
+		current_key = key  # Store the current key
 		memo_text.text = key.to_upper().replace(' ', '_')
 		memo_image.texture = load(content.image)
 		memo_title.text = content.name_override
@@ -419,7 +438,28 @@ func _on_button_show_memo(key: String):
 		memo_panel.show()
 		emit_signal("memo_toggled", true)
 
+func _on_increase_gnosis_pressed():
+	if current_key != "":
+		_handle_increase_gnosis(current_key)
+
+func _handle_increase_gnosis(key: String):
+	if not PlayerData.has_akashic_insight_to_spend():
+		return
+	PlayerData.deincrement_akashic_insight()
+	memo_content[key].level += 1
+
+func _on_decrease_gnosis_pressed():
+	if current_key != "":
+		_handle_decrease_gnosis(current_key)
+
+func _handle_decrease_gnosis(key: String):
+	if memo_content[key].level <= 0:
+		return
+	memo_content[key].level -= 1
+	PlayerData.increment_akashic_insight()
+
 func _on_back_button_pressed():
+	current_key = ""  # Clear the current key
 	memo_panel.hide()
 	button_container.show()
 	emit_signal("memo_toggled", false)
