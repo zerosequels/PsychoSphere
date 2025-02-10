@@ -1,6 +1,7 @@
 extends Node
 
 signal update_background_plexus_settings
+signal akashic_insight_changed(new_amount: int)
 
 #audio settings
 var master_volume_value = 1.0
@@ -131,10 +132,12 @@ func update_resolution(x,y):
 func increment_akashic_insight():
 	akashic_insight += 1
 	save_to_config()
+	emit_signal("akashic_insight_changed", akashic_insight)
 
 func deincrement_akashic_insight():
 	akashic_insight = max(0, akashic_insight - 1)
 	save_to_config()
+	emit_signal("akashic_insight_changed", akashic_insight)
 
 func has_akashic_insight_to_spend():
 	return akashic_insight > 0

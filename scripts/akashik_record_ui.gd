@@ -7,16 +7,27 @@ signal memo_toggled(is_memo_visible: bool)
 @export_range(0.0, 1.0) var max_horizontal_ratio = 0.2  # Maximum ratio of screen width to offset (0-1)
 @export var buttons_per_tier = 2  # Maximum buttons that can fit in one tier
 @export var tier_height = 150  # Height of each tier
+@export var global_tier_horizontal_offset = 0: set = update_global_horizontal_offset  # Global horizontal offset for all tiers
 @export var tier_1_vertical_offset = -1350: set = update_vertical_offset  # Vertical offset for tier 1 group
+@export var tier_1_display_threshold = 0  # Display threshold for tier 1
 @export var tier_2_vertical_offset = -550: set = update_tier_2_vertical_offset  # Vertical offset for tier 2 group
+@export var tier_2_display_threshold = 0  # Display threshold for tier 2
 @export var tier_3_vertical_offset = 2800: set = update_tier_3_vertical_offset  # Vertical offset for tier 3 group
+@export var tier_3_display_threshold = 0  # Display threshold for tier 3
 @export var tier_4_vertical_offset = 4050: set = update_tier_4_vertical_offset  # Vertical offset for tier 4 group
+@export var tier_4_display_threshold = 0  # Display threshold for tier 4
 @export var tier_5_vertical_offset = 6525: set = update_tier_5_vertical_offset  # Vertical offset for tier 5 group
+@export var tier_5_display_threshold = 0  # Display threshold for tier 5
 @export var tier_6_vertical_offset = 8385: set = update_tier_6_vertical_offset  # Vertical offset for tier 6 group
+@export var tier_6_display_threshold = 0  # Display threshold for tier 6
 @export var tier_7_vertical_offset = 9555: set = update_tier_7_vertical_offset  # Vertical offset for tier 7 group
+@export var tier_7_display_threshold = 0  # Display threshold for tier 7
 @export var tier_8_vertical_offset = 10550: set = update_tier_8_vertical_offset  # Vertical offset for tier 8 group
+@export var tier_8_display_threshold = 0  # Display threshold for tier 8
 @export var tier_9_vertical_offset = 11065: set = update_tier_9_vertical_offset  # Vertical offset for tier 9 group
+@export var tier_9_display_threshold = 0  # Display threshold for tier 9
 @export var tier_10_vertical_offset = 11550: set = update_tier_10_vertical_offset  # Vertical offset for tier 10 group
+@export var tier_10_display_threshold = 0  # Display threshold for tier 10
 
 @onready var conspiracy_menu_button = preload("res://scenes/conspiracy_theory_button.tscn")
 @onready var custom_font = preload("res://assets/ui/GelatinTTFCAPS.ttf")
@@ -29,6 +40,14 @@ var memo_title: Label
 var back_button: Button
 var current_ui_offset = 0.0
 var current_key: String = ""  # Store the current memo key
+var insight_label: Label
+var increase_gnosis_button: Button
+var decrease_gnosis_button: Button
+var tier_info_header: Label
+var tier_info_texture: TextureRect
+var tier_info_description: Label
+var tier_info_subheader: Label
+var tier_info_panel: Panel  # Add reference to the panel
 
 var _base_positions = {}  # Store base positions of buttons
 
@@ -53,11 +72,14 @@ var tier_10_keys = TowerAndBoonData.tier_10_keys
 var memo_content = {}
 
 func _ready():
+	setup_insight_indicator()
 	TowerAndBoonData.memo_content_loaded.connect(_on_memo_content_loaded)
+	TowerAndBoonData.tier_info_loaded.connect(_on_tier_info_loaded)
 	if TowerAndBoonData.memo_content.size() > 0:
 		_on_memo_content_loaded()
 	else:
 		setup_ui()
+	update_tier_info_by_tier_key("tier_1")
 
 func _process(_delta):
 	if memo_panel and memo_panel.visible:
@@ -141,7 +163,7 @@ func setup_ui():
 	back_button.pressed.connect(_on_back_button_pressed)
 	button_hbox.add_child(back_button)
 	
-	var decrease_gnosis_button = Button.new()
+	decrease_gnosis_button = Button.new()
 	decrease_gnosis_button.custom_minimum_size = Vector2(200, 50)
 	decrease_gnosis_button.add_theme_font_override("font", custom_font)
 	decrease_gnosis_button.add_theme_font_size_override("font_size", 30)
@@ -149,7 +171,7 @@ func setup_ui():
 	decrease_gnosis_button.pressed.connect(_on_decrease_gnosis_pressed)
 	button_hbox.add_child(decrease_gnosis_button)
 	
-	var increase_gnosis_button = Button.new()
+	increase_gnosis_button = Button.new()
 	increase_gnosis_button.custom_minimum_size = Vector2(200, 50)
 	increase_gnosis_button.add_theme_font_override("font", custom_font)
 	increase_gnosis_button.add_theme_font_size_override("font_size", 30)
@@ -247,6 +269,38 @@ func update_tier_10_vertical_offset(new_offset):
 			var base_pos = button.get_meta("base_position")
 			button.position.y = base_pos.y + tier_10_vertical_offset
 
+func update_global_horizontal_offset(new_offset):
+	global_tier_horizontal_offset = new_offset
+	if not button_container:
+		return
+	for button in button_container.get_children():
+		if button.has_meta("base_position"):
+			var base_pos = button.get_meta("base_position")
+			button.position.x = base_pos.x + global_tier_horizontal_offset
+			var tier = button.get_meta("tier")
+			var vertical_offset: float
+			if tier == 1:
+				vertical_offset = tier_1_vertical_offset
+			elif tier == 2:
+				vertical_offset = tier_2_vertical_offset
+			elif tier == 3:
+				vertical_offset = tier_3_vertical_offset
+			elif tier == 4:
+				vertical_offset = tier_4_vertical_offset
+			elif tier == 5:
+				vertical_offset = tier_5_vertical_offset
+			elif tier == 6:
+				vertical_offset = tier_6_vertical_offset
+			elif tier == 7:
+				vertical_offset = tier_7_vertical_offset
+			elif tier == 8:
+				vertical_offset = tier_8_vertical_offset
+			elif tier == 9:
+				vertical_offset = tier_9_vertical_offset
+			else:
+				vertical_offset = tier_10_vertical_offset
+			button.position.y = base_pos.y + vertical_offset
+
 func create_button(key: String, tier_number: int, viewport_size: Vector2, screen_margin: float, start_y: float, tiers: Dictionary, current_tier: int, rng: RandomNumberGenerator) -> void:
 	var button_instance = conspiracy_menu_button.instantiate()
 	button_container.add_child(button_instance)
@@ -290,7 +344,7 @@ func create_button(key: String, tier_number: int, viewport_size: Vector2, screen
 			button_instance.set_meta("base_position", base_position)
 			button_instance.set_meta("tier", tier_number)
 			
-			# Apply the appropriate vertical offset based on the tier
+			# Apply the appropriate vertical offset based on the tier and global horizontal offset
 			var vertical_offset: float
 			if tier_number == 1:
 				vertical_offset = tier_1_vertical_offset
@@ -312,7 +366,7 @@ func create_button(key: String, tier_number: int, viewport_size: Vector2, screen
 				vertical_offset = tier_9_vertical_offset
 			else:
 				vertical_offset = tier_10_vertical_offset
-			button_instance.position = Vector2(x_pos, y_pos + vertical_offset)
+			button_instance.position = Vector2(x_pos + global_tier_horizontal_offset, y_pos + vertical_offset)
 			tiers[current_tier].append(Vector2(x_pos, y_pos))
 		
 		attempts += 1
@@ -436,6 +490,8 @@ func _on_button_show_memo(key: String):
 		memo_title.text = content.name_override
 		button_container.hide()
 		memo_panel.show()
+		increase_gnosis_button.disabled = not PlayerData.has_akashic_insight_to_spend()
+		decrease_gnosis_button.disabled = content.level <= 0
 		emit_signal("memo_toggled", true)
 
 func _on_increase_gnosis_pressed():
@@ -447,6 +503,8 @@ func _handle_increase_gnosis(key: String):
 		return
 	PlayerData.deincrement_akashic_insight()
 	memo_content[key].level += 1
+	increase_gnosis_button.disabled = not PlayerData.has_akashic_insight_to_spend()
+	decrease_gnosis_button.disabled = false
 
 func _on_decrease_gnosis_pressed():
 	if current_key != "":
@@ -457,6 +515,8 @@ func _handle_decrease_gnosis(key: String):
 		return
 	memo_content[key].level -= 1
 	PlayerData.increment_akashic_insight()
+	increase_gnosis_button.disabled = false
+	decrease_gnosis_button.disabled = memo_content[key].level <= 0
 
 func _on_back_button_pressed():
 	current_key = ""  # Clear the current key
@@ -465,8 +525,35 @@ func _on_back_button_pressed():
 	emit_signal("memo_toggled", false)
 
 func set_ui_offset(offset):
-	current_ui_offset = offset
-	position.y = offset
+	if current_ui_offset != offset:
+		current_ui_offset = offset
+		position.y = offset
+		print(offset)
+		handle_tier_threshold_display_change()
+	else:
+		position.y = offset
+
+func handle_tier_threshold_display_change():
+	if current_ui_offset >= tier_1_display_threshold:
+		update_tier_info_by_tier_key("tier_1")
+	elif current_ui_offset >= tier_2_display_threshold:
+		update_tier_info_by_tier_key("tier_2")
+	elif current_ui_offset >= tier_3_display_threshold:
+		update_tier_info_by_tier_key("tier_3")
+	elif current_ui_offset >= tier_4_display_threshold:
+		update_tier_info_by_tier_key("tier_4")
+	elif current_ui_offset >= tier_5_display_threshold:
+		update_tier_info_by_tier_key("tier_5")
+	elif current_ui_offset >= tier_6_display_threshold:
+		update_tier_info_by_tier_key("tier_6")
+	elif current_ui_offset >= tier_7_display_threshold:
+		update_tier_info_by_tier_key("tier_7")
+	elif current_ui_offset >= tier_8_display_threshold:
+		update_tier_info_by_tier_key("tier_8")
+	elif current_ui_offset >= tier_9_display_threshold:
+		update_tier_info_by_tier_key("tier_9")
+	else:
+		update_tier_info_by_tier_key("tier_10")
 
 func _on_memo_content_loaded():
 	memo_content = TowerAndBoonData.get_memo_content()
@@ -474,3 +561,134 @@ func _on_memo_content_loaded():
 		setup_ui()
 	seed(SPACING_SEED)
 	generate_buttons()
+
+func setup_insight_indicator():
+	# Create a separate canvas layer for the insight indicator
+	var insight_canvas = CanvasLayer.new()
+	add_child(insight_canvas)
+	
+	# Create insight indicator panel
+	var insight_panel = Panel.new()
+	var insight_style = StyleBoxFlat.new()
+	insight_style.bg_color = Color(0, 0, 0, 0.5)
+	insight_style.set_corner_radius_all(8)
+	insight_panel.add_theme_stylebox_override("panel", insight_style)
+	insight_panel.position = Vector2(20, 20)  # Position in top left with margin
+	insight_panel.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	insight_panel.custom_minimum_size = Vector2(320, 60)  # Set minimum size for the panel
+	insight_canvas.add_child(insight_panel)
+	
+	var insight_margin = MarginContainer.new()
+	insight_margin.add_theme_constant_override("margin_left", 20)
+	insight_margin.add_theme_constant_override("margin_right", 20)
+	insight_margin.add_theme_constant_override("margin_top", 10)
+	insight_margin.add_theme_constant_override("margin_bottom", 10)
+	insight_panel.add_child(insight_margin)
+	
+	insight_label = Label.new()
+	insight_label.add_theme_font_override("font", custom_font)
+	insight_label.add_theme_font_size_override("font_size", 48)
+	insight_label.text = "AKASHIC INSIGHT: " + str(PlayerData.akashic_insight)
+	insight_margin.add_child(insight_label)
+	PlayerData.akashic_insight_changed.connect(_on_insight_changed)
+	
+	# Create a separate canvas layer for tier info
+	var tier_canvas = CanvasLayer.new()
+	add_child(tier_canvas)
+	
+	# Create tier info panel
+	var tier_panel = Panel.new()
+	tier_info_panel = tier_panel  # Store reference to panel
+	var tier_style = StyleBoxFlat.new()
+	tier_style.bg_color = Color(0, 0, 0, 0.5)
+	tier_style.set_corner_radius_all(8)
+	tier_panel.add_theme_stylebox_override("panel", tier_style)
+	tier_panel.custom_minimum_size = Vector2(400, get_viewport_rect().size.y - 20)
+	tier_panel.position = Vector2(get_viewport_rect().size.x - 420, 10)
+	tier_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	tier_canvas.add_child(tier_panel)
+	
+	var tier_margin = MarginContainer.new()
+	tier_margin.add_theme_constant_override("margin_left", 20)
+	tier_margin.add_theme_constant_override("margin_right", 20)
+	tier_margin.add_theme_constant_override("margin_top", 10)
+	tier_margin.add_theme_constant_override("margin_bottom", 10)
+	tier_panel.add_child(tier_margin)
+	
+	var vbox = VBoxContainer.new()
+	vbox.add_theme_constant_override("separation", 20)
+	tier_margin.add_child(vbox)
+	
+	tier_info_header = Label.new()
+	tier_info_header.add_theme_font_override("font", custom_font)
+	tier_info_header.add_theme_font_size_override("font_size", 48)
+	tier_info_header.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	tier_info_header.size_flags_horizontal = Control.SIZE_FILL
+	vbox.add_child(tier_info_header)
+	
+	tier_info_subheader = Label.new()
+	tier_info_subheader.add_theme_font_override("font", custom_font)
+	tier_info_subheader.add_theme_font_size_override("font_size", 64)
+	tier_info_subheader.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	tier_info_subheader.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	tier_info_subheader.size_flags_horizontal = Control.SIZE_FILL
+	vbox.add_child(tier_info_subheader)
+	
+	tier_info_texture = TextureRect.new()
+	tier_info_texture.custom_minimum_size = Vector2(0, 250)
+	tier_info_texture.expand_mode = TextureRect.EXPAND_FIT_HEIGHT
+	tier_info_texture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	tier_info_texture.size_flags_horizontal = Control.SIZE_FILL
+	tier_info_texture.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	vbox.add_child(tier_info_texture)
+	
+	tier_info_description = Label.new()
+	tier_info_description.add_theme_font_override("font", custom_font)
+	tier_info_description.add_theme_font_size_override("font_size", 24)
+	tier_info_description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	tier_info_description.size_flags_horizontal = Control.SIZE_FILL
+	tier_info_description.custom_minimum_size = Vector2(360, 0)
+	vbox.add_child(tier_info_description)
+
+func _on_insight_changed(new_amount: int):
+	insight_label.text = "AKASHIC INSIGHT: " + str(new_amount)
+
+func update_tier_info(header: String, subheader: String, texture: Texture2D, description: String):
+	tier_info_header.text = header
+	tier_info_subheader.text = subheader
+	tier_info_texture.texture = texture
+	tier_info_description.text = description
+
+var current_tier_key: String = ""
+
+func update_tier_info_by_tier_key(tier_key: String):
+	if current_tier_key != tier_key:
+		current_tier_key = tier_key
+		_on_tier_key_changed()
+	
+func fade_out_tier_info():
+	var tween = create_tween()
+	tween.tween_property(tier_info_panel, "modulate", Color(1, 1, 1, 0), 0.5)
+
+func fade_in_tier_info():
+	var tween = create_tween()
+	tween.tween_property(tier_info_panel, "modulate", Color(1, 1, 1, 1), 0.5)
+
+func _on_tier_key_changed():
+	fade_out_tier_info()
+	await get_tree().create_timer(0.25).timeout
+	print("key has now changed")
+	var tier_data = TowerAndBoonData.get_tier_info()
+	if tier_data.has(current_tier_key):
+		var data = tier_data[current_tier_key]
+		var texture = load(data.texture) if data.has("texture") else null
+		update_tier_info(
+			data.header,
+			data.subheader,
+			texture,
+			data.description
+		)
+	fade_in_tier_info()
+
+func _on_tier_info_loaded():
+	update_tier_info_by_tier_key("tier_1")

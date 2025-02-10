@@ -1,0 +1,62 @@
+{
+    "tier_1": {
+        "header": "Tier 1",
+        "subheader": "crazyhead",
+        "texture": "res://assets/textures/tier_1.png",
+        "description": "Mainstream conspiracy theories and so-called \"unsolved\" mysteries. Most of it is well-known in the West. Yet, these topics continue to captivate public imagination, often overshadowing the factual basis with sensationalism. The persistence of these narratives speaks volumes about our collective fascination with the unknown."
+    },
+    "tier_2": {
+        "header": "Tier 2",
+        "subheader": "deep researcher",
+        "texture": "res://assets/textures/tier_2.png",
+        "description": "Conspiracy theories and basic enigmas. Much of this data is within reach through mainstream outlets, yet a profound grasp demands an intimate knowledge of worldwide interactions. Most individuals shy away from such depths. The surface is easy to skim, but the undercurrents reveal the real stories. To truly understand is to embark on a journey through the complex web of human affairs."
+    },
+    "tier_3": {
+        "header": "Tier 3",
+        "subheader": "truth agent",
+        "texture": "res://assets/textures/tier_3.png",
+        "description": "We've crossed the threshold of no return. This knowledge might brand you as a madman in the eyes of the average Joe, but this is just the start. If you're still with us, delve deeper into your studies and research, blaze your own trail, and come to your own judgments. Remember, the journey is as enlightening as the destination, and every step you take further from the mainstream is a step closer to the truth, no matter how bizarre it might seem."
+    },
+    "tier_4": {
+        "header": "Tier 4",
+        "subheader": "adept of secrets",
+        "texture": "res://assets/textures/tier_4.png",
+        "description": "Esoteric knowledge and seemingly innocuous lesser-known mysteries begin to take on a darker hue. Suddenly, you spot patterns everywhere, understanding that you've only just scratched the surface of the conspiracy realm. Very few have even heard of, let alone believe in, the secrets at this echelon. The deeper you delve, the more the shadows seem to lengthen, revealing connections that twist the fabric of reality in unexpected ways. It's like entering a labyrinth where each turn leads to another, more profound revelation, but also to greater isolation from the mainstream."
+    },
+    "tier_5": {
+        "header": "Tier 5",
+        "subheader": "animaster",
+        "texture": "res://assets/textures/tier_5.png",
+        "description": "Such knowledge is frequently concealed in plain view or buried within ancient manuscripts, unearthed only through years of painstaking research. At this stage, rational minds struggle to grasp these esoteric concepts. Here, the real quest begins. Each layer peeled back reveals more riddles, where the answers are not just hidden but encrypted in the annals of time. To proceed, one must embrace the madness that comes with questioning the very nature of reality itself."
+    },
+    "tier_6": {
+        "header": "Tier 6",
+        "subheader": "trancended",
+        "texture": "res://assets/textures/tier_6.png",
+        "description": "At this level, a disconnection from what was once considered reality begins to set in. The familiar world fades, yet this transformation feels strangely liberating. Existential inquiries regain their allure, and you perceive life with fresh eyes. Your sense of purpose is renewed. Every step deeper into this abyss seems to illuminate a path back to the essence of being, where the mundane becomes profound. Here, in this newfound clarity, the pursuit of truth itself becomes your guiding star."
+    },
+    "tier_7": {
+        "header": "Tier 7",
+        "subheader": "interdimensional monk",
+        "texture": "res://assets/textures/tier_7.png",
+        "description": "The Inter-dimensional monk grasps the complete tapestry, distinguishing the real from the unreal. Due to their unique essence, the blend of insights at this level is incredibly diverse and challenging to fathom. Each concept here intertwines with another, forming a labyrinthine matrix of knowledge. Navigating this complexity requires not just intellect but an intuitive leap into the multidimensional."
+    },
+    "tier_8": {
+        "header": "Tier 8",
+        "subheader": "reality hacker",
+        "texture": "res://assets/textures/tier_8.png",
+        "description": "At the deepest levels, the familiar framework of reality dissolves into oblivion. With the power to manipulate the flow of existence and having conquered the external world, a final enigma persists. Can you truly master your own being? This ultimate test transcends all previous conquests, challenging the very core of your identity. Here, in this profound solitude, lies the essence of true self-discovery."
+    },
+    "tier_9": {
+        "header": "Tier 9",
+        "subheader": "man of the world",
+        "texture": "res://assets/textures/tier_9.png",
+        "description": "The ultimate revelation is tantalizingly within reach, its presence almost palpable. You've transcended at last, shedding all conspiracies, all mysteries, both known and unknown. Now, you gaze beyond the mere tip of the iceberg. The vast, hidden depths are no longer shrouded in mystery but illuminated by your newfound clarity. Here, in this enlightenment, lies the freedom from the chains of ignorance."
+    },
+    "tier_10": {
+        "header": "Tier 10",
+        "subheader": "the rebirth",
+        "texture": "res://assets/textures/tier_10.png",
+        "description": "In the end, all things converge into truth. The myriad threads of reality, once tangled in complexity, now weave a singular tapestry of veracity. Every question finds its answer, every mystery its revelation. Here, in this ultimate convergence, lies the simplicity of the profound."
+    }
+}

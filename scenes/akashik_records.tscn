@@ -45,15 +45,26 @@ camera_attributes = SubResource("CameraAttributesPhysical_j6glk")
 transform = Transform3D(1, 0, 0, 0, 0.596967, 0.802266, 0, -0.802266, 0.596967, 0, 7.98245, 0)
 
 [node name="ui" parent="." instance=ExtResource("3_tohrk")]
+global_tier_horizontal_offset = -65
+tier_1_display_threshold = 1000
 tier_2_vertical_offset = -530
+tier_2_display_threshold = -2278
 tier_3_vertical_offset = 2515
+tier_3_display_threshold = -3365
 tier_4_vertical_offset = 3525
+tier_4_display_threshold = -5881
 tier_5_vertical_offset = 5900
+tier_5_display_threshold = -8092
 tier_6_vertical_offset = 7950
+tier_6_display_threshold = -9180
 tier_7_vertical_offset = 8970
+tier_7_display_threshold = -10166
 tier_8_vertical_offset = 9800
+tier_8_display_threshold = -10846
 tier_9_vertical_offset = 10385
+tier_9_display_threshold = -11492
 tier_10_vertical_offset = 10920
+tier_10_display_threshold = -16492
 
 [node name="iceberg2" parent="." instance=ExtResource("4_01rea")]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 3, 0, 0, -9.597)

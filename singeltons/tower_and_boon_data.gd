@@ -7,6 +7,7 @@ signal increase_currency(exp)
 signal unlock_tower(tower_type)
 signal refresh_card_cost()
 signal memo_content_loaded
+signal tier_info_loaded
 
 var currently_selected_tower_type = -1
 
@@ -270,6 +271,7 @@ const tier_10_keys = [
 ]
 
 var memo_content = {}
+var tier_info = {}
 
 func _ready():
 	var json_text = FileAccess.get_file_as_string("res://data/memo_content.json")
@@ -278,6 +280,13 @@ func _ready():
 		return
 	memo_content = parsed
 	emit_signal("memo_content_loaded")
+	
+	var tier_json_text = FileAccess.get_file_as_string("res://data/tier_info_data.json")
+	var tier_parsed = JSON.parse_string(tier_json_text)
+	if tier_parsed == null:
+		return
+	tier_info = tier_parsed
+	emit_signal("tier_info_loaded")
 
 var tower_type_count = {	
 	tower_types.PYRAMID:0,
@@ -612,3 +621,6 @@ func set_currently_selected_tower(index):
 
 func get_memo_content():
 	return memo_content
+
+func get_tier_info():
+	return tier_info
