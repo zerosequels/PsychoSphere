@@ -45,6 +45,7 @@ camera_attributes = SubResource("CameraAttributesPhysical_j6glk")
 transform = Transform3D(1, 0, 0, 0, 0.596967, 0.802266, 0, -0.802266, 0.596967, 0, 7.98245, 0)
 
 [node name="ui" parent="." instance=ExtResource("3_tohrk")]
+memo_panel_size = Vector2(1200, 1040)
 global_tier_horizontal_offset = -65
 tier_1_display_threshold = 1000
 tier_2_vertical_offset = -530

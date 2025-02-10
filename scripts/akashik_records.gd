@@ -16,10 +16,10 @@ func _ready():
 func _process(delta):
 	if (Input.is_action_just_pressed("esc")):
 		get_tree().change_scene_to_file("res://scenes/laboratory.tscn")
-	if (Input.is_action_pressed("camera_zoom_in") or Input.is_action_just_released("camera_zoom_in")) and should_scroll:
+	if (Input.is_action_pressed("camera_zoom_out") or Input.is_action_just_released("camera_zoom_out")) and should_scroll:
 		zoom_value -= zoom_speed
 		zoom_value = maxf(zoom_value,zoom_min)
-	if (Input.is_action_pressed("camera_zoom_out") or Input.is_action_just_released("camera_zoom_out")) and should_scroll:
+	if (Input.is_action_pressed("camera_zoom_in") or Input.is_action_just_released("camera_zoom_in")) and should_scroll:
 		zoom_value += zoom_speed
 		zoom_value = minf(zoom_value,zoom_max)
 	$Camera3D.position.y = zoom_value

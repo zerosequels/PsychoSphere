@@ -7,6 +7,7 @@ signal memo_toggled(is_memo_visible: bool)
 @export_range(0.0, 1.0) var max_horizontal_ratio = 0.2  # Maximum ratio of screen width to offset (0-1)
 @export var buttons_per_tier = 2  # Maximum buttons that can fit in one tier
 @export var tier_height = 150  # Height of each tier
+@export var memo_panel_size: Vector2 = Vector2(1200, 800)  # Size of the memo panel
 @export var global_tier_horizontal_offset = 0: set = update_global_horizontal_offset  # Global horizontal offset for all tiers
 @export var tier_1_vertical_offset = -1350: set = update_vertical_offset  # Vertical offset for tier 1 group
 @export var tier_1_display_threshold = 0  # Display threshold for tier 1
@@ -48,13 +49,13 @@ var tier_info_texture: TextureRect
 var tier_info_description: Label
 var tier_info_subheader: Label
 var tier_info_panel: Panel  # Add reference to the panel
+var memo_level_label: Label  # Add new variable for the level indicator
 
 var _base_positions = {}  # Store base positions of buttons
 
 const SPACING_SEED = 12345
 const SCREEN_MARGIN_RATIO = 0.05  # 5% of screen width
 const MIN_BUTTON_SPACING = 50  # Minimum horizontal space between buttons
-const MEMO_PANEL_SIZE = Vector2(800, 600)
 
 var tier_1_keys = TowerAndBoonData.tier_1_keys
 var tier_2_keys = TowerAndBoonData.tier_2_keys
@@ -85,7 +86,7 @@ func _process(_delta):
 	if memo_panel and memo_panel.visible:
 		# Keep the memo panel centered in the viewport
 		var viewport_size = get_viewport_rect().size
-		memo_panel.global_position = (viewport_size - MEMO_PANEL_SIZE) / 2
+		memo_panel.global_position = (viewport_size - memo_panel_size) / 2
 
 func setup_ui():
 	button_container = Control.new()
@@ -93,18 +94,33 @@ func setup_ui():
 	add_child(button_container)
 	
 	memo_panel = Panel.new()
+	var memo_style = StyleBoxFlat.new()
+	memo_style.bg_color = Color(0, 0, 0, 0.5)
+	memo_style.set_corner_radius_all(8)
+	memo_panel.add_theme_stylebox_override("panel", memo_style)
 	memo_panel.visible = false
-	memo_panel.custom_minimum_size = MEMO_PANEL_SIZE
-	memo_panel.size = MEMO_PANEL_SIZE
+	memo_panel.custom_minimum_size = memo_panel_size
+	memo_panel.size = memo_panel_size
 	
 	memo_panel.set_anchors_preset(Control.PRESET_CENTER)
-	memo_panel.position = -MEMO_PANEL_SIZE / 2
+	memo_panel.position = -memo_panel_size / 2
 	add_child(memo_panel)
+	
+	# Add level indicator
+	memo_level_label = Label.new()
+	memo_level_label.add_theme_font_override("font", custom_font)
+	memo_level_label.add_theme_font_size_override("font_size", 48)
+	memo_level_label.text = "LEVEL: 0/3"  # Updated format
+	memo_level_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	memo_level_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	memo_level_label.custom_minimum_size = Vector2(250, 50)  # Increased width for new format
+	memo_level_label.position = Vector2(memo_panel_size.x - 300, 20)  # Adjusted position for new width
+	memo_panel.add_child(memo_level_label)
 	
 	var margin_container = MarginContainer.new()
 	margin_container.set_anchors_preset(Control.PRESET_FULL_RECT)
-	margin_container.add_theme_constant_override("margin_left", 20)
-	margin_container.add_theme_constant_override("margin_right", 20)
+	margin_container.add_theme_constant_override("margin_left", 50)
+	margin_container.add_theme_constant_override("margin_right", 50)
 	margin_container.add_theme_constant_override("margin_top", 20)
 	margin_container.add_theme_constant_override("margin_bottom", 20)
 	memo_panel.add_child(margin_container)
@@ -117,14 +133,14 @@ func setup_ui():
 	memo_title.name = "MemoTitle"
 	memo_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	memo_title.add_theme_font_override("font", custom_font)
-	memo_title.add_theme_font_size_override("font_size", 36)
+	memo_title.add_theme_font_size_override("font_size", 64)
 	memo_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	memo_title.custom_minimum_size = Vector2(0, 50)
 	memo_title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	vbox.add_child(memo_title)
 	
 	memo_image = TextureRect.new()
-	memo_image.custom_minimum_size = Vector2(0, 200)
+	memo_image.custom_minimum_size = Vector2(0, 500)
 	memo_image.expand_mode = TextureRect.EXPAND_FIT_WIDTH
 	memo_image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	vbox.add_child(memo_image)
@@ -481,6 +497,18 @@ func generate_buttons():
 	for key in tier_10_keys:
 		create_button(key, 10, viewport_size, screen_margin, tier10_start_y, tiers, current_tier, rng)
 
+func fade_out_memo_panel():
+	var tween = create_tween()
+	tween.tween_property(memo_panel, "modulate", Color(1, 1, 1, 0), 0.5)
+	await tween.finished
+	memo_panel.hide()
+
+func fade_in_memo_panel():
+	memo_panel.modulate = Color(1, 1, 1, 0)
+	memo_panel.show()
+	var tween = create_tween()
+	tween.tween_property(memo_panel, "modulate", Color(1, 1, 1, 1), 0.5)
+
 func _on_button_show_memo(key: String):
 	if memo_content.has(key):
 		var content = memo_content[key]
@@ -488,8 +516,10 @@ func _on_button_show_memo(key: String):
 		memo_text.text = key.to_upper().replace(' ', '_')
 		memo_image.texture = load(content.image)
 		memo_title.text = content.name_override
+		memo_level_label.text = "LEVEL: " + str(content.level) + "/3"  # Updated format
 		button_container.hide()
-		memo_panel.show()
+		fade_out_tier_info()  # Fade out tier info when showing memo
+		fade_in_memo_panel()  # Use fade in instead of show
 		increase_gnosis_button.disabled = not PlayerData.has_akashic_insight_to_spend()
 		decrease_gnosis_button.disabled = content.level <= 0
 		emit_signal("memo_toggled", true)
@@ -503,6 +533,7 @@ func _handle_increase_gnosis(key: String):
 		return
 	PlayerData.deincrement_akashic_insight()
 	memo_content[key].level += 1
+	memo_level_label.text = "LEVEL: " + str(memo_content[key].level) + "/3"  # Updated format
 	increase_gnosis_button.disabled = not PlayerData.has_akashic_insight_to_spend()
 	decrease_gnosis_button.disabled = false
 
@@ -514,14 +545,16 @@ func _handle_decrease_gnosis(key: String):
 	if memo_content[key].level <= 0:
 		return
 	memo_content[key].level -= 1
+	memo_level_label.text = "LEVEL: " + str(memo_content[key].level) + "/3"  # Updated format
 	PlayerData.increment_akashic_insight()
 	increase_gnosis_button.disabled = false
 	decrease_gnosis_button.disabled = memo_content[key].level <= 0
 
 func _on_back_button_pressed():
 	current_key = ""  # Clear the current key
-	memo_panel.hide()
+	fade_out_memo_panel()  # Use fade out instead of hide
 	button_container.show()
+	fade_in_tier_info()  # Fade in tier info when hiding memo
 	emit_signal("memo_toggled", false)
 
 func set_ui_offset(offset):
