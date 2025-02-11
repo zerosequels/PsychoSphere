@@ -3,33 +3,8 @@ extends Node3D
 @onready var path_grid: GridMap = %path_grid
 @onready var chaos_grid: GridMap = %chaos_grid
 @onready var camera_controller = $phantom_camera_controller/MainCamera3D
-
-@onready var north_path: Path3D = %north_path
-@onready var north_path_follow: PathFollow3D = %north_path_follow
-
-@onready var north_enemy_path: Path3D = %north_enemy_path
-@onready var north_enemy_path_follow: PathFollow3D = %north_enemy_path_follow
-
-@onready var south_path: Path3D = %south_path
-@onready var south_path_follow: PathFollow3D = %south_path_follow
-
-@onready var south_enemy_path: Path3D = %south_enemy_path
-@onready var south_enemy_path_follow: PathFollow3D = %south_enemy_path_follow
-
-@onready var east_path: Path3D = %east_path
-@onready var east_path_follow: PathFollow3D = %east_path_follow
-
-@onready var east_enemy_path: Path3D = %east_enemy_path
-@onready var east_enemy_path_follow: PathFollow3D = %east_enemy_path_follow
-
-@onready var west_path: Path3D = %west_path
-@onready var west_path_follow: PathFollow3D = %west_path_follow
-
-@onready var west_enemy_path: Path3D = %west_enemy_path
-@onready var west_enemy_path_follow: PathFollow3D = %west_enemy_path_follow
 @onready var indicator = $placement_indicator
 @onready var expand_path_trigger_prefab = preload("res://scenes/expand_path_button.tscn")
-
 @onready var pyramid_tower_prefab = preload("res://scenes/tower_pyramid.tscn")
 @onready var ankh_tower_prefab = preload("res://scenes/tower_ankh.tscn")
 @onready var annunaki_tower_prefab = preload("res://scenes/tower_annunaki.tscn")
@@ -43,9 +18,7 @@ extends Node3D
 @onready var third_eye_tower_prefab = preload("res://scenes/tower_third_eye.tscn")
 @onready var time_cube_tower_prefab = preload("res://scenes/tower_time_cube.tscn")
 @onready var tuning_fork_tower_prefab = preload("res://scenes/tower_tuning_fork.tscn")
-
 @onready var enemy_energy_portal = preload("res://scenes/portal_vfx.tscn")
-
 @onready var gui = %player_gui.get_gui()
 @onready var hand = %card_hand
 @onready var boon_selection_screen = $CanvasLayer3/boon_selection_screen
@@ -76,12 +49,8 @@ var west_next_chunk_id : Vector2i = Vector2i(-1,0)
 #array to hold references to all the active towers on the map
 var active_tower_array = []
 
-var next_chunk_id_dict 
-var extension_point_dict 
-var enemy_path_dict 
-var enemy_path_follow_dict 
-var path_dict 
-var path_follow_dict 
+var next_chunk_id_dict
+var extension_point_dict
 
 #var active_portal
 
@@ -113,6 +82,14 @@ var current_tower_price = 0
 
 var is_card_hovered:bool = false
 
+# Dictionary to store path branches
+var path_branches = {}
+
+# Dictionary to store path data
+var path_dict = {}
+var path_follow_dict = {}
+var enemy_path_dict = {}
+var enemy_path_follow_dict = {}
 
 #EAST INCREASES ON X and WEST DECREASES ON X
 #NORTH INCREASES ON Y AND SOUTH DECREASES ON Y
@@ -140,39 +117,126 @@ func _ready():
 	camera_controller.chaos_grid_cell_clicked.connect(_on_chaos_cell_clicked)
 	camera_controller.chaos_grid_cell_hovered.connect(_on_chaos_grid_cell_hovered)
 	camera_controller.hide_indicator.connect(_on_hide_indicator)
+	
+	# Initialize paths
+	initialize_paths()
 	initialize_dict()
 	initialize_core_pathing()
 
-func _process(delta):
-	if Input.is_action_just_released("toggle_range_visibility_mode"):
-		TowerAndBoonData.set_range_visibility_mode(!TowerAndBoonData.get_is_range_visibility_mode_toggled())
-	if Input.is_action_just_released("right_click"):
-		current_tower_type = -1
-		hand.deselect_card()
-	
-	#WAR MODE
-	if (game_status == game_state.WAR):
-		if WaveData.is_active_enemy_array_empty() and !has_enemies_to_spawn:
-			update_game_status(game_state.PEACE)
-		else:
-			if has_enemies_to_spawn:
-				has_enemies_to_spawn = check_path_triggers_have_enemy_data_to_spawn()
-	#PEACE
+func initialize_paths():
+	# Create initial paths for each direction
+	var directions = ["north", "south", "east", "west"]
+	for i in range(directions.size()):
+		var dir = directions[i]
+		var path = Path3D.new()
+		var path_follow = PathFollow3D.new()
+		var enemy_path = Path3D.new()
+		var enemy_path_follow = PathFollow3D.new()
+		
+		# Setup paths
+		path.name = dir + "_path_0"
+		path_follow.name = dir + "_path_follow_0"
+		enemy_path.name = dir + "_enemy_path_0"
+		enemy_path_follow.name = dir + "_enemy_path_follow_0"
+		
+		# Initialize curves
+		path.curve = Curve3D.new()
+		enemy_path.curve = Curve3D.new()
+		
+		# Add initial points based on direction
+		match i:
+			0: # North
+				path.curve.add_point(Vector3(0, 0, 0))
+				path.curve.add_point(Vector3(0, 0, 1))
+				enemy_path.curve.add_point(Vector3(0.5, 1, 0.5))
+				enemy_path.curve.add_point(Vector3(0.5, 1, 1.5))
+			1: # South
+				path.curve.add_point(Vector3(0, 0, 0))
+				path.curve.add_point(Vector3(0, 0, -1))
+				enemy_path.curve.add_point(Vector3(0.5, 1, 0.5))
+				enemy_path.curve.add_point(Vector3(0.5, 1, -0.5))
+			2: # East
+				path.curve.add_point(Vector3(0, 0, 0))
+				path.curve.add_point(Vector3(1, 0, 0))
+				enemy_path.curve.add_point(Vector3(0.5, 1, 0.5))
+				enemy_path.curve.add_point(Vector3(1.5, 1, 0.5))
+			3: # West
+				path.curve.add_point(Vector3(0, 0, 0))
+				path.curve.add_point(Vector3(-1, 0, 0))
+				enemy_path.curve.add_point(Vector3(0.5, 1, 0.5))
+				enemy_path.curve.add_point(Vector3(-0.5, 1, 0.5))
+		
+		# Setup path follows
+		path_follow.transform.origin = path.curve.get_point_position(1)
+		enemy_path_follow.transform.origin = enemy_path.curve.get_point_position(1)
+		
+		# Add to scene
+		add_child(path)
+		path.add_child(path_follow)
+		add_child(enemy_path)
+		enemy_path.add_child(enemy_path_follow)
+		
+		# Store in dictionaries
+		path_dict[i] = path
+		path_follow_dict[i] = path_follow
+		enemy_path_dict[i] = enemy_path
+		enemy_path_follow_dict[i] = enemy_path_follow
+		
+		# Initialize branch tracking
+		path_branches[i] = 0
 
-	#DEATH CHECK
-	if player_health <= 0 and !is_game_over:
-		update_game_status(game_state.DEATH)
-	if LEVEL_COUNTER == 101 and !is_game_over:
-		update_game_status(game_state.VICTORY)
+func create_path_branch(parent_path_id: int) -> int:
+	var parent_path = path_dict[parent_path_id]
+	var branch_id = path_branches[parent_path_id] + 1
+	path_branches[parent_path_id] = branch_id
+	
+	# Create new paths for the branch
+	var path = Path3D.new()
+	var path_follow = PathFollow3D.new()
+	var enemy_path = Path3D.new()
+	var enemy_path_follow = PathFollow3D.new()
+	
+	# Setup paths
+	var dir_name = parent_path.name.split("_")[0]
+	path.name = dir_name + "_path_" + str(branch_id)
+	path_follow.name = dir_name + "_path_follow_" + str(branch_id)
+	enemy_path.name = dir_name + "_enemy_path_" + str(branch_id)
+	enemy_path_follow.name = dir_name + "_enemy_path_follow_" + str(branch_id)
+	
+	# Initialize curves
+	path.curve = Curve3D.new()
+	enemy_path.curve = Curve3D.new()
+	
+	# Copy parent path points up to branching point
+	var branch_point_idx = parent_path.curve.point_count - 1
+	for i in range(branch_point_idx + 1):
+		var point = parent_path.curve.get_point_position(i)
+		path.curve.add_point(point)
+		enemy_path.curve.add_point(point + Vector3(0.5, 1, 0.5))
+	
+	# Setup path follows
+	path_follow.transform.origin = path.curve.get_point_position(branch_point_idx)
+	enemy_path_follow.transform.origin = enemy_path.curve.get_point_position(branch_point_idx)
+	
+	# Add to scene
+	add_child(path)
+	path.add_child(path_follow)
+	add_child(enemy_path)
+	enemy_path.add_child(enemy_path_follow)
+	
+	# Store in dictionaries with new unique ID
+	var new_path_id = path_dict.size()
+	path_dict[new_path_id] = path
+	path_follow_dict[new_path_id] = path_follow
+	enemy_path_dict[new_path_id] = enemy_path
+	enemy_path_follow_dict[new_path_id] = enemy_path_follow
+	
+	return new_path_id
 
 func initialize_dict():
+	# Only initialize the extension points and next chunk IDs
 	next_chunk_id_dict = {0:north_next_chunk_id,1:south_next_chunk_id,2:east_next_chunk_id,3:west_next_chunk_id}
 	extension_point_dict = {0:north_extension_point,1:south_extension_point,2:east_extension_point,3:west_extension_point}
-	enemy_path_dict = {0:north_enemy_path,1:south_enemy_path,2:east_enemy_path,3:west_enemy_path}
-	enemy_path_follow_dict = {0:north_enemy_path_follow,1:south_enemy_path_follow,2:east_enemy_path_follow,3:west_enemy_path_follow}
-	path_dict = {0:north_path,1:south_path,2:east_path,3:west_path}
-	path_follow_dict = {0:north_path_follow,1:south_path_follow,2:east_path_follow,3:west_path_follow}
-
 
 func get_next_available_path_id():
 	var next_id = next_available_path_id
@@ -235,55 +299,42 @@ func initialize_core_pathing():
 	#east
 	path_grid.set_cell_item(Vector3i(1,0,0),0,0)
 	occupy_chaos_grid(Vector3i(1,under_tile_layer,0),grid_entity.PATH)
-	extend_path(east_path,east_enemy_path,Vector3(chunk_size/2,0,0))
+	extend_path(path_dict[2],enemy_path_dict[2],Vector3(chunk_size/2,0,0))
 	
-	#east_extension_point = Vector3i((chunk_size/2)+1,0,0)
 	extension_point_dict[2] = Vector3i((chunk_size/2)+1,0,0)
-	#east_next_chunk_id = Vector2i(1,0)
 	next_chunk_id_dict[2] = Vector2i(1,0)
 	create_path_trigger(next_chunk_id_dict[2],2,direction.EASTWARD,0)
+	
 	#north
 	path_grid.set_cell_item(Vector3i(0,0,1),0,0)
 	occupy_chaos_grid(Vector3i(0,under_tile_layer,1),grid_entity.PATH)
-	extend_path(north_path,north_enemy_path,Vector3(0,0,chunk_size/2))
-	#north_extension_point = Vector3i(0,0,(chunk_size/2)+1)
+	extend_path(path_dict[0],enemy_path_dict[0],Vector3(0,0,chunk_size/2))
 	extension_point_dict[0] = Vector3i(0,0,(chunk_size/2)+1)
-	#north_next_chunk_id = Vector2i(0,1)
 	next_chunk_id_dict[0] = Vector2i(0,1)
 	create_path_trigger(next_chunk_id_dict[0],0,direction.NORTHWARD,0)
+	
 	#west
 	path_grid.set_cell_item(Vector3i(-1,0,0),0,0)
 	occupy_chaos_grid(Vector3i(-1,under_tile_layer,0),grid_entity.PATH)
-	extend_path(west_path,west_enemy_path,Vector3(-chunk_size/2,0,0))
-	#west_extension_point = Vector3i((-chunk_size/2)-1,0,0)
+	extend_path(path_dict[3],enemy_path_dict[3],Vector3(-chunk_size/2,0,0))
 	extension_point_dict[3] = Vector3i((-chunk_size/2)-1,0,0)
-	#west_next_chunk_id = Vector2i(-1,0)
 	next_chunk_id_dict[3] = Vector2i(-1,0)
 	create_path_trigger(next_chunk_id_dict[3],3,direction.WESTWARD,0)
+	
 	#south
 	path_grid.set_cell_item(Vector3i(0,0,-1),0,0)
 	occupy_chaos_grid(Vector3i(0,under_tile_layer,-1),grid_entity.PATH)
-	extend_path(south_path,south_enemy_path,Vector3(0,0,-chunk_size/2))
-	#south_extension_point = Vector3i(0,0,(-chunk_size/2)-1)
+	extend_path(path_dict[1],enemy_path_dict[1],Vector3(0,0,-chunk_size/2))
 	extension_point_dict[1] = Vector3i(0,0,(-chunk_size/2)-1)
-	#south_next_chunk_id = Vector2i(0,-1)
 	next_chunk_id_dict[1] = Vector2i(0,-1)
 	create_path_trigger(next_chunk_id_dict[1],1,direction.SOUTHWARD,0)
+	
 	#create undertile
 	create_undertile(Vector2i(0,0))
 
 
 func get_extension_point_by_path_id(path_type):
 	return extension_point_dict[path_type]
-	#match path_type:
-		#path_id.NORTH:
-			#return north_extension_point
-		#path_id.SOUTH:
-			#return south_extension_point
-		#path_id.EAST:
-			#return east_extension_point
-		#path_id.WEST:
-			#return west_extension_point
 
 
 
@@ -1170,3 +1221,25 @@ func _on_card_hovered(is_hovered:bool):
 func _refresh_card_prices():
 	#print("refresh")
 	hand.refresh_card_prices()
+
+func _process(delta):
+	if Input.is_action_just_released("toggle_range_visibility_mode"):
+		TowerAndBoonData.set_range_visibility_mode(!TowerAndBoonData.get_is_range_visibility_mode_toggled())
+	if Input.is_action_just_released("right_click"):
+		current_tower_type = -1
+		hand.deselect_card()
+	
+	#WAR MODE
+	if (game_status == game_state.WAR):
+		if WaveData.is_active_enemy_array_empty() and !has_enemies_to_spawn:
+			update_game_status(game_state.PEACE)
+		else:
+			if has_enemies_to_spawn:
+				has_enemies_to_spawn = check_path_triggers_have_enemy_data_to_spawn()
+	#PEACE
+
+	#DEATH CHECK
+	if player_health <= 0 and !is_game_over:
+		update_game_status(game_state.DEATH)
+	if LEVEL_COUNTER == 101 and !is_game_over:
+		update_game_status(game_state.VICTORY)
