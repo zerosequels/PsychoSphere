@@ -29,6 +29,7 @@ var is_game_over = false
 var game_center: Vector3
 var camera_default_zoom = 15
 @export var player_health = 100
+@export var global_branching_chance = 20.0
 var currency_amount:int = 100
 
 var under_tile_layer = -1
