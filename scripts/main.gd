@@ -419,7 +419,7 @@ func legacy_chunk_generation_method(chunk_id:Vector2i, path_type, path_out_dir:d
 	points.append(exit_point)
 	add_points_to_path(points,path_type)
 
-func procedural_chunk_generation_method(chunk_id:Vector2i, path_type, path_out_dir:direction, generation_mode:int):
+func procedural_chunk_generation_method(chunk_id:Vector2i, path_type, path_out_dir:direction, generation_mode:int,branch_option_dirs):
 	print("creating procedural chunk")
 	var exit_offset = randi_range(-3,3)
 	#grab extension point based on path_id
@@ -451,6 +451,7 @@ func procedural_chunk_generation_method(chunk_id:Vector2i, path_type, path_out_d
 
 	# Generate a random path within the chunk based on generation mode
 	print("generation mode: ",generation_mode)
+	print("number of branch out dir options available",branch_option_dirs)
 	match generation_mode:
 		0:
 			var points = [extension_point]
@@ -733,8 +734,8 @@ func procedural_chunk_generation_method(chunk_id:Vector2i, path_type, path_out_d
 			points.append(exit_point)
 			add_points_to_path(points, path_type)
 
-func create_chunk_with_procedural_path(chunk_id:Vector2i,path_type,path_out_dir:direction):
-	procedural_chunk_generation_method(chunk_id, path_type, path_out_dir, randi_range(1,4))
+func create_chunk_with_procedural_path(chunk_id:Vector2i,path_type,path_out_dir:direction,branch_option_dirs):
+	procedural_chunk_generation_method(chunk_id, path_type, path_out_dir, randi_range(1,4),branch_option_dirs)
 
 func does_event_happen(percent_chance:float):
 	return randf() < (percent_chance/100.0)
@@ -908,18 +909,26 @@ func create_chunk(chunk_id:Vector2i,path_type:path_id):
 	
 	#decide if the new chunk's exit point will be north, south, east, or west
 	#excluding options already taken
-	var chunk_out_dir = get_available_chunk_dir(chunk_id)
-
-	#Handle if there is no path available
-	if chunk_out_dir == direction.NO_CHUNK_AVAILABLE:
+	var available_out_dirs = get_available_chunk_dir(chunk_id)
+	#print(chunk_id_dict)
+	if available_out_dirs.size() == 0:
+		print("No chunk available ERROR")
 		print("aborting chunk creation, NO CHUNK AVAILABLE")
 		return
+
+	var option_index = randi_range(0,available_out_dirs.size()-1)
+	
+	 
+	var chunk_out_dir = available_out_dirs[option_index]
+	available_out_dirs.remove_at(option_index)
+	var branch_option_dirs = available_out_dirs.duplicate(true)
+
 	
 	#update the array of taken chunk ids
 	chunk_id_dict[chunk_id] = chunk_out_dir
 	# determine the type of chunk generation from a list of sub types
 	#TODO add more than just linear chunk pathing 
-	create_chunk_with_procedural_path(chunk_id,path_type,chunk_out_dir)
+	create_chunk_with_procedural_path(chunk_id,path_type,chunk_out_dir,branch_option_dirs)
 	
 	#create the undertile
 	create_undertile(chunk_id)
@@ -957,13 +966,8 @@ func get_available_chunk_dir(chunk_id:Vector2i):
 		print(cursor)
 		options.append(direction.WESTWARD)
 	#decide randomly from available options
-	print(chunk_id_dict)
-	if options.size() == 0:
-		print("No chunk available ERROR")
-		return direction.NO_CHUNK_AVAILABLE
-	var option_index = randi_range(0,options.size()-1) 
 
-	return options[option_index]
+	return options
 
 func chunk_to_grid_coord(point:Vector2i,chunk_id:Vector2i):
 	var x = point.x - (chunk_size/2) + chunk_id.x * chunk_size
