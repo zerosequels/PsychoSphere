@@ -986,29 +986,49 @@ func create_undertile(chunk_id:Vector2i):
 				#taken_chaos_grid_dict[cursor] = grid_entity.FREE
 
 func extend_path(path: Path3D, enemy_path: Path3D, point: Vector3):
-	point = Vector3(point.x,0,point.z)
+	point = Vector3(point.x, 0, point.z)
 	
-	#grab previous point
-	var index = path.curve.point_count -1
+	# Grab previous point
+	var index = path.curve.point_count - 1
 	var previous_point = path.curve.get_point_position(index)
-	#print("previous point")
-	#print(previous_point)
-	#print(point)
-	#compare to new point to determine magnitide of vector
-	var distance = previous_point.distance_to(point)
-
-	#divide progress ratio by magnitude to determine steps 
-	var increment = 1/distance
-	for x in distance:
-		var grid_cursor_position = previous_point.lerp(point,increment *(x+1))
-		path_grid.set_cell_item(grid_cursor_position,0,0)
-		#get grid coord from cursor position and add to taken dict
-		var cursor = chaos_grid.local_to_map(Vector3i(grid_cursor_position.x,grid_cursor_position.y,grid_cursor_position.z))
-		occupy_chaos_grid(Vector3(cursor.x,under_tile_layer,cursor.z),grid_entity.PATH)
-	#point = point + Vector3(0.5,0.5,1)
-	path.curve.add_point(point,Vector3(0,0,0),Vector3(0,0,0))
-	copy_adjusted_path(path,enemy_path)
-	#print_all_points_in_path(path)
+	
+	# Get the grid positions for start and end points
+	var start_grid = Vector3i(previous_point.x, previous_point.y, previous_point.z)
+	var end_grid = Vector3i(point.x, point.y, point.z)
+	
+	# Calculate the direction vector
+	var direction = end_grid - start_grid
+	var steps_x = abs(direction.x)
+	var steps_z = abs(direction.z)
+	
+	# Create a point for each grid cell we pass through
+	var current_pos = start_grid
+	
+	# Handle horizontal movement first
+	var step_x = sign(direction.x)
+	for x in range(steps_x):
+		current_pos.x += step_x
+		var grid_point = Vector3(current_pos.x, 0, current_pos.z)
+		path_grid.set_cell_item(grid_point, 0, 0)
+		occupy_chaos_grid(Vector3i(current_pos.x, under_tile_layer, current_pos.z), grid_entity.PATH)
+		path.curve.add_point(grid_point)
+	
+	# Then handle vertical movement
+	var step_z = sign(direction.z)
+	for z in range(steps_z):
+		current_pos.z += step_z
+		var grid_point = Vector3(current_pos.x, 0, current_pos.z)
+		path_grid.set_cell_item(grid_point, 0, 0)
+		occupy_chaos_grid(Vector3i(current_pos.x, under_tile_layer, current_pos.z), grid_entity.PATH)
+		path.curve.add_point(grid_point)
+	
+	# Add the final point if it's not already added
+	if current_pos != end_grid:
+		path_grid.set_cell_item(point, 0, 0)
+		occupy_chaos_grid(Vector3i(point.x, under_tile_layer, point.z), grid_entity.PATH)
+		path.curve.add_point(point)
+	
+	copy_adjusted_path(path, enemy_path)
 
 func print_all_points_in_path(path: Path3D):
 	print("------------")
@@ -1016,41 +1036,24 @@ func print_all_points_in_path(path: Path3D):
 		print(path.curve.get_point_position(x))
 	print("------------")
 
-func occupy_chaos_grid(cursor_position:Vector3i,ge:grid_entity):
+func occupy_chaos_grid(cursor_position:Vector3i, ge:grid_entity):
 	taken_chaos_grid_dict[cursor_position] = ge
-
 
 func add_points_to_path(points_to_add:Array, path_type):
 	var path = path_dict[path_type]
 	var path_follow = path_follow_dict[path_type]
 	var enemy_path = enemy_path_dict[path_type]
 	
-	#match path_type:
-		#path_id.NORTH:
-			#path = north_path
-			#path_follow = north_path_follow
-			#enemy_path = north_enemy_path
-		#path_id.SOUTH:
-			#path = south_path
-			#path_follow = south_path_follow
-			#enemy_path = south_enemy_path
-		#path_id.EAST:
-			#path = east_path
-			#path_follow = east_path_follow
-			#enemy_path = east_enemy_path
-		#path_id.WEST:
-			#path = west_path
-			#path_follow = west_path_follow
-			#enemy_path = west_enemy_path
 	for point in points_to_add:
-		extend_path(path,enemy_path,point)
-		
+		extend_path(path, enemy_path, point)
 
-func copy_adjusted_path(original_path:Path3D,target_path:Path3D):
+func copy_adjusted_path(original_path: Path3D, target_path: Path3D):
 	target_path.curve.clear_points()
-	#print(original_path.curve.point_count)
+	
+	# Copy all points with the height adjustment
 	for count in original_path.curve.point_count:
-		var new_point = original_path.curve.get_point_position(count) + Vector3(0.5,1,0.5)
+		var original_point = original_path.curve.get_point_position(count)
+		var new_point = original_point + Vector3(0.5, 1, 0.5)  # Offset for enemy path
 		target_path.curve.add_point(new_point)
 		
 
