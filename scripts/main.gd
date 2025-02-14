@@ -776,7 +776,7 @@ func procedural_chunk_generation_method(chunk_id:Vector2i, path_type, path_out_d
 	add_points_to_path(points, path_type)
 
 func create_chunk_with_procedural_path(chunk_id:Vector2i,path_type,path_out_dir:direction,branch_option_dirs):
-	var mode = [1,3,4].pick_random()
+	var mode = [1,3].pick_random()
 	procedural_chunk_generation_method(chunk_id, path_type, path_out_dir,mode,branch_option_dirs)
 
 func does_event_happen(percent_chance:float):
