@@ -49,7 +49,6 @@ enum direction {ORIGIN,NORTHWARD, SOUTHWARD, EASTWARD, WESTWARD, NO_CHUNK_AVAILA
 enum path_id {NORTH,SOUTH,EAST,WEST}
 enum game_state {BIRTH, DEATH, PEACE, WAR, VICTORY}
 enum grid_entity {FREE,PATH,BASIC_TOWER}
-enum generation_mode {CURVY, OCCULT_SYMBOLISM, JAGGED, SANSKRIT_LOOKING,BLOCKY}
 
 var next_available_path_id = 0
 
@@ -88,7 +87,6 @@ func _ready():
 	TowerAndBoonData.increase_currency.connect(_on_currency_increase)
 	TowerAndBoonData.unlock_tower.connect(_on_tower_unlocked)
 	TowerAndBoonData.refresh_card_cost.connect(_refresh_card_prices)
-	#TowerAndBoonData.selected_tower_updated.connect(_on_selected_tower_updated)
 	boon_selection_screen.close_menu.connect(_on_boon_selection_screen_closed)
 	
 	if WaveData.check_is_reset():
@@ -475,7 +473,7 @@ func instantiate_tower_by_current_type(grid_pos:Vector3i):
 	active_tower_array.append(tower)
 	%chaos_grid.add_child(tower)
 	increment_cost_of_tower_by_type()
-	$on_tower_placed_audio_stream_player.play()
+	GlobalAudio.on_tower_placed_audio_stream_player()
 
 func increment_cost_of_tower_by_type():
 	hand.increment_cost_by_tower_type(TowerAndBoonData.get_currently_selected_tower())
@@ -668,10 +666,9 @@ func update_game_status(gs:game_state):
 			pass
 			#print("game state: BIRTH")
 		game_state.DEATH:
-
 			is_game_over = true
-			$game_over_stream_player.play()
-			await get_tree().create_timer(7).timeout
+			GlobalAudio.play_game_over()
+			await get_tree().create_timer(4).timeout
 			pause_menu.game_over_pause()
 		game_state.VICTORY:
 			#print("game state: DEATH")
@@ -700,7 +697,7 @@ func remove_path_trigger_by_trigger_uuid(trigger_uuid):
 
 func _on_path_trigger_activated(trigger_id,trigger_uuid,depth):
 	hand.deselect_card()
-	$path_trigger_selected_audio_stream_player.play()
+	GlobalAudio.path_trigger_selected_audio_stream_player()
 	show_path_trigger_choice_menu(trigger_id,trigger_uuid,depth)
 	
 
@@ -743,7 +740,7 @@ func enemy_wave_activation_sequence(trigger_id,trigger_uuid,depth):
 
 func _on_enemy_reached_center(damage, enemy_uuid):
 	#print("center reached")
-	$on_enemy_reached_center_stream_player.play()
+	GlobalAudio.on_enemy_reached_center_stream_player()
 	WaveData.remove_enemy_by_uuid(enemy_uuid)
 	player_health = player_health - damage
 	set_health_gui(player_health)
@@ -753,7 +750,7 @@ func _on_currency_increase(exp):
 	set_awareness_gui(currency_amount)
 
 func _on_enemy_killed(exp,enemy_uuid):
-	$on_enemy_dead_audio_stream_player.play()
+	GlobalAudio.on_enemy_dead_audio_stream_player()
 	currency_amount += exp
 	set_awareness_gui(currency_amount)
 	WaveData.remove_enemy_by_uuid(enemy_uuid)
@@ -761,7 +758,7 @@ func _on_enemy_killed(exp,enemy_uuid):
 func _on_boon_selection_screen_closed(trigger_id,trigger_uuid,depth):
 	print("activating trigger id")
 	print(trigger_id)
-	$boon_selected_audio_stream_player.play()
+	GlobalAudio.boon_selected_audio_stream_player()
 	restore_game_ui()
 	enemy_wave_activation_sequence(trigger_id,trigger_uuid,depth)
 
@@ -780,12 +777,12 @@ func _on_tower_toggled(tower_type:int, tower_price:int):
 		current_tower_type = -1
 		indicator.visible = false
 		indicator.global_position = Vector3(0,0,0)
-		$on_card_deselected_audio_stream_player.play()
+		GlobalAudio.on_card_deselected_audio_stream_player()
 	else:
 		current_tower_type = tower_type
 		current_tower_price = tower_price
 		indicator.visible = true
-		$on_card_select_audio_stream_player.play()
+		GlobalAudio.on_card_select_audio_stream_player()
 	
 func _on_hide_indicator():
 	indicator.visible = false
@@ -795,7 +792,6 @@ func _on_card_hovered(is_hovered:bool):
 	is_card_hovered = is_hovered
 	
 func _refresh_card_prices():
-	#print("refresh")
 	hand.refresh_card_prices()
 
 func _process(delta):

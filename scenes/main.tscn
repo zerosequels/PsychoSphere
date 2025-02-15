@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://cs16kc5fk27fi"]
+[gd_scene load_steps=21 format=3 uid="uid://cs16kc5fk27fi"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_whe4h"]
 [ext_resource type="Script" path="res://scripts/tower_loader.gd" id="2_5b8x2"]
@@ -16,14 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://dsetycerax1g" path="res://scenes/pause_menu.tscn" id="17_w0eh3"]
 [ext_resource type="PackedScene" uid="uid://cxjjfn6wehi0h" path="res://scenes/hand.tscn" id="18_dl0mc"]
 [ext_resource type="PackedScene" uid="uid://dsjqp7eqftjgm" path="res://scenes/boon_selection_screen.tscn" id="20_d72dc"]
-[ext_resource type="AudioStream" uid="uid://cylrnlp3hqfbm" path="res://assets/sounds/ominous.wav" id="21_0cs5s"]
 [ext_resource type="PackedScene" uid="uid://dg1bhsvig8d2h" path="res://scenes/speed_box.tscn" id="21_aif4f"]
-[ext_resource type="AudioStream" uid="uid://cpck7qcqfthe1" path="res://assets/sounds/_you_did_it.mp3" id="22_qod6y"]
-[ext_resource type="AudioStream" uid="uid://cwe3kpg8nnqey" path="res://assets/sounds/_bee_booo.mp3" id="23_5160n"]
-[ext_resource type="AudioStream" uid="uid://bhs6n5ttu8pku" path="res://assets/sounds/_boomp.mp3" id="24_v2dyy"]
-[ext_resource type="AudioStream" uid="uid://mgswnlrmlgv3" path="res://assets/sounds/on_enemy_dead.wav" id="25_gtmif"]
-[ext_resource type="AudioStream" uid="uid://c5e7gqo5ngurh" path="res://assets/sounds/Retro5.wav" id="27_5kf65"]
-[ext_resource type="AudioStream" uid="uid://dscrkth28yp45" path="res://assets/sounds/Retro4.wav" id="28_sclmx"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_s8niw"]
 shader = ExtResource("13_nsnuf")
@@ -106,35 +99,3 @@ mouse_filter = 2
 
 [node name="boon_selection_screen" parent="CanvasLayer3" instance=ExtResource("20_d72dc")]
 visible = false
-
-[node name="game_over_stream_player" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("21_0cs5s")
-bus = &"grungle"
-
-[node name="path_trigger_selected_audio_stream_player" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("22_qod6y")
-bus = &"grungle"
-
-[node name="boon_selected_audio_stream_player" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("23_5160n")
-bus = &"grungle"
-
-[node name="on_enemy_reached_center_stream_player" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("24_v2dyy")
-bus = &"grungle"
-
-[node name="on_enemy_dead_audio_stream_player" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("25_gtmif")
-bus = &"grungle"
-
-[node name="on_tower_placed_audio_stream_player" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("27_5kf65")
-bus = &"grungle"
-
-[node name="on_card_select_audio_stream_player" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("27_5kf65")
-bus = &"grungle"
-
-[node name="on_card_deselected_audio_stream_player" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("28_sclmx")
-bus = &"grungle"

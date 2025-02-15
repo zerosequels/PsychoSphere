@@ -3,8 +3,6 @@ extends AudioStreamPlayer
 var should_loop_lab_theme: bool = true
 var should_loop_main_theme: bool = true
 
-
-	
 func play_lab_theme():
 	should_loop_lab_theme = true
 	play()
@@ -46,3 +44,27 @@ func play_enemy_crit_hit():
 
 func play_quit():
 	$quit_audio_stream_player.play()
+	
+func play_game_over():
+	$game_over_stream_player.play()
+
+func play_path_trigger_selected_audio_stream_player():
+	$path_trigger_selected_audio_stream_player.play()
+
+func boon_selected_audio_stream_player():
+	$boon_selected_audio_stream_player.play()
+
+func on_enemy_reached_center_stream_player():
+	$on_enemy_reached_center_stream_player.play()
+
+func on_enemy_dead_audio_stream_player():
+	$on_enemy_dead_audio_stream_player.play()
+
+func on_tower_placed_audio_stream_player():
+	$on_tower_placed_audio_stream_player.play()
+
+func on_card_select_audio_stream_player():
+	$on_card_select_audio_stream_player.play()
+
+func on_card_deselected_audio_stream_player():
+	$on_card_deselected_audio_stream_player.play()

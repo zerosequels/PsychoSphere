@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://c4gfvouqx0y3m"]
+[gd_scene load_steps=14 format=3 uid="uid://c4gfvouqx0y3m"]
 
 [ext_resource type="AudioStream" uid="uid://c5t101yesmjv6" path="res://assets/chungis/potionbarrel.wav" id="1_e7c2d"]
 [ext_resource type="Script" path="res://scripts/AudioStreamPlayer.gd" id="2_ma4tb"]
@@ -8,6 +8,11 @@
 [ext_resource type="AudioStream" uid="uid://r1kna6ui4aus" path="res://assets/sounds/tiny hit 3.wav" id="6_fv46o"]
 [ext_resource type="AudioStream" uid="uid://bxc81mkrhdcxp" path="res://assets/sounds/enemy_hit.wav" id="7_5yg01"]
 [ext_resource type="AudioStream" uid="uid://c0iul1gcvfx5o" path="res://assets/sounds/game_over.wav" id="8_siked"]
+[ext_resource type="AudioStream" uid="uid://cylrnlp3hqfbm" path="res://assets/sounds/ominous.wav" id="9_pth7l"]
+[ext_resource type="AudioStream" uid="uid://cpck7qcqfthe1" path="res://assets/sounds/_you_did_it.mp3" id="10_1hfom"]
+[ext_resource type="AudioStream" uid="uid://cwe3kpg8nnqey" path="res://assets/sounds/_bee_booo.mp3" id="11_bd2eh"]
+[ext_resource type="AudioStream" uid="uid://bhs6n5ttu8pku" path="res://assets/sounds/_boomp.mp3" id="12_7nxd0"]
+[ext_resource type="AudioStream" uid="uid://mgswnlrmlgv3" path="res://assets/sounds/on_enemy_dead.wav" id="13_rpqxm"]
 
 [node name="lab_audio_player" type="AudioStreamPlayer"]
 stream = ExtResource("1_e7c2d")
@@ -42,6 +47,38 @@ bus = &"grungle"
 
 [node name="quit_audio_stream_player" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_siked")
+bus = &"grungle"
+
+[node name="game_over_stream_player" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_pth7l")
+bus = &"grungle"
+
+[node name="path_trigger_selected_audio_stream_player" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_1hfom")
+bus = &"grungle"
+
+[node name="boon_selected_audio_stream_player" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_bd2eh")
+bus = &"grungle"
+
+[node name="on_enemy_reached_center_stream_player" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_7nxd0")
+bus = &"grungle"
+
+[node name="on_enemy_dead_audio_stream_player" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("13_rpqxm")
+bus = &"grungle"
+
+[node name="on_tower_placed_audio_stream_player" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_6deey")
+bus = &"grungle"
+
+[node name="on_card_select_audio_stream_player" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_6deey")
+bus = &"grungle"
+
+[node name="on_card_deselected_audio_stream_player" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_xyw2k")
 bus = &"grungle"
 
 [connection signal="finished" from="." to="." method="_on_finished"]
