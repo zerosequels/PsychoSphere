@@ -4,21 +4,7 @@ extends Node3D
 @onready var chaos_grid: GridMap = %chaos_grid
 @onready var camera_controller = $phantom_camera_controller/MainCamera3D
 @onready var indicator = $placement_indicator
-@onready var expand_path_trigger_prefab = preload("res://scenes/expand_path_button.tscn")
-@onready var pyramid_tower_prefab = preload("res://scenes/tower_pyramid.tscn")
-@onready var ankh_tower_prefab = preload("res://scenes/tower_ankh.tscn")
-@onready var annunaki_tower_prefab = preload("res://scenes/tower_annunaki.tscn")
-@onready var cosmic_egg_tower_prefab = preload("res://scenes/tower_cosmic_egg.tscn")
-@onready var death_fungus_tower_prefab = preload("res://scenes/tower_death_fungus.tscn")
-@onready var emerald_tablet_tower_prefab = preload("res://scenes/tower_emerald_tablet.tscn")
-@onready var fol_tower_prefab = preload("res://scenes/tower_flower_of_life.tscn")
-@onready var magnum_opus_tower_prefab = preload("res://scenes/tower_magnum_opus.tscn")
-@onready var mani_wheel_tower_prefab = preload("res://scenes/tower_mani_wheel.tscn")
-@onready var spiral_tower_prefab = preload("res://scenes/tower_spiral.tscn")
-@onready var third_eye_tower_prefab = preload("res://scenes/tower_third_eye.tscn")
-@onready var time_cube_tower_prefab = preload("res://scenes/tower_time_cube.tscn")
-@onready var tuning_fork_tower_prefab = preload("res://scenes/tower_tuning_fork.tscn")
-@onready var enemy_energy_portal = preload("res://scenes/portal_vfx.tscn")
+@onready var tower_loader = $tower_loader
 @onready var gui = %player_gui.get_gui()
 @onready var hand = %card_hand
 @onready var boon_selection_screen = $CanvasLayer3/boon_selection_screen
@@ -776,7 +762,7 @@ func procedural_chunk_generation_method(chunk_id:Vector2i, path_type, path_out_d
 	add_points_to_path(points, path_type)
 
 func create_chunk_with_procedural_path(chunk_id:Vector2i,path_type,path_out_dir:direction,branch_option_dirs):
-	var mode = [1,3].pick_random()
+	var mode = [2,3].pick_random()
 	procedural_chunk_generation_method(chunk_id, path_type, path_out_dir,mode,branch_option_dirs)
 
 func does_event_happen(percent_chance:float):
@@ -788,27 +774,6 @@ func update_extension_point_by_path(path_type, extension_point:Vector3i, next_ch
 	extension_point_dict[path_type] = extension_point
 	next_chunk_id_dict[path_type] = next_chunk_id
 	create_path_trigger(next_chunk_id, path_type ,path_out_dir, activated_trigger_depth + 1)
-	#match path_type:
-		#path_id.NORTH:
-			#north_extension_point = extension_point
-			#north_next_chunk_id = next_chunk_id
-			#create_path_trigger(north_next_chunk_id, "north",path_out_dir, activated_trigger_depth + 1)
-#
-		#path_id.SOUTH:
-			#south_extension_point = extension_point
-			#south_next_chunk_id = next_chunk_id
-			#create_path_trigger(south_next_chunk_id, "south",path_out_dir, activated_trigger_depth + 1)
-#
-		#path_id.EAST:
-			#east_extension_point = extension_point
-			#east_next_chunk_id = next_chunk_id
-			#create_path_trigger(east_next_chunk_id,"east",path_out_dir, activated_trigger_depth + 1)
-#
-		#path_id.WEST:
-			#west_extension_point = extension_point
-			#west_next_chunk_id = next_chunk_id
-			#create_path_trigger(west_next_chunk_id,"west",path_out_dir, activated_trigger_depth + 1)
-
 
 
 func create_path_trigger(chunk_id:Vector2i, trigger_id,path_out_dir:direction,trigger_depth:int):
@@ -817,7 +782,7 @@ func create_path_trigger(chunk_id:Vector2i, trigger_id,path_out_dir:direction,tr
 	print("creating path trigger to chunk id")
 	print(chunk_id)
 	
-	path_trigger = expand_path_trigger_prefab.instantiate()
+	path_trigger = tower_loader.expand_path_trigger_prefab.instantiate()
 	path_trigger.parent_path = get_path_follow_by_trigger_id(trigger_id)
 	path_trigger.depth_counter = trigger_depth
 	path_trigger.position = Vector3(chunk_id.x*chunk_size,0,chunk_id.y*chunk_size)
@@ -829,15 +794,7 @@ func create_path_trigger(chunk_id:Vector2i, trigger_id,path_out_dir:direction,tr
 
 func get_path_follow_by_trigger_id(trigger_id):
 	return enemy_path_dict[trigger_id]
-	#match trigger_id:
-		#"north":
-			#return north_enemy_path
-		#"south":
-			#return south_enemy_path
-		#"east":
-			#return east_enemy_path
-		#"west":
-			#return west_enemy_path
+
 
 func _on_chaos_cell_clicked(grid_pos:Vector3i):
 	if taken_chaos_grid_dict.has(grid_pos):
@@ -875,40 +832,8 @@ func instantiate_tower_by_current_type(grid_pos:Vector3i):
 		currency_amount -= current_tower_price
 		set_awareness_gui(currency_amount)
 	else:
-		#print("can't afford tower, try again brokie")
-		#print(current_tower_price)
-		#print(currency_amount)
 		return 
-	match TowerAndBoonData.get_currently_selected_tower():
-		0:
-			tower = pyramid_tower_prefab.instantiate()
-		1:
-			tower = third_eye_tower_prefab.instantiate()
-		2:
-			tower = ankh_tower_prefab.instantiate()
-		3:
-			tower = spiral_tower_prefab.instantiate()
-		4:
-			tower = fol_tower_prefab.instantiate()
-		5:
-			tower = emerald_tablet_tower_prefab.instantiate()
-		6:
-			tower = mani_wheel_tower_prefab.instantiate()
-		7:
-			tower = time_cube_tower_prefab.instantiate()
-		8:
-			tower = tuning_fork_tower_prefab.instantiate()
-		9:
-			tower = death_fungus_tower_prefab.instantiate()
-		10:
-			tower = magnum_opus_tower_prefab.instantiate()
-		11:
-			tower = cosmic_egg_tower_prefab.instantiate()
-		12:
-			tower = annunaki_tower_prefab.instantiate()
-		_:
-			print("ERROR: Tower not currently supported")
-			return
+	tower = tower_loader.get_current_tower_instance()
 			
 	tower.transform.origin = Vector3(grid_pos.x,grid_pos.y,grid_pos.z)
 	if tower.has_method("set_tower_price"):
@@ -1178,38 +1103,9 @@ func enemy_wave_activation_sequence(trigger_id,trigger_uuid,depth):
 	update_game_status(game_state.WAR)
 	print("attempting to create chunk")
 	create_chunk(next_chunk_id_dict[trigger_id],trigger_id)
-	#print(trigger_id)
-	#print(next_chunk_id_dict)
-	#print(enemy_path_dict)
-	#print(enemy_path_follow_dict)
-	#print(path_follow_dict)
-	#print(path_dict)
 
 	print("attempting to copy path")
 	copy_adjusted_path(path_dict[trigger_id],enemy_path_dict[trigger_id])
-	
-	#match trigger_id:
-		#"north":
-			#create_chunk(north_next_chunk_id,path_id.NORTH)
-#
-			#copy_adjusted_path(north_path,north_enemy_path)
-			##print("north")
-		#"south":
-			#create_chunk(south_next_chunk_id,path_id.SOUTH)
-#
-			#copy_adjusted_path(south_path,south_enemy_path)
-			##print("south")
-		#"east":
-			#create_chunk(east_next_chunk_id,path_id.EAST)
-#
-			#copy_adjusted_path(east_path,east_enemy_path)
-			##print("east")
-		#"west":
-			#create_chunk(west_next_chunk_id,path_id.WEST)
-#
-			#copy_adjusted_path(west_path,west_enemy_path)
-			##print("west")
-	#remove_path_trigger_by_trigger_uuid(trigger_uuid)
 	clear_path_trigger_array_of_previously_cleared()
 	toggle_visibility_of_path_triggers()
 	spawn_enemies()
