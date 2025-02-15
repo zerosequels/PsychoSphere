@@ -48,7 +48,7 @@ func play_quit():
 func play_game_over():
 	$game_over_stream_player.play()
 
-func play_path_trigger_selected_audio_stream_player():
+func path_trigger_selected_audio_stream_player():
 	$path_trigger_selected_audio_stream_player.play()
 
 func boon_selected_audio_stream_player():
