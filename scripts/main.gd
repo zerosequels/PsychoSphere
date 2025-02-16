@@ -461,14 +461,8 @@ func increment_cost_of_tower_by_type():
 #which will cause a null pointer crash on this method	
 
 func create_chunk(chunk_id:Vector2i,path_type:path_id):
-	print("creating chunk at id")
-	print(chunk_id)
-	print(chunk_id_dict)
 	#check if current chunk is available
 	if chunk_id_dict.has(chunk_id):
-		print("aborting chunk creation, chunk id already exists")
-		print(chunk_id)
-		print(chunk_id_dict)
 		return
 	#decide if the new chunk's exit point will be north, south, east, or west
 	#excluding options already taken
@@ -589,10 +583,8 @@ func extend_path(path: Path3D, enemy_path: Path3D, point: Vector3):
 	copy_adjusted_path(path, enemy_path)
 
 func print_all_points_in_path(path: Path3D):
-	print("------------")
 	for x in path.curve.point_count:
 		print(path.curve.get_point_position(x))
-	print("------------")
 
 func occupy_chaos_grid(cursor_position:Vector3i, ge:grid_entity):
 	taken_chaos_grid_dict[cursor_position] = ge
@@ -616,9 +608,7 @@ func copy_adjusted_path(original_path: Path3D, target_path: Path3D):
 		
 
 func update_game_status(gs:game_state):
-	
 	game_status = gs
-	
 	match gs:
 		game_state.BIRTH:
 			pass
