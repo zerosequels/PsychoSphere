@@ -6,6 +6,7 @@ extends Node3D
 @onready var indicator = $placement_indicator
 @onready var tower_loader = $tower_loader
 @onready var path_generator = $path_generator
+@onready var trigger_controller = $trigger_controller
 @onready var gui = %player_gui.get_gui()
 @onready var hand = %card_hand
 @onready var boon_selection_screen = $CanvasLayer3/boon_selection_screen
@@ -15,8 +16,8 @@ var is_making_selection:bool = false
 var is_game_over = false
 var game_center: Vector3
 var camera_default_zoom = 15
-@export var player_health = 100
-@export var global_branching_chance = 20.0
+var player_health = 100
+var global_branching_chance = 20.0
 var currency_amount:int = 100
 
 var under_tile_layer = -1
@@ -56,7 +57,7 @@ var game_status = game_state.BIRTH
 var chunk_id_dict = {Vector2i(0,0): direction.ORIGIN}
 #holds a key value pairing of chaos grid coordinates and tower types that let us know which tiles are occupied and by what
 var taken_chaos_grid_dict = {Vector3i(0,under_tile_layer,0):grid_entity.PATH}
-var path_trigger_array = []
+
 
 #Enemy spawning related stuff
 var has_enemies_to_spawn:bool = false
@@ -233,22 +234,15 @@ func _on_tower_unlocked(tower_type):
 	hand.add_card_by_type(tower_type)
 
 
-func check_path_triggers_have_enemy_data_to_spawn():
-	for x in path_trigger_array:
-		if x.has_enemies_to_spawn():
-			return true
-	return false
-
 func _on_price_update(type,price):
 	current_tower_price = price
 	
 
 func spawn_enemies():
 	print("spawning enemies")
-	for x in path_trigger_array:
+	for x in trigger_controller.path_trigger_array:
 		x.load_enemy_spawn_data()
 	has_enemies_to_spawn = true
-	#current_active_path = path_type
 
 func connect_new_enemy(enemy):
 	enemy.reached_the_center.connect(_on_enemy_reached_center)
@@ -289,7 +283,7 @@ func initialize_core_pathing():
 	
 	extension_point_dict[2] = Vector3i((chunk_size/2)+1,0,0)
 	next_chunk_id_dict[2] = Vector2i(1,0)
-	create_path_trigger(next_chunk_id_dict[2],2,direction.EASTWARD,0)
+	trigger_controller.create_path_trigger(next_chunk_id_dict[2],2,direction.EASTWARD,0)
 	
 	#north
 	path_grid.set_cell_item(Vector3i(0,0,1),0,0)
@@ -297,7 +291,7 @@ func initialize_core_pathing():
 	extend_path(path_dict[0],enemy_path_dict[0],Vector3(0,0,chunk_size/2))
 	extension_point_dict[0] = Vector3i(0,0,(chunk_size/2)+1)
 	next_chunk_id_dict[0] = Vector2i(0,1)
-	create_path_trigger(next_chunk_id_dict[0],0,direction.NORTHWARD,0)
+	trigger_controller.create_path_trigger(next_chunk_id_dict[0],0,direction.NORTHWARD,0)
 	
 	#west
 	path_grid.set_cell_item(Vector3i(-1,0,0),0,0)
@@ -305,7 +299,7 @@ func initialize_core_pathing():
 	extend_path(path_dict[3],enemy_path_dict[3],Vector3(-chunk_size/2,0,0))
 	extension_point_dict[3] = Vector3i((-chunk_size/2)-1,0,0)
 	next_chunk_id_dict[3] = Vector2i(-1,0)
-	create_path_trigger(next_chunk_id_dict[3],3,direction.WESTWARD,0)
+	trigger_controller.create_path_trigger(next_chunk_id_dict[3],3,direction.WESTWARD,0)
 	
 	#south
 	path_grid.set_cell_item(Vector3i(0,0,-1),0,0)
@@ -313,7 +307,7 @@ func initialize_core_pathing():
 	extend_path(path_dict[1],enemy_path_dict[1],Vector3(0,0,-chunk_size/2))
 	extension_point_dict[1] = Vector3i(0,0,(-chunk_size/2)-1)
 	next_chunk_id_dict[1] = Vector2i(0,-1)
-	create_path_trigger(next_chunk_id_dict[1],1,direction.SOUTHWARD,0)
+	trigger_controller.create_path_trigger(next_chunk_id_dict[1],1,direction.SOUTHWARD,0)
 	
 	#create undertile
 	create_undertile(Vector2i(0,0))
@@ -410,24 +404,7 @@ func update_extension_point_by_path(path_type, extension_point:Vector3i, next_ch
 	print("updating extension point by path")
 	extension_point_dict[path_type] = extension_point
 	next_chunk_id_dict[path_type] = next_chunk_id
-	create_path_trigger(next_chunk_id, path_type ,path_out_dir, activated_trigger_depth + 1)
-
-
-func create_path_trigger(chunk_id:Vector2i, trigger_id,path_out_dir:direction,trigger_depth:int):
-	var path_trigger
-	print(trigger_id)
-	print("creating path trigger to chunk id")
-	print(chunk_id)
-	
-	path_trigger = tower_loader.expand_path_trigger_prefab.instantiate()
-	path_trigger.parent_path = get_path_follow_by_trigger_id(trigger_id)
-	path_trigger.depth_counter = trigger_depth
-	path_trigger.position = Vector3(chunk_id.x*chunk_size,0,chunk_id.y*chunk_size)
-	path_trigger.set_trigger_id(trigger_id)
-	path_trigger.path_trigger_activated.connect(_on_path_trigger_activated)
-	path_trigger_array.append(path_trigger)
-	path_trigger.enemy_spawned.connect(connect_new_enemy)
-	add_child(path_trigger)
+	trigger_controller.create_path_trigger(next_chunk_id, path_type ,path_out_dir, activated_trigger_depth + 1)
 
 func get_path_follow_by_trigger_id(trigger_id):
 	return enemy_path_dict[trigger_id]
@@ -478,18 +455,6 @@ func instantiate_tower_by_current_type(grid_pos:Vector3i):
 func increment_cost_of_tower_by_type():
 	hand.increment_cost_by_tower_type(TowerAndBoonData.get_currently_selected_tower())
 
-
-func toggle_visibility_of_path_triggers():
-	for x in path_trigger_array:
-		x.toggle_visibility()
-
-func toggle_can_select_of_path_triggers(toggle:bool):
-	clear_path_trigger_array_of_previously_cleared()
-	for x in path_trigger_array:
-		x.toggle_can_select(toggle)
-		
-		
-
 #TODO: Fix the below error, perhaps by creating a a new tile type that represents an end
 
 #ERROR: If there is a NO CHUNK AVAILABLE then there will be no path trigger 
@@ -505,7 +470,6 @@ func create_chunk(chunk_id:Vector2i,path_type:path_id):
 		print(chunk_id)
 		print(chunk_id_dict)
 		return
-	
 	#decide if the new chunk's exit point will be north, south, east, or west
 	#excluding options already taken
 	var available_out_dirs = get_available_chunk_dir(chunk_id)
@@ -514,21 +478,15 @@ func create_chunk(chunk_id:Vector2i,path_type:path_id):
 		print("No chunk available ERROR")
 		print("aborting chunk creation, NO CHUNK AVAILABLE")
 		return
-
 	var option_index = randi_range(0,available_out_dirs.size()-1)
-	
-	 
 	var chunk_out_dir = available_out_dirs[option_index]
 	available_out_dirs.remove_at(option_index)
 	var branch_option_dirs = available_out_dirs.duplicate(true)
-
-	
 	#update the array of taken chunk ids
 	chunk_id_dict[chunk_id] = chunk_out_dir
 	# determine the type of chunk generation from a list of sub types
 	#TODO add more than just linear chunk pathing 
 	create_chunk_with_procedural_path(chunk_id,path_type,chunk_out_dir,branch_option_dirs)
-	
 	#create the undertile
 	create_undertile(chunk_id)
 
@@ -680,19 +638,8 @@ func update_game_status(gs:game_state):
 			WaveData.set_total_number_of_waves(LEVEL_COUNTER)
 			#print("Level:%s"%LEVEL_COUNTER)
 		game_state.PEACE:
-			toggle_visibility_of_path_triggers()
+			trigger_controller.toggle_visibility_of_path_triggers()
 			#print("game state: PEACE")
-
-func clear_path_trigger_array_of_previously_cleared():
-	for x in path_trigger_array:
-		if x == null:
-			path_trigger_array.erase(x)
-
-func remove_path_trigger_by_trigger_uuid(trigger_uuid):
-
-	for x in path_trigger_array.size():
-		if path_trigger_array[x-1].trigger_uuid == trigger_uuid:
-			path_trigger_array.remove_at(x-1)
 	
 
 func _on_path_trigger_activated(trigger_id,trigger_uuid,depth):
@@ -703,7 +650,7 @@ func _on_path_trigger_activated(trigger_id,trigger_uuid,depth):
 
 func show_path_trigger_choice_menu(trigger_id,trigger_uuid,depth):
 	$phantom_camera_controller.toggle_is_camera_frozen(true)
-	toggle_can_select_of_path_triggers(false)
+	trigger_controller.toggle_can_select_of_path_triggers(false)
 	is_making_selection = true
 	hand.toggle_hide_hand(true)
 	gui.visible = false
@@ -714,7 +661,7 @@ func show_path_trigger_choice_menu(trigger_id,trigger_uuid,depth):
 
 func restore_game_ui():
 	$phantom_camera_controller.toggle_is_camera_frozen(false)
-	toggle_can_select_of_path_triggers(true)
+	trigger_controller.toggle_can_select_of_path_triggers(true)
 	is_making_selection = false
 	hand.toggle_hide_hand(false)
 	if TowerAndBoonData.get_currently_selected_tower() != -1:
@@ -725,16 +672,12 @@ func restore_game_ui():
 	boon_selection_screen.visible = false
 
 func enemy_wave_activation_sequence(trigger_id,trigger_uuid,depth):
-	print("enemy wave activation ")
 	activated_trigger_depth = depth 
 	update_game_status(game_state.WAR)
-	print("attempting to create chunk")
 	create_chunk(next_chunk_id_dict[trigger_id],trigger_id)
-
-	print("attempting to copy path")
 	copy_adjusted_path(path_dict[trigger_id],enemy_path_dict[trigger_id])
-	clear_path_trigger_array_of_previously_cleared()
-	toggle_visibility_of_path_triggers()
+	trigger_controller.clear_path_trigger_array_of_previously_cleared()
+	trigger_controller.toggle_visibility_of_path_triggers()
 	spawn_enemies()
 	
 
@@ -756,8 +699,6 @@ func _on_enemy_killed(exp,enemy_uuid):
 	WaveData.remove_enemy_by_uuid(enemy_uuid)
 
 func _on_boon_selection_screen_closed(trigger_id,trigger_uuid,depth):
-	print("activating trigger id")
-	print(trigger_id)
 	GlobalAudio.boon_selected_audio_stream_player()
 	restore_game_ui()
 	enemy_wave_activation_sequence(trigger_id,trigger_uuid,depth)
@@ -807,7 +748,7 @@ func _process(delta):
 			update_game_status(game_state.PEACE)
 		else:
 			if has_enemies_to_spawn:
-				has_enemies_to_spawn = check_path_triggers_have_enemy_data_to_spawn()
+				has_enemies_to_spawn = trigger_controller.check_path_triggers_have_enemy_data_to_spawn()
 	#PEACE
 
 	#DEATH CHECK

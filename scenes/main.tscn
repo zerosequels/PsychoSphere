@@ -1,10 +1,11 @@
-[gd_scene load_steps=21 format=3 uid="uid://cs16kc5fk27fi"]
+[gd_scene load_steps=22 format=3 uid="uid://cs16kc5fk27fi"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_whe4h"]
 [ext_resource type="Script" path="res://scripts/tower_loader.gd" id="2_5b8x2"]
 [ext_resource type="PackedScene" uid="uid://cuy5um8ffugo8" path="res://scenes/plexus.tscn" id="2_ejq2b"]
 [ext_resource type="MeshLibrary" uid="uid://dfpi2igxswusg" path="res://data/chunk_meshlib.tres" id="2_wrvad"]
 [ext_resource type="Script" path="res://scripts/path_generator.gd" id="3_gj108"]
+[ext_resource type="Script" path="res://scripts/trigger_controller.gd" id="4_dwlpa"]
 [ext_resource type="MeshLibrary" uid="uid://b323aya8uw6jm" path="res://data/dynamic_cell_library.tres" id="5_0hdan"]
 [ext_resource type="Script" path="res://scripts/path_grid.gd" id="5_afs5d"]
 [ext_resource type="Script" path="res://scripts/chaos_grid.gd" id="7_tuafb"]
@@ -44,6 +45,9 @@ script = ExtResource("2_5b8x2")
 
 [node name="path_generator" type="Node3D" parent="."]
 script = ExtResource("3_gj108")
+
+[node name="trigger_controller" type="Node3D" parent="."]
+script = ExtResource("4_dwlpa")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_v2304")
